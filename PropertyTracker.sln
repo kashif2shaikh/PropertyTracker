@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyTracker.Core", "PropertyTracker.Core\PropertyTracker.Core.csproj", "{6D4D291C-1F27-49DE-974B-1C81B8D481D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyTracker.UI.iOS", "PropertyTracker.UI.iOS\PropertyTracker.UI.iOS.csproj", "{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Debug|iPhone.Build.0 = Debug|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Release|iPhone.ActiveCfg = Release|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Release|iPhone.Build.0 = Release|iPhone
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{6AD7DC5C-DD1C-4C7E-8102-5899E2172A25}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Release|iPhone.Build.0 = Release|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{6D4D291C-1F27-49DE-974B-1C81B8D481D1}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = PropertyTracker.UI.iOS\PropertyTracker.UI.iOS.csproj
+	EndGlobalSection
+EndGlobal
