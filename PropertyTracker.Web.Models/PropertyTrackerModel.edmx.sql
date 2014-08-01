@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/31/2014 07:51:08
+-- Date Created: 07/31/2014 12:49:14
 -- Generated from EDMX file: Z:\kshaikh\Dev\Xamarin\PropertyTracker\PropertyTracker.Web.Models\PropertyTrackerModel.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,29 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_UserProperty]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Properties] DROP CONSTRAINT [FK_UserProperty];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CompanyProperty]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Properties] DROP CONSTRAINT [FK_CompanyProperty];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CompanyUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_CompanyUser];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
+GO
+IF OBJECT_ID(N'[dbo].[Properties]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Properties];
+GO
+IF OBJECT_ID(N'[dbo].[Companies]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Companies];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables

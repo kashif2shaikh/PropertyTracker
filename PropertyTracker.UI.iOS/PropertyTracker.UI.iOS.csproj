@@ -144,6 +144,8 @@
     <Compile Include="PropertyTracker.UI.iOSViewController.designer.cs">
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
     <Compile Include="ViewControllers\RootViewController.cs" />
     <Compile Include="ViewControllers\RootViewController.designer.cs">
       <DependentUpon>RootViewController.cs</DependentUpon>
