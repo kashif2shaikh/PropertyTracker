@@ -38,6 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -45,6 +51,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\packages\EntityFrameworkProfiler.Appender.2.0.2237.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -114,10 +123,22 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\NinjectConfigurator.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AutoMapping\AutoMapperAdapter.cs" />
+    <Compile Include="AutoMapping\AutoMapperTypeMapping.cs" />
+    <Compile Include="AutoMapping\IAutoMapper.cs" />
+    <Compile Include="AutoMapping\IAutoMapperTypeMapping.cs" />
+    <Compile Include="TypeMapping\CompanyDtoToCompanyEntityTypeMapping.cs" />
+    <Compile Include="TypeMapping\CompanyEntityToCompanyDtoTypeMapping.cs" />
+    <Compile Include="TypeMapping\PropertyDtoToPropertyEntityTypeMapping.cs" />
+    <Compile Include="TypeMapping\PropertyEntityToPropertyDtoTypeMapping.cs" />
+    <Compile Include="TypeMapping\UserEntityToUserDtoTypeMapping.cs" />
+    <Compile Include="TypeMapping\UserDtoToUserEntityTypeMapping.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -137,12 +158,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Processors\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PropertyTracker.Web.Models\PropertyTracker.Web.Models.csproj">
+    <ProjectReference Include="..\PropertyTracker.Dto\PropertyTracker.Dto.csproj">
+      <Project>{fe02360a-f8d6-4906-a5d4-f5d6e6a49ddd}</Project>
+      <Name>PropertyTracker.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PropertyTracker.Web.Models\PropertyTracker.Web.Entity.Models.csproj">
       <Project>{65134f42-13a6-40f9-abe9-f211d4ab2933}</Project>
-      <Name>PropertyTracker.Web.Models</Name>
+      <Name>PropertyTracker.Web.Entity.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -174,6 +199,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

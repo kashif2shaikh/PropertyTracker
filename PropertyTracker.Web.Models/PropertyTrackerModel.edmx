@@ -24,9 +24,9 @@
   </EntityContainer>
   <EntityType Name="Users">
     <Key>
-      <PropertyRef Name="UserId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Fullname" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
@@ -35,9 +35,9 @@
   </EntityType>
   <EntityType Name="Properties">
     <Key>
-      <PropertyRef Name="PropertyId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="PropertyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="City" Type="nvarchar(max)" Nullable="false" />
     <Property Name="StateProvince" Type="nvarchar(max)" Nullable="false" />
@@ -48,9 +48,9 @@
   </EntityType>
   <EntityType Name="Companies">
     <Key>
-      <PropertyRef Name="CompanyId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Country" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -59,7 +59,7 @@
     <End Role="Property" Type="PropertyTrackerModel.Store.Properties" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
-        <PropertyRef Name="UserId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Property">
         <PropertyRef Name="UserId" />
@@ -71,7 +71,7 @@
     <End Role="Property" Type="PropertyTrackerModel.Store.Properties" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Company">
-        <PropertyRef Name="CompanyId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Property">
         <PropertyRef Name="CompanyId" />
@@ -83,7 +83,7 @@
     <End Role="User" Type="PropertyTrackerModel.Store.Users" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Company">
-        <PropertyRef Name="CompanyId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="User">
         <PropertyRef Name="CompanyId" />
@@ -113,9 +113,9 @@
         </EntityContainer>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Fullname" Type="String" Nullable="false" />
           <Property Name="Username" Nullable="false" Type="String" />
           <Property Name="Password" Type="String" Nullable="false" />
@@ -126,9 +126,9 @@
         </EntityType>
         <EntityType Name="Property">
           <Key>
-            <PropertyRef Name="PropertyId" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="PropertyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="City" Type="String" Nullable="false" />
           <Property Name="StateProvince" Type="String" Nullable="false" />
@@ -141,9 +141,9 @@
         </EntityType>
         <EntityType Name="Company">
           <Key>
-            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="Properties" Relationship="PropertyTrackerModel.CompanyProperty" FromRole="Company" ToRole="Property" />
           <NavigationProperty Name="Users" Relationship="PropertyTrackerModel.CompanyUser" FromRole="Company" ToRole="User" />
@@ -154,7 +154,7 @@
           <End Type="PropertyTrackerModel.Property" Role="Property" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="UserId" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Property">
               <PropertyRef Name="UserId" />
@@ -166,7 +166,7 @@
           <End Type="PropertyTrackerModel.Property" Role="Property" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Property">
               <PropertyRef Name="CompanyId" />
@@ -178,7 +178,7 @@
           <End Type="PropertyTrackerModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
-              <PropertyRef Name="CompanyId" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="CompanyId" />
@@ -194,7 +194,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="IsTypeOf(PropertyTrackerModel.User)">
         <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Password" ColumnName="Password" />
@@ -206,7 +206,7 @@
     <EntitySetMapping Name="Properties">
       <EntityTypeMapping TypeName="IsTypeOf(PropertyTrackerModel.Property)">
         <MappingFragment StoreEntitySet="Properties">
-          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="StateProvince" ColumnName="StateProvince" />
@@ -220,7 +220,7 @@
     <EntitySetMapping Name="Companies">
       <EntityTypeMapping TypeName="IsTypeOf(PropertyTrackerModel.Company)">
         <MappingFragment StoreEntitySet="Companies">
-          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Country" ColumnName="Country" />
         </MappingFragment>

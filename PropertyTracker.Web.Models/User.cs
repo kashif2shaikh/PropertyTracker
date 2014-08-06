@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PropertyTracker.Web.Models
+namespace PropertyTracker.Web.Entity.Models
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace PropertyTracker.Web.Models
             this.Properties = new HashSet<Property>();
         }
     
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string Fullname { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

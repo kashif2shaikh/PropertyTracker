@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/31/2014 12:49:14
--- Generated from EDMX file: Z:\kshaikh\Dev\Xamarin\PropertyTracker\PropertyTracker.Web.Models\PropertyTrackerModel.edmx
+-- Date Created: 08/05/2014 11:57:07
+-- Generated from EDMX file: C:\Users\kshaikh\Source\Repos\PropertyTracker\PropertyTracker.Web.Models\PropertyTrackerModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -47,7 +47,7 @@ GO
 
 -- Creating table 'Users'
 CREATE TABLE [dbo].[Users] (
-    [UserId] int IDENTITY(1,1) NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [Fullname] nvarchar(max)  NOT NULL,
     [Username] nvarchar(max)  NOT NULL,
     [Password] nvarchar(max)  NOT NULL,
@@ -58,7 +58,7 @@ GO
 
 -- Creating table 'Properties'
 CREATE TABLE [dbo].[Properties] (
-    [PropertyId] int IDENTITY(1,1) NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [City] nvarchar(max)  NOT NULL,
     [StateProvince] nvarchar(max)  NOT NULL,
@@ -71,7 +71,7 @@ GO
 
 -- Creating table 'Companies'
 CREATE TABLE [dbo].[Companies] (
-    [CompanyId] int IDENTITY(1,1) NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Country] nvarchar(max)  NOT NULL
 );
@@ -81,22 +81,22 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [UserId] in table 'Users'
+-- Creating primary key on [Id] in table 'Users'
 ALTER TABLE [dbo].[Users]
 ADD CONSTRAINT [PK_Users]
-    PRIMARY KEY CLUSTERED ([UserId] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [PropertyId] in table 'Properties'
+-- Creating primary key on [Id] in table 'Properties'
 ALTER TABLE [dbo].[Properties]
 ADD CONSTRAINT [PK_Properties]
-    PRIMARY KEY CLUSTERED ([PropertyId] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [CompanyId] in table 'Companies'
+-- Creating primary key on [Id] in table 'Companies'
 ALTER TABLE [dbo].[Companies]
 ADD CONSTRAINT [PK_Companies]
-    PRIMARY KEY CLUSTERED ([CompanyId] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -108,7 +108,7 @@ ALTER TABLE [dbo].[Properties]
 ADD CONSTRAINT [FK_UserProperty]
     FOREIGN KEY ([UserId])
     REFERENCES [dbo].[Users]
-        ([UserId])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
@@ -123,7 +123,7 @@ ALTER TABLE [dbo].[Properties]
 ADD CONSTRAINT [FK_CompanyProperty]
     FOREIGN KEY ([CompanyId])
     REFERENCES [dbo].[Companies]
-        ([CompanyId])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
@@ -138,7 +138,7 @@ ALTER TABLE [dbo].[Users]
 ADD CONSTRAINT [FK_CompanyUser]
     FOREIGN KEY ([CompanyId])
     REFERENCES [dbo].[Companies]
-        ([CompanyId])
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 

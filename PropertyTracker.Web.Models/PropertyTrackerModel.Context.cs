@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PropertyTracker.Web.Models
+namespace PropertyTracker.Web.Entity.Models
 {
     using System;
     using System.Data.Entity;

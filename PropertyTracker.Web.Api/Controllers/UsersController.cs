@@ -6,9 +6,11 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Web.Http;
 using System.Web.Http.Description;
-using PropertyTracker.Web.Models;
+using AutoMapper;
+using PropertyTracker.Web.Entity.Models;
 using PropertyTracker.Web.Api.Routing;
 
 namespace PropertyTracker.Web.Api.Controllers
@@ -22,43 +24,47 @@ namespace PropertyTracker.Web.Api.Controllers
         // GET: api/Users
         [Route("", Name="GetUsersRoute")]
         [HttpGet]
-        public IQueryable<User> GetUsers()
-        //public string[] GetUsers()
+        public IEnumerable<Dto.Models.User> GetUsers()
         {
-            //string[] s1 = new string[3] {"John", "Paul", "Mary"};
-            return db.Users;
+            var entityUserList = db.Users;
+            var userDtoList = Mapper.Map<IEnumerable<Entity.Models.User>, IEnumerable<Dto.Models.User>>(entityUserList);
+            return userDtoList;
         }
 
         // GET: api/Users/5
         [Route("{id:int}", Name="GetUserRoute")]
         [HttpGet]
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult GetUser(int id)
         {
-            User user = db.Users.Find(id);
-            if (user == null)
+            Entity.Models.User userEntity = db.Users.Find(id);
+            if (userEntity == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+
+            return Ok(userDto);
         }
 
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, User user)
+        public IHttpActionResult PutUser(int id, Dto.Models.User userDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.UserId)
+            if (id != userDto.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(user).State = EntityState.Modified;
+            var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
+
+            db.Entry(userEntity).State = EntityState.Modified;
 
             try
             {
@@ -80,34 +86,37 @@ namespace PropertyTracker.Web.Api.Controllers
         }
 
         // POST: api/Users
-        [ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
+        [ResponseType(typeof(Dto.Models.User))]
+        public IHttpActionResult PostUser(Dto.Models.User userDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Users.Add(user);
+            var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
+
+            db.Users.Add(userEntity);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
+            return CreatedAtRoute("DefaultApi", new { id = userDto.Id }, userDto);
         }
 
         // DELETE: api/Users/5
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult DeleteUser(int id)
         {
-            User user = db.Users.Find(id);
-            if (user == null)
+            Entity.Models.User userEntity = db.Users.Find(id);
+            if (userEntity == null)
             {
                 return NotFound();
             }
 
-            db.Users.Remove(user);
+            db.Users.Remove(userEntity);
             db.SaveChanges();
 
-            return Ok(user);
+            var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            return Ok(userDto);
         }
 
         protected override void Dispose(bool disposing)
@@ -121,7 +130,7 @@ namespace PropertyTracker.Web.Api.Controllers
 
         private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.UserId == id) > 0;
+            return db.Users.Count(e => e.Id == id) > 0;
         }
     }
 }

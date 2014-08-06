@@ -12,46 +12,44 @@ using PropertyTracker.Web.Entity.Models;
 
 namespace PropertyTracker.Web.Api.Controllers
 {
-    public class CompaniesController : ApiController
+    public class PropertiesController : ApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();
 
-        // GET: api/Companies
-        //[Route("api/companies/")]
-        //[HttpGet]
-        public IQueryable<Company> Get()
+        // GET: api/Properties
+        public IQueryable<Property> GetProperties()
         {
-            return db.Companies;
+            return db.Properties;
         }
 
-        // GET: api/Companies/5
-        [ResponseType(typeof(Company))]
-        public IHttpActionResult GetCompany(int id)
+        // GET: api/Properties/5
+        [ResponseType(typeof(Property))]
+        public IHttpActionResult GetProperty(int id)
         {
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            Property property = db.Properties.Find(id);
+            if (property == null)
             {
                 return NotFound();
             }
 
-            return Ok(company);
+            return Ok(property);
         }
 
-        // PUT: api/Companies/5
+        // PUT: api/Properties/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCompany(int id, Company company)
+        public IHttpActionResult PutProperty(int id, Property property)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != company.Id)
+            if (id != property.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(company).State = EntityState.Modified;
+            db.Entry(property).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +57,7 @@ namespace PropertyTracker.Web.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CompanyExists(id))
+                if (!PropertyExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +70,35 @@ namespace PropertyTracker.Web.Api.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Companies
-        [ResponseType(typeof(Company))]
-        public IHttpActionResult PostCompany(Company company)
+        // POST: api/Properties
+        [ResponseType(typeof(Property))]
+        public IHttpActionResult PostProperty(Property property)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Companies.Add(company);
+            db.Properties.Add(property);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = company.Id }, company);
+            return CreatedAtRoute("DefaultApi", new { id = property.Id }, property);
         }
 
-        // DELETE: api/Companies/5
-        [ResponseType(typeof(Company))]
-        public IHttpActionResult DeleteCompany(int id)
+        // DELETE: api/Properties/5
+        [ResponseType(typeof(Property))]
+        public IHttpActionResult DeleteProperty(int id)
         {
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            Property property = db.Properties.Find(id);
+            if (property == null)
             {
                 return NotFound();
             }
 
-            db.Companies.Remove(company);
+            db.Properties.Remove(property);
             db.SaveChanges();
 
-            return Ok(company);
+            return Ok(property);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,9 +110,9 @@ namespace PropertyTracker.Web.Api.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CompanyExists(int id)
+        private bool PropertyExists(int id)
         {
-            return db.Companies.Count(e => e.Id == id) > 0;
+            return db.Properties.Count(e => e.Id == id) > 0;
         }
     }
 }

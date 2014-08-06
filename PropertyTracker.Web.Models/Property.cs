@@ -7,14 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PropertyTracker.Web.Models
+namespace PropertyTracker.Web.Entity.Models
 {
     using System;
     using System.Collections.Generic;
     
     public partial class Property
     {
-        public int PropertyId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
         public string StateProvince { get; set; }

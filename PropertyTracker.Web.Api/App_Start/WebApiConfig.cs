@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using HibernatingRhinos.Profiler.Appender.EntityFramework;
 using PropertyTracker.Web.Api.Routing;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,14 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Routing;
 using System.Web.Http.Tracing;
+using System.Web.Http.Dependencies;
 
 namespace PropertyTracker.Web.Api
 {
     public static class WebApiConfig
     {
+       
+
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
@@ -25,19 +29,23 @@ namespace PropertyTracker.Web.Api
 
             // Add JSON return type by default, even when text/html is specified
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            //config.Formatters.JsonFormatter.MaxDepth = 1;
 
-            /*
+            
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
 = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
+            /*
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
      = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+
+            
             config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling
                  = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            
+           */
 
-            */
-
-            //config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -54,6 +62,52 @@ namespace PropertyTracker.Web.Api
 
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
              */
+
+            EntityFrameworkProfiler.Initialize();
+        }
+        /// <summary>
+        ///     Provides access to dependencies managed by the <see cref="IDependencyResolver" />. Useful where
+        ///     access to the resolver is not convenient/possible.
+        /// </summary>
+        public static IDependencyResolver GetDependencyResolver()
+        {
+            var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
+            if (dependencyResolver != null)
+            {
+                return dependencyResolver;
+            }
+
+            throw new InvalidOperationException("The dependency resolver has not been set.");
+        }
+
+        /// <summary>
+        ///     Provides access to a specific type of dependency managed by the <see cref="IDependencyResolver" />. Use only
+        ///     where access to the resolver is not convenient/possible.
+        /// </summary>
+        public static T ResolveType<T>()
+        {
+            var service = GetDependencyResolver().GetService(typeof(T));
+
+            if (service == null)
+                throw new NullReferenceException(string.Format("Requested service of type {0}, but null was found.",
+                    typeof(T).FullName));
+
+            return (T)service;
+        }
+
+        /// <summary>
+        ///     Provides access to a specific type of dependency managed by the <see cref="IDependencyResolver" />. Use only
+        ///     where access to the resolver is not convenient/possible.
+        /// </summary>
+        public static IEnumerable<T> ResolveAllTypes<T>()
+        {
+            var services = GetDependencyResolver().GetServices(typeof(T)).ToList();
+
+            if (!services.Any())
+                throw new NullReferenceException(string.Format("Requested services of type {0}, but none were found.",
+                    typeof(T).FullName));
+
+            return services.Cast<T>();
         }
     }
 }
