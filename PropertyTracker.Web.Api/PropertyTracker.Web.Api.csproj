@@ -14,7 +14,7 @@
     <RootNamespace>PropertyTracker.Web.Api</RootNamespace>
     <AssemblyName>PropertyTracker.Web.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -185,7 +185,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49628</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49628</IISUrl>
+          <IISUrl>http://localhost/PropertyTracker.Web.Api</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://localhost:49628/</CustomServerUrl>

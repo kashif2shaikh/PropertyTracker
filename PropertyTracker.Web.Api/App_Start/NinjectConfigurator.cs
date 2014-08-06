@@ -1,12 +1,7 @@
 ﻿// NinjectConfigurator.cs
 // Copyright Jamie Kurtz, Brian Wortman 2014.
 
-using log4net.Config;
-
 using Ninject;
-using Ninject.Activation;
-using Ninject.Web.Common;
-using PropertyTracker.Web.Api;
 using PropertyTracker.Web.Api.AutoMapping;
 using PropertyTracker.Web.Api.TypeMapping;
 
@@ -119,32 +114,6 @@ namespace PropertyTracker.Web.Api
             var autoMapperTypeMapper = new AutoMapperTypeMapping();
             autoMapperTypeMapper.Configure(container.GetAll<IAutoMapperTypeMapping>());
 
-            //    container.Bind<IWebUserSession>().ToConstant(userSession).InSingletonScope();
-
-            /*
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<StatusToStatusEntityAutoMapperTypeConfigurator>()
-                .InSingletonScope();
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<UserEntityToUserAutoMapperTypeConfigurator>()
-                .InSingletonScope();
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<UserToUserEntityAutoMapperTypeConfigurator>()
-                .InSingletonScope();
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<NewTaskToTaskEntityAutoMapperTypeConfigurator>()
-                .InSingletonScope();
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<TaskEntityToTaskAutoMapperTypeConfigurator>()
-                .InSingletonScope();
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<TaskToTaskEntityAutoMapperTypeConfigurator>()
-                .InSingletonScope();
-
-            container.Bind<IAutoMapperTypeConfigurator>()
-                .To<NewTaskV2ToTaskEntityAutoMapperTypeConfigurator>()
-                .InRequestScope();
-             */
         }
 
         //private void ConfigureUserSession(IKernel container)
