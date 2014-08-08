@@ -52,6 +52,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentValidation.5.4.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\packages\EntityFrameworkProfiler.Appender.2.0.2237.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
@@ -74,7 +78,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -130,10 +134,12 @@
     <Compile Include="AutoMapping\AutoMapperTypeMapping.cs" />
     <Compile Include="AutoMapping\IAutoMapper.cs" />
     <Compile Include="AutoMapping\IAutoMapperTypeMapping.cs" />
+    <Compile Include="Errors\ValidatorError.cs" />
     <Compile Include="TypeMapping\CompanyDtoToCompanyEntityTypeMapping.cs" />
     <Compile Include="TypeMapping\CompanyEntityToCompanyDtoTypeMapping.cs" />
     <Compile Include="TypeMapping\PropertyDtoToPropertyEntityTypeMapping.cs" />
     <Compile Include="TypeMapping\PropertyEntityToPropertyDtoTypeMapping.cs" />
+    <Compile Include="TypeMapping\UserEntityListToUserDtoListTypeMapping.cs" />
     <Compile Include="TypeMapping\UserEntityToUserDtoTypeMapping.cs" />
     <Compile Include="TypeMapping\UserDtoToUserEntityTypeMapping.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />

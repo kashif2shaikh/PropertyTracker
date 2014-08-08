@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
+using Newtonsoft.Json;
 using PropertyTracker.Web.Api.Routing;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace PropertyTracker.Web.Api
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             //config.Formatters.JsonFormatter.MaxDepth = 1;
 
+            // Ignore null values - don't emit properties with Json Nulls
+            //config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
 = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

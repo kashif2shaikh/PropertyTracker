@@ -7,11 +7,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
+using FluentValidation.Results;
+using PropertyTracker.Dto.Validators;
+using PropertyTracker.Web.Api.Errors;
 using PropertyTracker.Web.Entity.Models;
 using PropertyTracker.Web.Api.Routing;
+using FluentValidation;
 
 namespace PropertyTracker.Web.Api.Controllers
 {
@@ -24,11 +29,21 @@ namespace PropertyTracker.Web.Api.Controllers
         // GET: api/Users
         [Route("", Name="GetUsersRoute")]
         [HttpGet]
-        public IEnumerable<Dto.Models.User> GetUsers()
+        [ResponseType(typeof(Dto.Models.UserList))]
+        public IHttpActionResult GetUsers()
         {
             var entityUserList = db.Users;
-            var userDtoList = Mapper.Map<IEnumerable<Entity.Models.User>, IEnumerable<Dto.Models.User>>(entityUserList);
-            return userDtoList;
+            var userDtoList = Mapper.Map<IEnumerable<Entity.Models.User>, Dto.Models.UserList>(entityUserList);
+
+            ValidationResult userListValidatorResult = new UserListValidator().Validate(userDtoList);
+            if (!userListValidatorResult.IsValid)
+            {
+                throw new HttpResponseException(
+                    new ValidatorError("Error mapping user object from database", userListValidatorResult, Request)
+                        .Response);
+            }
+
+            return Ok(userDtoList);
         }
 
         // GET: api/Users/5
@@ -44,6 +59,13 @@ namespace PropertyTracker.Web.Api.Controllers
             }
 
             var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            ValidationResult userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
+            
+            if (!userValidatorResult.IsValid)
+            {                
+                return new ValidatorError("Error mapping user object from database", userValidatorResult, Request);
+            }
+
 
             return Ok(userDto);
         }

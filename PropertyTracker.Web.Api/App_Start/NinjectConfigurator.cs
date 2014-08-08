@@ -95,6 +95,10 @@ namespace PropertyTracker.Web.Api
                 .InSingletonScope();
 
             container.Bind<IAutoMapperTypeMapping>()
+                .To<UserEntityListToUserDtoListTypeMapping>()
+                .InSingletonScope();
+            
+            container.Bind<IAutoMapperTypeMapping>()
                .To<CompanyEntityToCompanyDtoTypeMapping>()
                .InSingletonScope();
 
