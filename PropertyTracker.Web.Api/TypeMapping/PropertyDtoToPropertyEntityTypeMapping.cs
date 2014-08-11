@@ -7,9 +7,7 @@ namespace PropertyTracker.Web.Api.TypeMapping
     {
         public void Configure()
         {
-            Mapper.CreateMap<Dto.Models.Company, Entity.Models.Company>()
-                .ForMember(em => em.Properties, x => x.Ignore())
-                .ForMember(em => em.Users, x => x.Ignore());
+            //Mapper.CreateMap<Dto.Models.Property, Entity.Models.Property>();
         }
     }
 }

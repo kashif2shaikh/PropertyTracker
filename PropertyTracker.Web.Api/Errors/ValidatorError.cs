@@ -8,6 +8,7 @@ using System.Web.Http;
 using FluentValidation.Results;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Text;
 
 namespace PropertyTracker.Web.Api.Errors
 {
@@ -16,12 +17,22 @@ namespace PropertyTracker.Web.Api.Errors
         readonly string _errorTitle;
         readonly ValidationResult _result;
         readonly HttpRequestMessage _request;
+        readonly HttpStatusCode _statusCode;
 
         public ValidatorError(String errorTitle, ValidationResult result, HttpRequestMessage request)
         {
             _errorTitle = errorTitle;
             _result = result;
             _request = request;
+            _statusCode = HttpStatusCode.InternalServerError;
+        }
+
+        public ValidatorError(String errorTitle, HttpStatusCode statusCode, ValidationResult result, HttpRequestMessage request)
+        {
+            _errorTitle = errorTitle;
+            _result = result;
+            _request = request;
+            _statusCode = statusCode;
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
@@ -33,16 +44,17 @@ namespace PropertyTracker.Web.Api.Errors
         {
             get
             {
-                string errorMessage = _errorTitle + ":\n";
+                string errorMessage = _errorTitle + ": ";
                 foreach (var failure in _result.Errors)
                 {
-                    errorMessage += "'" + failure.PropertyName + "' property failed validation.  Error: " + failure.ErrorMessage + "\n";
+                    errorMessage += "'" + failure.PropertyName + "' property failed validation.  Error: " + failure.ErrorMessage + ";";
+                    errorMessage = "{\n" + "errorMessage: \"" + errorMessage + "\"\n}";
                 }
 
                 var response = new HttpResponseMessage()
-                {
-                    Content = new StringContent(errorMessage),
-                    StatusCode = HttpStatusCode.InternalServerError,
+                {                    
+                    Content = new StringContent(errorMessage, Encoding.UTF8, "application/json"),
+                    StatusCode = _statusCode,
                     RequestMessage = _request
                 };
                 return response;                

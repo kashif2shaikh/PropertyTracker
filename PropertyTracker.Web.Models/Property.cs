@@ -14,16 +14,20 @@ namespace PropertyTracker.Web.Entity.Models
     
     public partial class Property
     {
+        public Property()
+        {
+            this.Users = new HashSet<User>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
         public string StateProvince { get; set; }
-        public int UserId { get; set; }
         public int CompanyId { get; set; }
         public double SquareFeet { get; set; }
         public string Country { get; set; }
     
-        public virtual User User { get; set; }
         public virtual Company Company { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

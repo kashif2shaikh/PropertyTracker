@@ -26,7 +26,7 @@ namespace PropertyTracker.Web.Entity.Models
         public int CompanyId { get; set; }
         public byte[] Photo { get; set; }
     
-        public virtual ICollection<Property> Properties { get; set; }
         public virtual Company Company { get; set; }
+        public virtual ICollection<Property> Properties { get; set; }
     }
 }

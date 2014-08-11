@@ -30,6 +30,7 @@ namespace PropertyTracker.Web.Api
 
             // Add JSON return type by default, even when text/html is specified
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            
             //config.Formatters.JsonFormatter.MaxDepth = 1;
 
             // Ignore null values - don't emit properties with Json Nulls
@@ -67,6 +68,10 @@ namespace PropertyTracker.Web.Api
              */
 
             EntityFrameworkProfiler.Initialize();
+
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy =
+    IncludeErrorDetailPolicy.Always;
+
         }
         /// <summary>
         ///     Provides access to dependencies managed by the <see cref="IDependencyResolver" />. Useful where

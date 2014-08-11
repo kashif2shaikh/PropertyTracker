@@ -5,18 +5,17 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Sockets;
-using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using FluentValidation.Results;
+using Ninject.Infrastructure.Language;
 using PropertyTracker.Dto.Validators;
 using PropertyTracker.Web.Api.Errors;
 using PropertyTracker.Web.Entity.Models;
 using PropertyTracker.Web.Api.Routing;
 using FluentValidation;
+using User = PropertyTracker.Dto.Models.User;
 
 namespace PropertyTracker.Web.Api.Controllers
 {
@@ -27,28 +26,26 @@ namespace PropertyTracker.Web.Api.Controllers
         private PropertyTrackerContext db = new PropertyTrackerContext();
 
         // GET: api/Users
-        [Route("", Name="GetUsersRoute")]
         [HttpGet]
+        [Route("", Name="GetUserListRoute")]        
         [ResponseType(typeof(Dto.Models.UserList))]
         public IHttpActionResult GetUsers()
         {
             var entityUserList = db.Users;
             var userDtoList = Mapper.Map<IEnumerable<Entity.Models.User>, Dto.Models.UserList>(entityUserList);
 
-            ValidationResult userListValidatorResult = new UserListValidator().Validate(userDtoList);
+            ValidationResult userListValidatorResult = new UserListValidator().Validate(userDtoList, ruleSet: "default,NoPassword");
             if (!userListValidatorResult.IsValid)
             {
-                throw new HttpResponseException(
-                    new ValidatorError("Error mapping user object from database", userListValidatorResult, Request)
-                        .Response);
+                return new ValidatorError("Error mapping user list DTO from database", HttpStatusCode.InternalServerError, userListValidatorResult, Request);
             }
 
             return Ok(userDtoList);
         }
 
         // GET: api/Users/5
-        [Route("{id:int}", Name="GetUserRoute")]
         [HttpGet]
+        [Route("{id:int}", Name="GetUserRoute")]        
         [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult GetUser(int id)
         {
@@ -62,8 +59,10 @@ namespace PropertyTracker.Web.Api.Controllers
             ValidationResult userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
             
             if (!userValidatorResult.IsValid)
-            {                
-                return new ValidatorError("Error mapping user object from database", userValidatorResult, Request);
+            {
+                return new ValidatorError("Error mapping user DTO from database", HttpStatusCode.InternalServerError, userValidatorResult, Request);
+                // I can also do something like this: 
+                //return ResponseMessage( new ValidatorError("Error mapping user DTO from database", HttpStatusCode.InternalServerError, userValidatorResult, Request).Response);
             }
 
 
@@ -71,12 +70,20 @@ namespace PropertyTracker.Web.Api.Controllers
         }
 
         // PUT: api/Users/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, Dto.Models.User userDto)
+        [HttpPut] 
+        [Route("{id:int}", Name = "UpdateUserRoute")]
+        [ResponseType(typeof(void))]        
+        public IHttpActionResult UpdateUser(int id, Dto.Models.User userDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            ValidationResult userValidatorResult = new UserValidator().Validate(userDto);
+            if (!userValidatorResult.IsValid)
+            {
+                return new ValidatorError("Validation failed for updated user DTO", HttpStatusCode.BadRequest, userValidatorResult, Request);
             }
 
             if (id != userDto.Id)
@@ -85,8 +92,16 @@ namespace PropertyTracker.Web.Api.Controllers
             }
 
             var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
-
+            db.Users.Attach(userEntity);
             db.Entry(userEntity).State = EntityState.Modified;
+
+            /* Properties no longer part of User DTO
+            db.Entry(userEntity).Collection(u => u.Properties).Load(); // force load         
+            var propertyIdList = userDto.Properties;
+            var newProperties = db.Properties.Where(p => propertyIdList.Contains(p.Id)).ToList();
+            // For this to work, you must load existing Property collection 
+            userEntity.Properties = newProperties;
+             */
 
             try
             {
@@ -108,23 +123,52 @@ namespace PropertyTracker.Web.Api.Controllers
         }
 
         // POST: api/Users
+        [HttpPost]
+        [Route("", Name = "NewUserRoute")]
         [ResponseType(typeof(Dto.Models.User))]
-        public IHttpActionResult PostUser(Dto.Models.User userDto)
+        public IHttpActionResult NewUser(Dto.Models.User userDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            ValidationResult userValidatorResult = new UserValidator().Validate(userDto, "default,Password");
+            if (!userValidatorResult.IsValid)
+            {
+                return new ValidatorError("Validation failed for new user DTO", HttpStatusCode.BadRequest, userValidatorResult, Request);
+            }
+
             var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
 
-            db.Users.Add(userEntity);
-            db.SaveChanges();
+            var company = db.Companies.Find(userDto.Company.Id);
+            company.Users.Add(userEntity);
 
-            return CreatedAtRoute("DefaultApi", new { id = userDto.Id }, userDto);
+            /* Properties no longer part of User DTO
+            var propertyIdList = userDto.Properties;
+            var properties = db.Properties.Where(p => propertyIdList.Contains(p.Id));
+            foreach (var p in properties)
+            {
+                p.Users.Add(userEntity);
+            }
+            */
+            
+            db.SaveChanges();
+            
+            userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
+
+            if (!userValidatorResult.IsValid)
+            {
+                return new ValidatorError("Error mapping user DTO from database", HttpStatusCode.InternalServerError, userValidatorResult, Request);
+            }
+
+            return CreatedAtRoute("NewUserRoute", new { id = userDto.Id }, userDto);
         }
 
         // DELETE: api/Users/5
+        [HttpDelete]
+        [Route("{id:int}", Name = "DeleteUserRoute")]
         [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult DeleteUser(int id)
         {
@@ -134,10 +178,31 @@ namespace PropertyTracker.Web.Api.Controllers
                 return NotFound();
             }
 
-            db.Users.Remove(userEntity);
-            db.SaveChanges();
-
+            // Get DTO object before deleting or this will fail.
             var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            ValidationResult userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
+            if (!userValidatorResult.IsValid)
+            {
+                return new ValidatorError("Error mapping user DTO from database", HttpStatusCode.InternalServerError, userValidatorResult, Request);
+            }
+
+            /*
+            foreach (var p in userEntity.Properties)
+            {
+                p.Users.Remove(userEntity);
+            }
+            */
+            db.Users.Remove(userEntity);
+            //db.Entry(userEntity).Collection(u => u.Properties).Load(); // force load
+            /*
+            foreach (var p in userEntity.Properties)
+            {
+                p.Users.Remove(userEntity);
+            }
+            */
+
+            db.SaveChanges();
+           
             return Ok(userDto);
         }
 

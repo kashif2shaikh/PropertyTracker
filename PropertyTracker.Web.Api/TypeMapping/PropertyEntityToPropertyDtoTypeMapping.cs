@@ -7,7 +7,7 @@ namespace PropertyTracker.Web.Api.TypeMapping
     {
         public void Configure()
         {
-            Mapper.CreateMap<Entity.Models.Property, Dto.Models.Property>();
+            //Mapper.CreateMap<Entity.Models.Property, Dto.Models.Property>();
         }
     }
 }

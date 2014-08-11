@@ -13,8 +13,10 @@ namespace PropertyTracker.Web.Api.TypeMapping
         {
             Mapper.CreateMap<Entity.Models.User, Dto.Models.User>()
                 .ForMember(dm => dm.Password, x => x.Ignore()) // don't want to send password
+
+                // Properties no longer part of User DTO
                 //.ForMember(dm => dm.Properties, em => em.ResolveUsing<PropertiesResolver>()) // Method 1
-                .ForMember(dm => dm.Properties, em => em.MapFrom(user => user.Properties.Select(p => p.Id).ToList())) // Method 2 - use MapFrom with Linq to create idlist
+                //.ForMember(dm => dm.Properties, em => em.MapFrom(user => user.Properties.Select(p => p.Id).ToList())) // Method 2 - use MapFrom with Linq to create idlist
                 ; 
         }
 
