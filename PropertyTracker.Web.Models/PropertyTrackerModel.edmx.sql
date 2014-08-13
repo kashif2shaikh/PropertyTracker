@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/11/2014 17:06:15
+-- Date Created: 08/11/2014 17:41:41
 -- Generated from EDMX file: C:\Users\kshaikh\Source\Repos\PropertyTracker\PropertyTracker.Web.Models\PropertyTrackerModel.edmx
 -- --------------------------------------------------
 

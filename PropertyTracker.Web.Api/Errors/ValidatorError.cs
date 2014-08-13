@@ -48,7 +48,7 @@ namespace PropertyTracker.Web.Api.Errors
                 foreach (var failure in _result.Errors)
                 {
                     errorMessage += "'" + failure.PropertyName + "' property failed validation.  Error: " + failure.ErrorMessage + ";";
-                    errorMessage = "{\n" + "errorMessage: \"" + errorMessage + "\"\n}";
+                    errorMessage = "{\n" + "Message: \"" + errorMessage + "\"\n}";
                 }
 
                 var response = new HttpResponseMessage()

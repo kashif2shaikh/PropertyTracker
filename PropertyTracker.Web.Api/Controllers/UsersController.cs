@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 using AutoMapper;
 using FluentValidation.Results;
 using Ninject.Infrastructure.Language;
@@ -80,6 +81,11 @@ namespace PropertyTracker.Web.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (userDto == null)
+            {
+                return new BadRequestErrorMessageResult("Updated user DTO is missing", this);
+            }
+
             ValidationResult userValidatorResult = new UserValidator().Validate(userDto);
             if (!userValidatorResult.IsValid)
             {
@@ -88,7 +94,7 @@ namespace PropertyTracker.Web.Api.Controllers
 
             if (id != userDto.Id)
             {
-                return BadRequest();
+                return new BadRequestErrorMessageResult("Updated user DTO id mismatch", this);
             }
 
             var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
@@ -186,12 +192,12 @@ namespace PropertyTracker.Web.Api.Controllers
                 return new ValidatorError("Error mapping user DTO from database", HttpStatusCode.InternalServerError, userValidatorResult, Request);
             }
 
-            /*
+            // EF diagram won't support cascade deletes on many-to-many relationships, so we have to manually
+            // delete user properties here
             foreach (var p in userEntity.Properties)
             {
                 p.Users.Remove(userEntity);
             }
-            */
             db.Users.Remove(userEntity);
             //db.Entry(userEntity).Collection(u => u.Properties).Load(); // force load
             /*
