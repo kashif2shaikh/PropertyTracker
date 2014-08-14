@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\IPaginatedList.cs" />
+    <Compile Include="Models\LoginRequest.cs" />
+    <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\PaginatedPropertyList.cs" />
     <Compile Include="Models\Property.cs" />
     <Compile Include="Models\PropertyList.cs" />

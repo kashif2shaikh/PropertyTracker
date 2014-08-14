@@ -1,7 +1,7 @@
 ﻿using System;
 using Cirrious.MvvmCross.ViewModels;
 
-namespace PropertyTracker.Core
+namespace PropertyTracker.Core.ViewModels
 {
 	public class RootViewModel : MvxViewModel
 	{

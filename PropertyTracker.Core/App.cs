@@ -10,7 +10,7 @@ namespace PropertyTracker.Core
 			//Mvx.RegisterType<ICalculation, Calculation> ();
 
 			// Bootstrap and load the initial root view.
-			RegisterAppStart<PropertyTracker.Core.RootViewModel>();
+			RegisterAppStart<PropertyTracker.Core.ViewModels.RootViewModel>();
 		}
 	}
 }

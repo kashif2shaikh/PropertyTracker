@@ -9,7 +9,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
-namespace PropertyTracker.UI.iOS
+namespace PropertyTracker.UI.iOS.ViewControllers
 {
 	[Register ("RootViewController")]
 	partial class RootViewController

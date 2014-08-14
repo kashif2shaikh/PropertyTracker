@@ -6,8 +6,9 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
 using PropertyTracker.Core;
+using PropertyTracker.Core.ViewModels;
 
-namespace PropertyTracker.UI.iOS
+namespace PropertyTracker.UI.iOS.ViewControllers
 {
 	public partial class RootViewController : MvxViewController
 	{

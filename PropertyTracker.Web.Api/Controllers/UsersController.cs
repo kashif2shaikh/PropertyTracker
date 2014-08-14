@@ -21,7 +21,9 @@ using User = PropertyTracker.Dto.Models.User;
 namespace PropertyTracker.Web.Api.Controllers
 {
     //[ApiVersion1RoutePrefix("users")]
+    
     [RoutePrefixAttribute("api/users")]
+    [Authorize]
     public class UsersController : ApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();

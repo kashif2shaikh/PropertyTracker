@@ -134,7 +134,11 @@
     <Compile Include="AutoMapping\AutoMapperTypeMapping.cs" />
     <Compile Include="AutoMapping\IAutoMapper.cs" />
     <Compile Include="AutoMapping\IAutoMapperTypeMapping.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Errors\ValidatorError.cs" />
+    <Compile Include="Security\BasicAuthenticationMessageHandler.cs" />
+    <Compile Include="Security\UserIdentity.cs" />
     <Compile Include="TypeMapping\CompanyDtoToCompanyEntityTypeMapping.cs" />
     <Compile Include="TypeMapping\CompanyEntityToCompanyDtoTypeMapping.cs" />
     <Compile Include="TypeMapping\PropertyDtoToPropertyEntityTypeMapping.cs" />

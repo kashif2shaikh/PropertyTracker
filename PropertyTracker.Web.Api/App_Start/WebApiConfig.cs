@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Routing;
 using System.Web.Http.Tracing;
 using System.Web.Http.Dependencies;
+using PropertyTracker.Web.Api.Security;
 
 namespace PropertyTracker.Web.Api
 {
@@ -36,8 +37,7 @@ namespace PropertyTracker.Web.Api
             // Ignore null values - don't emit properties with Json Nulls
             //config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
-= Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             /*
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
@@ -69,9 +69,9 @@ namespace PropertyTracker.Web.Api
 
             EntityFrameworkProfiler.Initialize();
 
-            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy =
-    IncludeErrorDetailPolicy.Always;
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new BasicAuthenticationMessageHandler());
         }
         /// <summary>
         ///     Provides access to dependencies managed by the <see cref="IDependencyResolver" />. Useful where
