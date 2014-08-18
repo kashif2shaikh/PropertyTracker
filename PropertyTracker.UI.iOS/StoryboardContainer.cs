@@ -28,15 +28,18 @@ namespace PropertyTracker.UI.iOS
 
 		}
 
-		protected override IMvxTouchView CreateViewOfType(Type viewType, MvxViewModelRequest request)
+		protected  override IMvxTouchView CreateViewOfType(Type viewType, MvxViewModelRequest request)
 		{
-			// If View is "SampleViewController", then Storyboard must be "SampleViewController.storyboard"
+			// If View is "SampleViewController", then Storyboard should be "SampleViewController.storyboard"
 			// If we can't find storyboard, then proceed to load XIB..
 			//
 			// NOTE: You must have this ctor defined for Storyboard: 
 			//
 			//   public MvxViewController (IntPtr handle) : base (handle)
 			//
+            // As indicated here: http://developer.xamarin.com/guides/ios/user_interface/introduction_to_storyboards/
+            //
+		    
 			MvxViewController viewController = null;
 
 			try{

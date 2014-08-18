@@ -6,7 +6,7 @@
     <scenes>
         <scene sceneID="4">
             <objects>
-                <viewController id="5" sceneMemberID="viewController" customClass="RootViewController" storyboardIdentifier="RootViewController">
+                <viewController id="5" sceneMemberID="viewController" customClass="MainViewController" storyboardIdentifier="MainViewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2"/>
                         <viewControllerLayoutGuide type="bottom" id="3"/>
@@ -16,20 +16,33 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Root View Controller" lineBreakMode="tailTruncation" minimumFontSize="10" id="9" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="3" textAlignment="center">
-                                <rect key="frame" x="105" y="249" width="110" height="70"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MainView Controller" lineBreakMode="tailTruncation" minimumFontSize="10" id="9" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="3" textAlignment="center">
+                                <rect key="frame" x="105" y="65" width="110" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="35" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="137" y="245" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="LoginButton_TouchUpInside:" destination="5" id="36" eventType="touchUpInside"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="LoginButton" destination="35" id="name-outlet-35"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-220" y="-299"/>
+            <point key="canvasLocation" x="-329" y="-282"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

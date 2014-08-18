@@ -106,27 +106,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
-    <Reference Include="Cirrious.CrossCore.Touch">
-      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.CrossCore.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross.Binding.Touch">
-      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Binding.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.CrossCore">
-      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.CrossCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross.Binding">
-      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Binding.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross.Localization">
-      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Localization.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross.Touch">
-      <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross">
-      <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -136,6 +115,7 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
+    <InterfaceDefinition Include="ViewControllers\LoginViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -144,21 +124,22 @@
     <Compile Include="PropertyTracker.UI.iOSViewController.designer.cs">
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="SQLite.cs" />
-    <Compile Include="SQLiteAsync.cs" />
-    <Compile Include="ViewControllers\RootViewController.cs" />
-    <Compile Include="ViewControllers\RootViewController.designer.cs">
-      <DependentUpon>RootViewController.cs</DependentUpon>
+    <Compile Include="ViewControllers\LoginViewController.cs" />
+    <Compile Include="ViewControllers\LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\MainViewController.cs" />
+    <Compile Include="ViewControllers\MainViewController.designer.cs">
+      <DependentUpon>MainViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Setup.cs" />
     <Compile Include="StoryboardContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\RootViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\MainViewController.storyboard" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PropertyTracker.Core\PropertyTracker.Core.csproj">
       <Project>{6D4D291C-1F27-49DE-974B-1C81B8D481D1}</Project>

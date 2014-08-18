@@ -11,8 +11,8 @@ using System.CodeDom.Compiler;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
-	[Register ("RootViewController")]
-	partial class RootViewController
+	[Register ("LoginViewController")]
+	partial class LoginViewController
 	{
 		void ReleaseDesignerOutlets ()
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
+using MonoTouch.UIKit;
 using PropertyTracker.Core;
 using Cirrious.MvvmCross.Touch.Views;
 
@@ -8,7 +9,8 @@ namespace PropertyTracker.UI.iOS
 {
 	public class Setup : MvxTouchSetup
 	{
-		public Setup (MvxApplicationDelegate appDelegate, IMvxTouchViewPresenter presenter) : base (appDelegate, presenter)
+        public Setup(MvxApplicationDelegate appDelegate, UIWindow window)
+            : base(appDelegate, window)
 		{
 			// nothing to
 		}
@@ -23,6 +25,37 @@ namespace PropertyTracker.UI.iOS
 		{
 			return new StoryboardContainer();
 		}
+
+        protected override IMvxTouchViewPresenter CreatePresenter()
+        {
+            return new MyPresenter(ApplicationDelegate, Window);
+        }
 	}
+
+    public class MyPresenter : MvxTouchViewPresenter
+    {
+        public MyPresenter(UIApplicationDelegate applicationDelegate, UIWindow window)
+            : base(applicationDelegate, window)
+        {
+
+        }
+
+        protected override UINavigationController CreateNavigationController(UIViewController viewController)
+        {
+            var navBar = base.CreateNavigationController(viewController);
+            navBar.NavigationBarHidden = true;
+            return navBar;
+        }
+
+        public override void Show(Cirrious.MvvmCross.Touch.Views.IMvxTouchView view)
+        {
+            if (true)
+            {
+                
+            }
+
+            base.Show(view);
+        }
+    }
 }
 

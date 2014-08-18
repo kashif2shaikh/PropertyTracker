@@ -1,4 +1,5 @@
 ﻿using System;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace PropertyTracker.Core
@@ -7,10 +8,15 @@ namespace PropertyTracker.Core
 	{
 		public App ()
 		{
+            CreatableTypes()
+            .EndingWith("Service")
+            .AsInterfaces()
+            .RegisterAsLazySingleton();
+
 			//Mvx.RegisterType<ICalculation, Calculation> ();
 
 			// Bootstrap and load the initial root view.
-			RegisterAppStart<PropertyTracker.Core.ViewModels.RootViewModel>();
+			RegisterAppStart<PropertyTracker.Core.ViewModels.MainViewModel>();
 		}
 	}
 }

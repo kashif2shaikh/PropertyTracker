@@ -27,9 +27,9 @@ namespace PropertyTracker.UI.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			//_window = new UIWindow(UIScreen.MainScreen.Bounds);
-			var presenter = new MvxTouchViewPresenter (this, Window);
+			//var presenter = new MvxTouchViewPresenter (this, Window);
 
-			var setup = new  PropertyTracker.UI.iOS.Setup(this, presenter);
+			var setup = new  PropertyTracker.UI.iOS.Setup(this, Window);
 			setup.Initialize();
 
 			var startup = Mvx.Resolve<IMvxAppStart> ();
