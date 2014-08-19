@@ -11,18 +11,18 @@ using System.CodeDom.Compiler;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
-	[Register ("LoginViewController")]
-	partial class LoginViewController
+	[Register ("MainViewController")]
+	partial class MainViewController
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton LoginButton { get; set; }
+		UIButton LogoutButton { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (LoginButton != null) {
-				LoginButton.Dispose ();
-				LoginButton = null;
+			if (LogoutButton != null) {
+				LogoutButton.Dispose ();
+				LogoutButton = null;
 			}
 		}
 	}

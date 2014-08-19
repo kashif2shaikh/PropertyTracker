@@ -6,24 +6,40 @@ using Cirrious.MvvmCross.ViewModels;
 
 namespace PropertyTracker.Core.ViewModels
 {
-    public class LoginViewModel : MvxViewModel
-    {        
+    public class LoginViewModel : BaseViewModel
+    {
+        public LoginViewModel() : base()
+        {
+
+
+        }
+
+        private string _username;
         public string Username
         {
-            get { return Username; }
-            set { RaisePropertyChanged(() => Username); }
+            get { return _username; }
+            set
+            {
+                _username = value; 
+                RaisePropertyChanged(() => Username); 
+            }
         }
 
+        private string _password;
         public string Password 
         {
-            get { return Username; }
-            set {  RaisePropertyChanged(() => Password); } 
+            get { return _password; }
+            set
+            {
+                _password = value;
+                RaisePropertyChanged(() => Password); 
+            } 
         }
 
-        public LoginViewModel()
+
+        public IMvxCommand LoginCommand
         {
-           
-            
+            get { return new MvxCommand(() => ShowViewModel<MainViewModel>()); }
         }
     }
 }

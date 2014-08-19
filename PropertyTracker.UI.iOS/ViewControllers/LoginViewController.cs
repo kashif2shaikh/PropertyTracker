@@ -1,14 +1,16 @@
 
 using System;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Touch.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using PropertyTracker.Core.ViewModels;
+using PropertyTracker.UI.iOS.Views;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
-    public partial class LoginViewController : MvxViewController
+    public partial class LoginViewController : MvxViewController, IPresentView
     {
         static bool UserInterfaceIdiomIsPhone
         {
@@ -20,55 +22,45 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         {
         }
 
+        public LoginViewController()
+        {
+            
+        }
+
         public new LoginViewModel ViewModel
         {
             get { return (LoginViewModel)base.ViewModel; }
             set { base.ViewModel = value; }
         }
 
-      
-
-        public override void DidReceiveMemoryWarning()
-        {
-            // Releases the view if it doesn't have a superview.
-            base.DidReceiveMemoryWarning();
-
-            // Release any cached data, images, etc that aren't in use.
-        }
-
-        #region View lifecycle
-
+        /* View LifeCycle Methods */
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
             // Perform any additional setup after loading the view, typically from a nib.
+            this.CreateBinding(LoginButton).To<LoginViewModel>(vm => vm.LoginCommand).Apply();
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+
+            NavigationController.NavigationBarHidden = false;
         }
 
-        public override void ViewDidAppear(bool animated)
+        /* IPresentView Methods */
+        public bool CanPresentView(IMvxTouchView view)
         {
-            
-
-            base.ViewDidAppear(animated);
-            
-
+            // Don't Present View - let app presenter handle it.
+            return false;
+            //return view.Request.RequestedBy.AdditionalInfo == ViewModel.ViewInstanceId.ToString();
         }
 
-        public override void ViewWillDisappear(bool animated)
+        public void PresentView(IMvxTouchView view)
         {
-            base.ViewWillDisappear(animated);
+            // We don't really load any views here
+            //PresentViewController(view as UIViewController, true, () => { });
         }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-        }
-
-        #endregion
     }
 }

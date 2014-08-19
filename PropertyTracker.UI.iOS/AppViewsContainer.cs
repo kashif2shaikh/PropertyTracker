@@ -21,9 +21,9 @@ using Cirrious.CrossCore.Exceptions;
 
 namespace PropertyTracker.UI.iOS
 {
-	public class StoryboardContainer : MvxTouchViewsContainer
+	public class AppViewsContainer : MvxTouchViewsContainer
 	{
-		public StoryboardContainer () : base()
+		public AppViewsContainer () : base()
 		{
 
 		}

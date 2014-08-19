@@ -3,14 +3,14 @@ using Cirrious.MvvmCross.ViewModels;
 
 namespace PropertyTracker.Core.ViewModels
 {
-	public class MainViewModel : MvxViewModel
+	public class MainViewModel : BaseViewModel
 	{
-		public MainViewModel ()
+		public MainViewModel () : base()
 		{
 
 		}
 
-        public IMvxCommand GoCommand
+        public IMvxCommand ShowLoginViewCommand
         {
             get { return new MvxCommand(() => ShowViewModel<LoginViewModel>()); }
         }
