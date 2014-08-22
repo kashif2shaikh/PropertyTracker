@@ -10,7 +10,7 @@ using PropertyTracker.UI.iOS.Views;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
-    public partial class LoginViewController : MvxViewController, IPresentView
+    public partial class LoginViewController : MvxViewController, IViewPresenter
     {
         static bool UserInterfaceIdiomIsPhone
         {
@@ -46,21 +46,29 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         {
             base.ViewWillAppear(animated);
 
-            NavigationController.NavigationBarHidden = false;
+            //NavigationController.NavigationBarHidden = false;
         }
 
-        /* IPresentView Methods */
+        /* IViewPresenter Methods */
+        public void ViewPresenterAdded()
+        {
+           // nothing to do
+        }
+
+        public void ViewPresenterRemoved()
+        {
+            
+        }
+
         public bool CanPresentView(IMvxTouchView view)
         {
-            // Don't Present View - let app presenter handle it.
-            return false;
-            //return view.Request.RequestedBy.AdditionalInfo == ViewModel.ViewInstanceId.ToString();
+            // We don't load any views!
+            return false;            
         }
 
         public void PresentView(IMvxTouchView view)
         {
-            // We don't really load any views here
-            //PresentViewController(view as UIViewController, true, () => { });
-        }
+            
+        }       
     }
 }

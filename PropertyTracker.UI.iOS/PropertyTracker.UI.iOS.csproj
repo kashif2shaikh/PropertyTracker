@@ -140,9 +140,15 @@
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
     <InterfaceDefinition Include="ViewControllers\LoginViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\UserListViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppViewPresenter.cs" />
+    <Compile Include="AppPresenterDontuse.cs" />
+    <Compile Include="AppPresenter.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\MvxTouchViewExtensions.cs" />
+    <Compile Include="Common\ViewControllerExtensions.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Main.cs" />
@@ -156,18 +162,21 @@
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\MainViewController.cs" />
-    <Compile Include="ViewControllers\MainViewController.designer.cs">
-      <DependentUpon>MainViewController.cs</DependentUpon>
+    <Compile Include="AppSetup.cs" />
+    <Compile Include="AppContainer.cs" />
+    <Compile Include="ViewControllers\PropertyListViewController.cs" />
+    <Compile Include="ViewControllers\PropertyListViewController.designer.cs">
+      <DependentUpon>PropertyListViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setup.cs" />
-    <Compile Include="AppViewsContainer.cs" />
-    <Compile Include="ViewControllers\PresentViewController.cs" />
-    <Compile Include="Views\FirstView.cs" />
-    <Compile Include="Views\IPresentView.cs" />
+    <Compile Include="ViewControllers\UserListViewController.cs" />
+    <Compile Include="ViewControllers\UserListViewController.designer.cs">
+      <DependentUpon>UserListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\ViewControllerExtension.cs" />
+    <Compile Include="Views\IViewPresenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\MainViewController.storyboard" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
@@ -178,8 +187,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppDelegate.cs.txt" />
+    <BundleResource Include="Images\PropertyIcon.png" />
+    <BundleResource Include="Images\PropertyListIcon%402x.png" />
+    <BundleResource Include="Images\UserIcon.png" />
+    <BundleResource Include="Images\UserListIcon%402x.png" />
     <Content Include="ToDo-MvvmCross\_ Touch UI.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />

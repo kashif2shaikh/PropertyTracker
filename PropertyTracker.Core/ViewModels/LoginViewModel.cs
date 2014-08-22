@@ -8,12 +8,6 @@ namespace PropertyTracker.Core.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public LoginViewModel() : base()
-        {
-
-
-        }
-
         private string _username;
         public string Username
         {

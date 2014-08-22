@@ -1,6 +1,6 @@
 using Cirrious.MvvmCross.ViewModels;
 
-namespace PropertyTracker.Core.ViewModels
+namespace $rootnamespace$.ViewModels
 {
     public class FirstViewModel 
 		: MvxViewModel

@@ -8,9 +8,9 @@ using Cirrious.MvvmCross.Touch.Views;
 
 namespace PropertyTracker.UI.iOS
 {
-	public class Setup : MvxTouchSetup
+	public class AppSetup : MvxTouchSetup
 	{
-        public Setup(MvxApplicationDelegate appDelegate, UIWindow window)
+        public AppSetup(MvxApplicationDelegate appDelegate, UIWindow window)
             : base(appDelegate, window)
 		{
 			// nothing to
@@ -21,15 +21,15 @@ namespace PropertyTracker.UI.iOS
 			return new App();
 		}
 
-		//Override to allow view controllers to be loaded from Storyboards.
-		protected override IMvxTouchViewsContainer CreateTouchViewsContainer()
-		{
-			return new AppViewsContainer();
-		}
+		// Override to allow view controllers to be loaded from Storyboards.
+        protected override IMvxTouchViewsContainer CreateTouchViewsContainer()
+        {
+            return new AppContainer();
+        }
 
         protected override IMvxTouchViewPresenter CreatePresenter()
         {
-            return new AppViewPresenter(ApplicationDelegate, Window);
+            return new AppPresenter(ApplicationDelegate, Window);
         }
 	}
 }

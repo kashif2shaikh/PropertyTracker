@@ -29,7 +29,7 @@ namespace PropertyTracker.UI.iOS
 			//_window = new UIWindow(UIScreen.MainScreen.Bounds);
 			//var presenter = new MvxTouchViewPresenter (this, Window);
 
-			var setup = new  PropertyTracker.UI.iOS.Setup(this, Window);
+			var setup = new  PropertyTracker.UI.iOS.AppSetup(this, Window);
 			setup.Initialize();
 
 			var startup = Mvx.Resolve<IMvxAppStart> ();

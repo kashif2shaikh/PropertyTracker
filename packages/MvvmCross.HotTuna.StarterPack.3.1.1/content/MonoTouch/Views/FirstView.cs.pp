@@ -1,11 +1,11 @@
-using System.Drawing;
+﻿using System.Drawing;
 using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Touch.Views;
 using MonoTouch.ObjCRuntime;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 
-namespace PropertyTracker.UI.iOS.Views
+namespace $rootnamespace$.Views
 {
     [Register("FirstView")]
     public class FirstView : MvxViewController

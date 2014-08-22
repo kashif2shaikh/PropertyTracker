@@ -21,9 +21,9 @@ using Cirrious.CrossCore.Exceptions;
 
 namespace PropertyTracker.UI.iOS
 {
-	public class AppViewsContainer : MvxTouchViewsContainer
+	public class AppContainer : MvxTouchViewsContainer
 	{
-		public AppViewsContainer () : base()
+		public AppContainer () : base()
 		{
 
 		}
@@ -35,29 +35,29 @@ namespace PropertyTracker.UI.iOS
 			//
 			// NOTE: You must have this ctor defined for Storyboard: 
 			//
-			//   public MvxViewController (IntPtr handle) : base (handle)
+			//   public YourViewController (IntPtr handle) : base (handle)
 			//
             // As indicated here: http://developer.xamarin.com/guides/ios/user_interface/introduction_to_storyboards/
             //
-		    
-			MvxViewController viewController = null;
+
+		    IMvxTouchView viewController = null;
 
 			try{
 				// Load from storyboard first
 				System.Console.WriteLine ("Loading Storyboard {0}.storyboard", viewType.Name);
-				viewController = (MvxViewController)UIStoryboard.FromName (viewType.Name, null).InstantiateInitialViewController ();
+                viewController = (IMvxTouchView)UIStoryboard.FromName(viewType.Name, null).InstantiateInitialViewController();
 			}catch(Exception e){
 
 				try {
 					// Not found - now try to load from XIB
 					System.Console.WriteLine ("Can't load Storyboard {0}.storyboard: {1}.\n Loading XIB instead", viewType.Name,e);
-					viewController = (MvxViewController)base.CreateViewOfType (viewType, request);
+                    viewController = (IMvxTouchView)base.CreateViewOfType(viewType, request);
 				}
 				catch(Exception e2) {
 					Console.WriteLine ("Failed to load storyboard view: " + e);
 				}
 			}				
-			return (IMvxTouchView)viewController;
+			return viewController;
 		}
 	}
 }
