@@ -27,17 +27,44 @@ namespace PropertyTracker.UI.iOS.Common
             return viewController;
         }
 
+        /*
         public static UIViewController CreateViewControllerForTab(this IMvxTouchView view, TabItemModel tab)
         {
             var viewController = view.CreateViewControllerForTab(tab.ViewModelType, tab.Title, tab.ImageName, tab.SelectedImageName, tab.BadgeValue);
             return viewController;
         }
+        */
 
-        public static void SetTitleAndTabBarItem(this UIViewController viewController, string title, string imageName, string selectedImageName, string badgeValue)
+        public static void SetTitleAndTabBarItem(this UIViewController viewController, string title, string imageName, string selectedImageName = null, string badgeValue = null)
         {
+            UIImage image = UIImage.FromBundle(Constants.ImagePath + "/" + imageName);
+            UIImage selectedImage = selectedImageName != null ? UIImage.FromBundle(Constants.ImagePath + "/" + selectedImageName) : null;
+   
             viewController.Title = title;
-            viewController.TabBarItem.Title = title;
-            viewController.TabBarItem.Image = UIImage.FromBundle(Constants.ImagePath + "/" + imageName);          
+            viewController.TabBarItem = new UITabBarItem(title, image, selectedImage);
+            viewController.TabBarItem.BadgeValue = badgeValue;                                
         }
+
+        public static UINavigationController EmbedWithNavigation(this UIViewController viewController)
+        {
+            var navController = new UINavigationController();
+            navController.PushViewController(viewController, false);
+            return navController;
+        }
+
+        public static void ForceLoadViewControllers(this UITabBarController tabBarViewController)
+        {
+            foreach (var vc in tabBarViewController.ViewControllers)
+            {
+                UIViewController forceLoadView = vc;
+                if (vc is UINavigationController)
+                {
+                    forceLoadView = (vc as UINavigationController).TopViewController;
+                }
+                UIView view = forceLoadView.View; // Accessing View property of controller will force load the view and call ViewDidLoad.                                                
+            }
+        } 
+
+        
     }
 }

@@ -10,7 +10,7 @@ namespace PropertyTracker.Core.ViewModels
 	{
         // While it's desirable to have a collection of ViewModels where ViewModels have implemented an ITabModel interface,
         // this won't work on Android since ViewModels cannot be statically allocated.
-	    public ObservableCollection<TabItemModel> Tabs;
+	    public ObservableCollection<Type> Tabs;
 
         private int _selectedTabIndex;
         public int SelectedTabIndex
@@ -28,8 +28,15 @@ namespace PropertyTracker.Core.ViewModels
             // Initialize the tabs
             // Tabs are hard-coded for now - but in future we can pass in say IUser model and show
             // tabs based on the type of user.
-	        Tabs = new ObservableCollection<TabItemModel>()
+	        
+            Tabs = new ObservableCollection<Type>()
 	        {
+	            typeof (PropertyListViewModel),
+	            typeof (UserListViewModel)
+	        };
+
+	        //{
+                /*
 	            new TabItemModel
 	            {
 	                ViewModelType = typeof (PropertyListViewModel),
@@ -42,7 +49,8 @@ namespace PropertyTracker.Core.ViewModels
 	                Title = "Users",
 	                ImageName = "UserListIcon.png",	                
 	            }
-	        };
+                */
+	        //};
 
 	        SelectedTabIndex = 0;
 	    }
@@ -50,8 +58,8 @@ namespace PropertyTracker.Core.ViewModels
 	    public void SwitchToTab(int index)
 	    {
 	        SelectedTabIndex = index;
-	        Tabs[0].Title = "SELECTED";
-	        Tabs[0].BadgeValue = "1";
+	        //Tabs[0].Title = "SELECTED";
+	        //Tabs[0].BadgeValue = "1";
 	    }
      
         public IMvxCommand LogoutCommand

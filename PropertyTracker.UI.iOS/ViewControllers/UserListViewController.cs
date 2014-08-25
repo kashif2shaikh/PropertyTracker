@@ -7,6 +7,7 @@ using Cirrious.MvvmCross.Touch.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using PropertyTracker.Core.ViewModels;
+using PropertyTracker.UI.iOS.Common;
 using PropertyTracker.UI.iOS.Views;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -33,9 +34,19 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
-           
+            NavigationController.NavigationBarHidden = false;
+            var logoutButton = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Bordered, null);
+            NavigationItem.LeftBarButtonItem = logoutButton;
 
-           
+            this.SetTitleAndTabBarItem(ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
+            
+            var set = this.CreateBindingSet<UserListViewController, UserListViewModel>();
+            set.Bind(logoutButton).To(vm => vm.LogoutCommand);
+            set.Bind(TabBarItem).For(v => v.Title).To(vm => vm.TabTitle);
+            set.Bind(TabBarItem).For(v => v.BadgeValue).To(vm => vm.TabBadgeValue);
+            set.Bind(Title).To(vm => vm.TabTitle);
+            set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);
+            set.Apply();
             
         }
 
@@ -45,10 +56,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
             //NavigationController.NavigationBarHidden = false;
 
-            NavigationController.NavigationBarHidden = false;
-            var logoutButton = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Bordered, null);
-            NavigationItem.LeftBarButtonItem = logoutButton;
-            NavigationItem.Title = "Users";
+           
+
             /*
             var source = new MvxStandardTableViewSource(TableView, "TitleText Name");
             TableView.Source = source;
@@ -66,6 +75,14 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
         private void Logout()
         {
+
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+
+            //ViewModel.ChangeStuff();
 
         }
     }

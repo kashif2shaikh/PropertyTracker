@@ -1,8 +1,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Net.Mime;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Binding.BindingContext;
@@ -53,20 +55,11 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             NavigationItem.Title = "Main View";
 
             var viewControllers = new List<UIViewController>();
-
             
-            
-            
-            foreach (var tab in ViewModel.Tabs)
+            foreach (var tabType in ViewModel.Tabs)
             {
-                var tabView = this.CreateViewControllerForTab(tab) as MvxViewController;
-                viewControllers.Add(EmbedWithNavigation(tabView as UIViewController));
-                // TODO look into binding the tab item
-                var tabBindingSet = tabView.CreateBindingSet<MvxViewController, TabItemModel>();
-                tabBindingSet.Bind(tabView).For(tv => tv.TabBarItem.Title).To(tm => tm.Title);
-                tabBindingSet.Bind(tabView).For(tv => tv.TabBarItem.BadgeValue).To(tm => tm.BadgeValue);
-                tabBindingSet.Apply();
-                //tabView.Bind(tabView, tv => tv.Title, (TabItemModel tm) => tm.Title);
+                var tabView = this.CreateViewControllerFor(tabType) as UIViewController;
+                viewControllers.Add(tabView.EmbedWithNavigation());                              
             }
             
 
@@ -74,51 +67,20 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             this.CustomizableViewControllers = new UIViewController[] { };
             this.SelectedViewController = ViewControllers[0];
 
-            var bindingSet = this.CreateBindingSet<MainViewController, MainViewModel>();
+            // Tab view controllers are loaded on demand when tab is selected. We instead want to force load controllers, 
+            // so that ViewDidLoad is called, where the tab view controllers initialize their tab items and fire off 
+            // network requests, so that views are pre-loaded when tapped on.
+            //
+            // TODO: We will need a way for the ViewModel to refresh the UI or automatically refresh based on time
+            //
+            this.ForceLoadViewControllers();
 
             // Create a binding from target property in view controller to source property in view model
+            var bindingSet = this.CreateBindingSet<MainViewController, MainViewModel>();            
             bindingSet.Bind(this).For(v => v.SelectedIndex).To(vm => vm.SelectedTabIndex);
-            bindingSet.Apply();
-            
-
-            /*
-
-            // Perform any additional setup after loading the view, typically from a nib.
-            //this.CreateBinding(LogoutButton).To<MainViewModel>(vm => vm.ShowLoginViewCommand).Apply();
-
-            var propertyListNavController = CreateTabFor<PropertyListViewModel>(0, "Properties", "PropertyTabIcon.png");
-            var userListNavController = CreateTabFor<UserListViewModel>(1, "Users", "UserTabIcon.png");
-
-            _propertyListViewController = (PropertyListViewController)propertyListNavController.TopViewController;
-            _userListViewController = (UserListViewController)userListNavController.TopViewController;
-            
-            ViewModel.PropertyListView = _propertyListViewController.ViewModel;
-            ViewModel.UserListView = _userListViewController.ViewModel;
-
-            var viewControllers = new UIViewController[]
-                                  {
-                                      propertyListNavController,
-                                      userListNavController                                   
-                                  };
-
-            this.ViewControllers = viewControllers;
-            this.CustomizableViewControllers = new UIViewController[] { };
-            this.SelectedViewController = ViewControllers[0];
-             * 
-            */
-
-            //var nextViewController = segue.DestinationViewController as DetailViewController;
-            //nextViewController.Request = new MvxViewModelInstanceRequest(new DetailViewModel() { Menu = menu });
-        }
-
-        private UINavigationController EmbedWithNavigation(UIViewController viewController)
-        {
-            var navController = new UINavigationController();
-            navController.PushViewController(viewController, false);
-            return navController;
+            bindingSet.Apply();                      
         }
         
-
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
@@ -130,39 +92,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-            ViewModel.SwitchToTab(1);
+            //ViewModel.SwitchToTab(1);
         }
-
-        /*
-        private void PresentTabViews()
-        {
-           // var propertyListNavController = CreateTabFor(_propertyListViewController, 0, "Properties", "PropertyTabIcon.png");
-          //  var userListNavController = CreateTabFor(_userListViewController, 1, "Users", "UserTabIcon.png");
-            
-            //ViewModel.PropertyListView = _propertyListViewController.ViewModel;
-            //ViewModel.UserListView = _userListViewController.ViewModel;
-
-            var viewControllers = new UIViewController[]
-                                  {
-                                      propertyListNavController,
-                                      userListNavController               
-                                  };
-
-            this.ViewControllers = viewControllers;
-            this.CustomizableViewControllers = new UIViewController[] { };
-            this.SelectedViewController = ViewControllers[0];
-        }
-        */
-      
-
-        /*
-        public IMvxTouchView CreateViewControllerFor(Type viewModelType)
-        {
-            var request = new MvxViewModelRequest(viewModelType, null, null, MvxRequestedBy.UserAction);
-            return this.CreateViewControllerFor(request);
-        }
-        */
-
 
         /* IViewPresenter Methods */
         public void ViewPresenterAdded()

@@ -6,32 +6,31 @@ using Cirrious.MvvmCross.ViewModels;
 
 namespace PropertyTracker.Core.ViewModels
 {
-    public class TabItemModel : MvxNotifyPropertyChanged
+    public class TabItemModel : BaseViewModel
     {
-        public Type ViewModelType { get; set; }
-
-        private string _title;
-        public string Title
+      
+        private string _tabTitle;
+        public string TabTitle
         {
-            get { return _title; }
+            get { return _tabTitle; }
             set 
-            { 
-                _title = value;
-                RaisePropertyChanged(() => Title);
+            {
+                _tabTitle = value;
+                RaisePropertyChanged(() => TabTitle);
             }
         }
 
-        public string ImageName { get; set; }
-        public string SelectedImageName { get; set; }
+        public string TabImageName { get; set; }
+        public string TabSelectedImageName { get; set; }
 
-        private string _badgeValue;
-        public string BadgeValue
+        private string _tabBadgeValue;
+        public string TabBadgeValue
         {
-            get { return _badgeValue; }
+            get { return _tabBadgeValue; }
             set 
-            { 
-                _badgeValue = value;
-                RaisePropertyChanged(() => BadgeValue);
+            {
+                _tabBadgeValue = value;
+                RaisePropertyChanged(() => TabBadgeValue);
             }
         }
     }
