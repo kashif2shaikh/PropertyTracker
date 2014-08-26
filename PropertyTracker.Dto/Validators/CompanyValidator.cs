@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FluentValidation;
+﻿using FluentValidation;
 using PropertyTracker.Dto.Models;
-using PropertyTracker.Dto.Validators.Extensions;
 
 namespace PropertyTracker.Dto.Validators
 {

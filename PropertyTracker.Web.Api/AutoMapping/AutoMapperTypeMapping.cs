@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Microsoft.Runtime.CompilerServices;
 
 namespace PropertyTracker.Web.Api.AutoMapping
 {

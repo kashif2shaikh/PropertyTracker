@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FluentValidation;
-using FluentValidation.Results;
-using FluentValidation.Validators;
+﻿using FluentValidation;
 using PropertyTracker.Dto.Models;
 using PropertyTracker.Dto.Validators.Extensions;
 
@@ -23,7 +17,7 @@ namespace PropertyTracker.Dto.Validators
             RuleFor(user => user.Company).NotNull().SetValidator(new CompanyValidator());
             //RuleFor(user => user.Properties).Must(HaveValidIds).When(user => user.Properties.Count > 0);
 
-            RuleSet("NoPassword", () => RuleFor(user => user.Password).IsNull());
+            RuleSet("NoPassword", () => ValidatorExtensions.IsNull<User, string>(RuleFor(user => user.Password)));
 
             RuleSet("Password", () => RuleFor(user => user.Password).NotEmpty());
         }

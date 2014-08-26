@@ -16,6 +16,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +43,10 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentValidation.5.4.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\packages\EntityFrameworkProfiler.Appender.2.0.2237.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
@@ -48,15 +54,6 @@
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -95,9 +92,6 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation">
-      <HintPath>..\packages\FluentValidation.5.4.0.0\lib\Net40\FluentValidation.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -116,6 +110,48 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\PropertyTracker.Dto\Models\Company.cs">
+      <Link>Dto\Models\Company.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\IPaginatedList.cs">
+      <Link>Dto\Models\IPaginatedList.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\LoginRequest.cs">
+      <Link>Dto\Models\LoginRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\LoginResponse.cs">
+      <Link>Dto\Models\LoginResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\PaginatedPropertyList.cs">
+      <Link>Dto\Models\PaginatedPropertyList.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\Property.cs">
+      <Link>Dto\Models\Property.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\PropertyList.cs">
+      <Link>Dto\Models\PropertyList.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\User.cs">
+      <Link>Dto\Models\User.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Models\UserList.cs">
+      <Link>Dto\Models\UserList.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Validators\CompanyValidator.cs">
+      <Link>Dto\Validators\CompanyValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Validators\Extensions\IsNullValidator.cs">
+      <Link>Dto\Validators\Extensions\IsNullValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Validators\Extensions\ValidatorExtensions.cs">
+      <Link>Dto\Validators\Extensions\ValidatorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Validators\UserListValidator.cs">
+      <Link>Dto\Validators\UserListValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\PropertyTracker.Dto\Validators\UserValidator.cs">
+      <Link>Dto\Validators\UserValidator.cs</Link>
+    </Compile>
     <Compile Include="App_Start\NinjectConfigurator.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -160,10 +196,6 @@
     <Folder Include="Processors\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PropertyTracker.Dto\PropertyTracker.Dto.csproj">
-      <Project>{FE02360A-F8D6-4906-A5D4-F5D6E6A49DDD}</Project>
-      <Name>PropertyTracker.Dto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PropertyTracker.Web.Models\PropertyTracker.Web.Entity.Models.csproj">
       <Project>{65134F42-13A6-40F9-ABE9-F211D4AB2933}</Project>
       <Name>PropertyTracker.Web.Entity.Models</Name>
@@ -201,12 +233,14 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

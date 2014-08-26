@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
 namespace PropertyTracker.Dto.Models
 {
