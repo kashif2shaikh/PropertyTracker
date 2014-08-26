@@ -39,7 +39,12 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             base.ViewDidLoad();
 
             // Perform any additional setup after loading the view, typically from a nib.
-            this.CreateBinding(LoginButton).To<LoginViewModel>(vm => vm.LoginCommand).Apply();
+
+			var set = this.CreateBindingSet<LoginViewController, LoginViewModel>();
+			set.Bind(LoginButton).To(vm => vm.LoginCommand);
+			set.Bind (UsernameTextField).To (vm => vm.Username);
+			set.Bind (PasswordTextField).To (vm => vm.Password);
+			set.Apply ();		     
         }
 
         public override void ViewWillAppear(bool animated)

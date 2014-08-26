@@ -44,7 +44,7 @@ namespace PropertyTracker.Core.ViewModels
             //get { return new MvxCommand(() => ShowViewModel<MainViewModel>()); }
             get
             {
-                return new MvxCommand(() => Login());
+                return new MvxCommand(Login);
             }
         }
 
@@ -52,10 +52,9 @@ namespace PropertyTracker.Core.ViewModels
         {
             if (!_propertyTrackerService.LoggedIn)
             {
-                var response = _propertyTrackerService.Login(Username, Password);
-            }
-            
-
+				_propertyTrackerService.Login(Username, Password).Wait ();
+				//Console.WriteLine("Finished login:" + response);
+            }           
         }
 
         /*

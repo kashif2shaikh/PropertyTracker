@@ -18,11 +18,27 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton LoginButton { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField PasswordTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField UsernameTextField { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (LoginButton != null) {
 				LoginButton.Dispose ();
 				LoginButton = null;
+			}
+			if (PasswordTextField != null) {
+				PasswordTextField.Dispose ();
+				PasswordTextField = null;
+			}
+			if (UsernameTextField != null) {
+				UsernameTextField.Dispose ();
+				UsernameTextField = null;
 			}
 		}
 	}
