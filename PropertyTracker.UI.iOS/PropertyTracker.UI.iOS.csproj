@@ -112,6 +112,27 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
+    <Reference Include="Cirrious.CrossCore.Touch">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.CrossCore.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Binding.Touch">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Binding.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.CrossCore">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.CrossCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Binding">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Localization">
+      <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Touch">
+      <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross">
+      <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -123,6 +144,9 @@
     <InterfaceDefinition Include="ViewControllers\LoginViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\UserListViewController.storyboard" />
+    <None Include="packages.config" />
+    <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
+    <None Include="AppDelegate.cs.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenterDontuse.cs" />
@@ -143,16 +167,17 @@
     <Compile Include="ViewControllers\MainViewController.cs" />
     <Compile Include="AppSetup.cs" />
     <Compile Include="AppContainer.cs" />
-    <Compile Include="ViewControllers\PropertyListViewController.cs" />
-    <Compile Include="ViewControllers\PropertyListViewController.designer.cs">
-      <DependentUpon>PropertyListViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewControllers\UserListViewController.cs" />
     <Compile Include="ViewControllers\UserListViewController.designer.cs">
       <DependentUpon>UserListViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\ViewControllerExtension.cs" />
     <Compile Include="Views\IViewPresenter.cs" />
+    <Compile Include="ViewControllers\PropertyListViewController.cs" />
+    <Compile Include="Setup.cs" />
+    <Compile Include="DebugTrace.cs" />
+    <Compile Include="Views\FirstView.cs" />
+    <Compile Include="LinkerPleaseInclude.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
