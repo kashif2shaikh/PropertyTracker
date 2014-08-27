@@ -142,7 +142,6 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <InterfaceDefinition Include="ViewControllers\LoginViewController.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\UserListViewController.storyboard" />
     <None Include="packages.config" />
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
@@ -171,10 +170,10 @@
     </Compile>
     <Compile Include="ViewControllers\ViewControllerExtension.cs" />
     <Compile Include="Views\IViewPresenter.cs" />
-    <Compile Include="ViewControllers\PropertyListViewController.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
+    <Compile Include="ViewControllers\p2.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
