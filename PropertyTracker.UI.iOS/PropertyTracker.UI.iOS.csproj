@@ -145,6 +145,7 @@
     <InterfaceDefinition Include="ViewControllers\UserListViewController.storyboard" />
     <None Include="packages.config" />
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
+    <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -168,12 +169,14 @@
     <Compile Include="ViewControllers\UserListViewController.designer.cs">
       <DependentUpon>UserListViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\ViewControllerExtension.cs" />
     <Compile Include="Views\IViewPresenter.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
-    <Compile Include="ViewControllers\p2.cs" />
+    <Compile Include="ViewControllers\PropertyListViewController.cs" />
+    <Compile Include="ViewControllers\PropertyListViewController.designer.cs">
+      <DependentUpon>PropertyListViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

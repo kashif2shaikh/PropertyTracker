@@ -31,8 +31,8 @@ namespace PropertyTracker.Core.ViewModels
 	        
             Tabs = new ObservableCollection<Type>()
 	        {
-	            typeof (PropertyListViewModel),
-	            typeof (UserListViewModel)
+				typeof (PropertyListViewModel),
+				typeof (UserListViewModel)
 	        };
 
 	        //{

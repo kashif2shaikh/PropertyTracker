@@ -10,6 +10,7 @@ using PropertyTracker.Core.ViewModels;
 using PropertyTracker.UI.iOS.Common;
 using PropertyTracker.UI.iOS.Views;
 
+// Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
     public partial class UserListViewController : MvxViewController

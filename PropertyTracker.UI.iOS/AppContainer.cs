@@ -54,7 +54,7 @@ namespace PropertyTracker.UI.iOS
                     viewController = (IMvxTouchView)base.CreateViewOfType(viewType, request);
 				}
 				catch(Exception e2) {
-					Console.WriteLine ("Failed to load storyboard view: " + e);
+					Console.WriteLine ("Failed to load storyboard view: " + e2);
 				}
 			}				
 			return viewController;
