@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Acr.MvvmCross.Plugins.UserDialogs;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Core.Services;
+using PropertyTracker.Dto.Models;
 
 namespace PropertyTracker.Core.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         private readonly IPropertyTrackerService _propertyTrackerService;
+        private readonly IUserDialogService _dialogService;               
 
-        public LoginViewModel(IPropertyTrackerService service)
+        public LoginViewModel(IPropertyTrackerService service, IUserDialogService dialogService)
         {
             _propertyTrackerService = service;
+            _dialogService = dialogService;
         }
 
         private string _username;
@@ -48,59 +53,28 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
+        private IMvxCommand LoginFailedAlert
+        {
+            get
+            {
+                return new MvxCommand(() => _dialogService.Alert("Invalid credentials", "Login Failed", "OK"));
+            }
+        }
+
         private async void Login()
         {
-            if (!_propertyTrackerService.LoggedIn)
-            {
-                var response = await _propertyTrackerService.Login(Username, Password);
-                if (response != null)
-                {
-                    ShowViewModel<MainViewModel>();
-                }
-                else
-                {
-                        
-                }
-                
-                //Console.WriteLine("Finished login:" + response);
-            }           
-        }
+            if (_propertyTrackerService.LoggedIn)
+                ShowViewModel<MainViewModel>();
 
-        /*
-        async void Login()
-        {
+            LoginResponse response = null;
+            
+            using (_dialogService.Loading("Logging in..."))
+                response = await _propertyTrackerService.Login(Username, Password);
 
-            BTProgressHUD.Show("Logging in...");
-
-            var success = await WebService.Shared.Login(username, password);
-            if (success)
-            {
-                var canContinue = await WebService.Shared.PlaceOrder(WebService.Shared.CurrentUser, true);
-                if (!canContinue.Success)
-                {
-                    new UIAlertView("Sorry", "Only one shirt per person. Edit your cart and try again.", null, "OK").Show();
-                    BTProgressHUD.Dismiss();
-                    return;
-                }
-            }
-
-            BTProgressHUD.Dismiss();
-
-            if (success)
-            {
-                LoginSucceeded();
-            }
+            if (response != null)
+                ShowViewModel<MainViewModel>();
             else
-            {
-                var alert = new UIAlertView("Could Not Log In", "Please verify your Xamarin account credentials and try again", null, "OK");
-                alert.Show();
-                alert.Clicked += delegate
-                {
-                    LoginView.PasswordField.SelectAll(this);
-                    LoginView.PasswordField.BecomeFirstResponder();
-                };
-            }
-        }
-        */
+                _dialogService.Alert("Invalid credentials", "Login Failed", "OK");            
+        }       
     }
 }

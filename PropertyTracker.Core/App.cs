@@ -1,5 +1,6 @@
 ﻿using System;
 using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore.Plugins;
 using Cirrious.MvvmCross.ViewModels;
 
 namespace PropertyTracker.Core
@@ -16,8 +17,19 @@ namespace PropertyTracker.Core
 			//Mvx.RegisterType<ICalculation, Calculation> ();
 
 			// Bootstrap and load the initial root view.
-			RegisterAppStart<PropertyTracker.Core.ViewModels.MainViewModel>();
+			RegisterAppStart<PropertyTracker.Core.ViewModels.LoginViewModel>();
 		}
+
+        public override void LoadPlugins(IMvxPluginManager pluginManager)
+        {
+            base.LoadPlugins(pluginManager);
+            //pluginManager.EnsurePluginLoaded<Acr.MvvmCross.Plugins.BarCodeScanner.PluginLoader>();
+            //pluginManager.EnsurePluginLoaded<Acr.MvvmCross.Plugins.DeviceInfo.PluginLoader>();
+            //pluginManager.EnsurePluginLoaded<Acr.MvvmCross.Plugins.Settings.PluginLoader>();
+            pluginManager.EnsurePluginLoaded<Acr.MvvmCross.Plugins.UserDialogs.PluginLoader>();
+
+            //pluginManager.EnsurePluginLoaded<Cirrious.MvvmCross.Plugins.Messenger.PluginLoader>();
+        }
 	}
 }
 

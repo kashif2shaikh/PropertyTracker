@@ -50,11 +50,11 @@ namespace PropertyTracker.UI.iOS
 
 				try {
 					// Not found - now try to load from XIB
-					System.Console.WriteLine ("Can't load Storyboard {0}.storyboard: {1}.\n Loading XIB instead", viewType.Name,e);
+					System.Console.WriteLine ("Can't load Storyboard {0}.storyboard: loading XIB instead", viewType.Name);
                     viewController = (IMvxTouchView)base.CreateViewOfType(viewType, request);
 				}
 				catch(Exception e2) {
-					Console.WriteLine ("Failed to load storyboard view: " + e2);
+					System.Console.WriteLine ("Failed to create view of type {0}: **Storyboard exception**:" + e + "\n**XIB exception**:" + e2);
 				}
 			}				
 			return viewController;
