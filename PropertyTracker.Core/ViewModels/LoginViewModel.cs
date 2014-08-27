@@ -48,12 +48,21 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
-        private void Login()
+        private async void Login()
         {
             if (!_propertyTrackerService.LoggedIn)
             {
-				_propertyTrackerService.Login(Username, Password).Wait ();
-				//Console.WriteLine("Finished login:" + response);
+                var response = await _propertyTrackerService.Login(Username, Password);
+                if (response != null)
+                {
+                    ShowViewModel<MainViewModel>();
+                }
+                else
+                {
+                        
+                }
+                
+                //Console.WriteLine("Finished login:" + response);
             }           
         }
 

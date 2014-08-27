@@ -146,10 +146,8 @@
     <InterfaceDefinition Include="ViewControllers\UserListViewController.storyboard" />
     <None Include="packages.config" />
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
-    <None Include="AppDelegate.cs.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppPresenterDontuse.cs" />
     <Compile Include="AppPresenter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\MvxTouchViewExtensions.cs" />
@@ -174,7 +172,6 @@
     <Compile Include="ViewControllers\ViewControllerExtension.cs" />
     <Compile Include="Views\IViewPresenter.cs" />
     <Compile Include="ViewControllers\PropertyListViewController.cs" />
-    <Compile Include="Setup.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
