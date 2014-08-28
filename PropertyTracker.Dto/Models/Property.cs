@@ -1,4 +1,6 @@
-﻿namespace PropertyTracker.Dto.Models
+﻿using System.Collections.Generic;
+
+namespace PropertyTracker.Dto.Models
 {
     public class Property
     {
@@ -9,7 +11,9 @@
         public string Country { get; set; }
         public double SquareFeet { get; set; }
 
-        public int UserId { get; set; }
-        public int CompanyId { get; set; }
+        
+        //public List<int> Users { get; set; }
+        //public int CompanyId { get; set; }
+        public Company Company { get; set; }
     }
 }

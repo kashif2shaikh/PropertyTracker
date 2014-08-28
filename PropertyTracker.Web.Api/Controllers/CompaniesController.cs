@@ -12,7 +12,7 @@ using PropertyTracker.Web.Entity.Models;
 
 namespace PropertyTracker.Web.Api.Controllers
 {
-    public class CompaniesController : ApiController
+    public class CompaniesController : BaseApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();
 

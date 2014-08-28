@@ -114,6 +114,10 @@ namespace PropertyTracker.Web.Api
                .To<PropertyDtoToPropertyEntityTypeMapping>()
                .InSingletonScope();
 
+            container.Bind<IAutoMapperTypeMapping>()
+                .To<PropertyEntityListToPropertyDtoListTypeMapping>()
+               .InSingletonScope();
+
             // Configure the registered mappings
             var autoMapperTypeMapper = new AutoMapperTypeMapping();
             autoMapperTypeMapper.Configure(container.GetAll<IAutoMapperTypeMapping>());

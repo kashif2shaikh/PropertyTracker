@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -30,7 +31,7 @@ namespace PropertyTracker.Web.Api.Controllers
     
     [RoutePrefixAttribute("api/users")]
     [Authorize]
-    public class UsersController : ApiController
+    public class UsersController : BaseApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();
 
@@ -96,8 +97,18 @@ namespace PropertyTracker.Web.Api.Controllers
             if (photoData == null)
             {
                 // TODO - learn how to serve static files, but this works for now
-                var root = HttpContext.Current.Server.MapPath("~/App_Data");
-                photoData = File.ReadAllBytes(root + "/nouser@2x.png");
+                //var root = HttpContext.Current.Server.MapPath("~/App_Data");
+                //photoData = File.ReadAllBytes(root + "/nouser@2x.png");
+
+                // get random photo
+                using (var client = new HttpClient())
+                using (var imageResponse = await client.GetAsync("http://lorempixel.com/256/256/people/" + userEntity.Username, cancelToken))
+                {
+                    if (imageResponse.IsSuccessStatusCode)
+                    {
+                        photoData = await imageResponse.Content.ReadAsByteArrayAsync();
+                    }                        
+                }                                    
             }
 
             //Image img = (System.Drawing.Image) userEntity.Photo;
@@ -310,12 +321,17 @@ namespace PropertyTracker.Web.Api.Controllers
             }
             base.Dispose(disposing);
         }
-
+       
         private void GenerateUserPhotoLink(PropertyTracker.Dto.Models.User userDto)
-        {            
-            //userDto.PhotoUrl = Url.Link("GetUserPhotoRoute", userDto.Id);
-            userDto.PhotoUrl = Url.Content(string.Format("{0}/photo", userDto.Id)); // DO NOT start url with "/" so it will make it relative to "api/users"
-            //userDto.PhotoUrl = "http://lorempixel.com/256/256/people/" + userDto.Username; // Will return random image each time
+        {
+            //
+            // For some reason Url.Content doesn't compute the base url properly for GET "api/users",
+            // so we just build it ourselves            
+            userDto.PhotoUrl = Url.Content(string.Format("{0}/api/users/{1}/photo", ControllerContext.Configuration.VirtualPathRoot, userDto.Id));
+            //userDto.PhotoUrl = Url.Link("GetUserPhotoRoute", userDto.Id); // returns null for GET /api/users
+
+            // If you want a random pic - use this.
+            //userDto.PhotoUrl = "http://lorempixel.com/256/256/people/" + userDto.Username; 
         }
 
         private void GenerateUserPhotoLinks(PropertyTracker.Dto.Models.UserList userDtoList)

@@ -17,7 +17,7 @@ namespace PropertyTracker.Web.Api.Controllers
 {
     [RoutePrefixAttribute("api/login")]
     [Authorize] // Enforce authorization, so that BasicAuthenticationMessageHandler will verify username/password.
-    public class LoginController : ApiController
+    public class LoginController : BaseApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();
 
@@ -31,19 +31,8 @@ namespace PropertyTracker.Web.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            // User is already logged in - verify.
-            if(!HttpContext.Current.User.Identity.IsAuthenticated)
-            {
-                return InternalServerError(new Exception("Consistency issue - user is supposed to be authenticated"));
-            }
-
-            var userIdentity = HttpContext.Current.User.Identity as UserIdentity;
-            if (userIdentity == null || userIdentity.User == null)
-            {
-                return InternalServerError(new Exception("Consistency issue - user identity not found"));
-            }
-            var userEntity = userIdentity.User;
+           
+            var userEntity = GetLoggedInUser();
          
             var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
             var loginResponse = new LoginResponse();

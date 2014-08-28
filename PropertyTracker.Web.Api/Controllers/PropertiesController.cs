@@ -6,24 +6,51 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AutoMapper;
+using FluentValidation.Results;
+using PropertyTracker.Dto.Validators;
+using PropertyTracker.Web.Api.Errors;
+using PropertyTracker.Web.Api.Security;
 using PropertyTracker.Web.Entity.Models;
 
 namespace PropertyTracker.Web.Api.Controllers
 {
-    public class PropertiesController : ApiController
+    [RoutePrefixAttribute("api/properties")]
+    [Authorize]
+    public class PropertiesController : BaseApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();
 
         // GET: api/Properties
-        public IQueryable<Property> GetProperties()
+        [HttpGet]
+        [Route("", Name = "GetPropertyListRoute")]    
+        [ResponseType(typeof(Dto.Models.PropertyList))]
+        public IHttpActionResult GetProperties()        
         {
-            return db.Properties;
+            var userEntity = GetLoggedInUser();
+
+            // Get all properties filtered out by the company based on logged-in user
+            var entityPropList = db.Properties.Where(p => p.CompanyId == userEntity.CompanyId);
+            var propertyDtoList = Mapper.Map<IEnumerable<Entity.Models.Property>, Dto.Models.PropertyList>(entityPropList);
+            
+            /* TODO
+            ValidationResult userListValidatorResult = new UserListValidator().Validate(userDtoList, ruleSet: "default,NoPassword");
+            if (!userListValidatorResult.IsValid)
+            {
+                return new ValidatorError("Error mapping user list DTO from database", HttpStatusCode.InternalServerError, userListValidatorResult, Request);
+            }
+            */
+
+            return Ok(propertyDtoList);
         }
 
         // GET: api/Properties/5
-        [ResponseType(typeof(Property))]
+        [HttpGet]
+        [Route("{id:int}", Name = "GetPropertyRoute")]     
+        [ResponseType(typeof(Dto.Models.Property))]
         public IHttpActionResult GetProperty(int id)
         {
             Property property = db.Properties.Find(id);
@@ -36,8 +63,10 @@ namespace PropertyTracker.Web.Api.Controllers
         }
 
         // PUT: api/Properties/5
+        [HttpPut]
+        [Route("{id:int}", Name = "UpdatePropertyRoute")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutProperty(int id, Property property)
+        public IHttpActionResult UpdateProperty(int id, Dto.Models.Property property)
         {
             if (!ModelState.IsValid)
             {
@@ -71,34 +100,38 @@ namespace PropertyTracker.Web.Api.Controllers
         }
 
         // POST: api/Properties
-        [ResponseType(typeof(Property))]
-        public IHttpActionResult PostProperty(Property property)
+        [HttpPost]
+        [Route("", Name = "NewPropertyRoute")]
+        [ResponseType(typeof(Dto.Models.Property))]
+        public IHttpActionResult NewProperty(Dto.Models.Property property)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Properties.Add(property);
+            //db.Properties.Add(property);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = property.Id }, property);
         }
 
         // DELETE: api/Properties/5
-        [ResponseType(typeof(Property))]
+        [HttpDelete]
+        [Route("{id:int}", Name = "DeletePropertyRoute")]
+        [ResponseType(typeof(Dto.Models.Property))]
         public IHttpActionResult DeleteProperty(int id)
         {
-            Property property = db.Properties.Find(id);
-            if (property == null)
+            var propertyEntity = db.Properties.Find(id);
+            if (propertyEntity == null)
             {
                 return NotFound();
             }
 
-            db.Properties.Remove(property);
+            db.Properties.Remove(propertyEntity);
             db.SaveChanges();
 
-            return Ok(property);
+            return Ok(propertyEntity);
         }
 
         protected override void Dispose(bool disposing)
