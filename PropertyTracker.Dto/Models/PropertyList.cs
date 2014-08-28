@@ -4,6 +4,6 @@ namespace PropertyTracker.Dto.Models
 {
     public class PropertyList
     {
-        public IList<Property> Properties;
+        public List<Property> Properties;
     }
 }

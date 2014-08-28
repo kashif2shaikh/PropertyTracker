@@ -115,52 +115,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\kashif.png" />
+    <Content Include="App_Data\nouser%402x.png" />
+    <Content Include="App_Data\nouser.png" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\PropertyTracker.Dto\Models\Company.cs">
-      <Link>Dto\Models\Company.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\IPaginatedList.cs">
-      <Link>Dto\Models\IPaginatedList.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\LoginRequest.cs">
-      <Link>Dto\Models\LoginRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\LoginResponse.cs">
-      <Link>Dto\Models\LoginResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\PaginatedPropertyList.cs">
-      <Link>Dto\Models\PaginatedPropertyList.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\Property.cs">
-      <Link>Dto\Models\Property.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\PropertyList.cs">
-      <Link>Dto\Models\PropertyList.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\User.cs">
-      <Link>Dto\Models\User.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Models\UserList.cs">
-      <Link>Dto\Models\UserList.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Validators\CompanyValidator.cs">
-      <Link>Dto\Validators\CompanyValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Validators\Extensions\IsNullValidator.cs">
-      <Link>Dto\Validators\Extensions\IsNullValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Validators\Extensions\ValidatorExtensions.cs">
-      <Link>Dto\Validators\Extensions\ValidatorExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Validators\UserListValidator.cs">
-      <Link>Dto\Validators\UserListValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\PropertyTracker.Dto\Validators\UserValidator.cs">
-      <Link>Dto\Validators\UserValidator.cs</Link>
-    </Compile>
     <Compile Include="App_Start\NinjectConfigurator.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -201,10 +162,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Processors\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PropertyTracker.Dto\PropertyTracker.Dto.csproj">
+      <Project>{fe02360a-f8d6-4906-a5d4-f5d6e6a49ddd}</Project>
+      <Name>PropertyTracker.Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PropertyTracker.Web.Models\PropertyTracker.Web.Entity.Models.csproj">
       <Project>{65134F42-13A6-40F9-ABE9-F211D4AB2933}</Project>
       <Name>PropertyTracker.Web.Entity.Models</Name>

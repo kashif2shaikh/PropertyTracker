@@ -7,6 +7,7 @@ namespace PropertyTracker.Dto.Models
         public int Id { get; set; }
         public string Fullname { get; set; }
         public string Username { get; set; }
+        public string PhotoUrl { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Password { get; set; } // This should only be populated when user is being updated/added from client. 

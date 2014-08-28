@@ -13,8 +13,9 @@ using PropertyTracker.UI.iOS.Views;
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
-    public partial class UserListViewController : MvxViewController
+    public partial class UserListViewController : MvxTableViewController
     {
+        private const string UserCellId = "UserCell";
         static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -39,16 +40,23 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             var logoutButton = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Bordered, null);
             NavigationItem.LeftBarButtonItem = logoutButton;
 
+            var source = new MvxStandardTableViewSource(TableView, UITableViewCellStyle.Subtitle, new NSString(UserCellId), "TitleText Fullname;DetailText Username;ImageUrl PhotoUrl;",
+                UITableViewCellAccessory.DisclosureIndicator);
+            TableView.Source = source;
+
             this.SetTitleAndTabBarItem(ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
             
             var set = this.CreateBindingSet<UserListViewController, UserListViewModel>();
+            set.Bind(source).To(vm => vm.Users);
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
             set.Bind(TabBarItem).For(v => v.Title).To(vm => vm.TabTitle);
             set.Bind(TabBarItem).For(v => v.BadgeValue).To(vm => vm.TabBadgeValue);
             set.Bind(Title).To(vm => vm.TabTitle);
-            set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);
+            set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);            
             set.Apply();
-            
+
+            // Data is fetched after
+            TableView.ReloadData();
         }
 
         public override void ViewWillAppear(bool animated)

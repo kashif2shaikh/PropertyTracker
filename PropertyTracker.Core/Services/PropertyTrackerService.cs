@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,7 +29,7 @@ namespace PropertyTracker.Core.Services
 
         // These are all relative to base
         private const string LoginRequestUrl= "login";
-        private const string UserRequestUrl = "users";
+        private const string UsersRequestUrl = "users";
         private const string PropertyRequestUrl = "property";
 
         private readonly HttpClient _client;
@@ -79,13 +80,141 @@ namespace PropertyTracker.Core.Services
             {
                 if (response.IsSuccessStatusCode == false)
                 {
-                    //Console.WriteLine("Request failed: " + response.ToString());
-                    // #todo we need some kind of logging to print out result
+                    Debug.WriteLine("Request failed: " + response.ToString());                   
                     _client.DefaultRequestHeaders.Authorization = null;
                     return null;
                 }
                 var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<LoginResponse>(content);
+                var parsedObject = JsonConvert.DeserializeObject<LoginResponse>(content);
+                if (parsedObject != null)
+                {
+                    LoggedIn = true;
+                }
+                else
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to login response");
+                    LoggedIn = false;
+                }
+                LoggedIn = parsedObject != null;
+                return parsedObject;
+            }
+        }
+
+        public async Task<UserList> GetUsers()
+        {
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            using (var response = await _client.GetAsync(UsersRequestUrl))
+            {
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Debug.WriteLine("Request failed: " + response.ToString());                                        
+                    return null;
+                }
+                var content = await response.Content.ReadAsStringAsync();
+
+                var parsedObject = JsonConvert.DeserializeObject<UserList>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to userlist response");                    
+                }
+                return parsedObject;
+            }
+        }
+
+        public async Task<User> GetUser(int id)
+        {
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            using (var response = await _client.GetAsync(string.Format("{0}/{1}", UsersRequestUrl, id)))            
+            {
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return null;
+                }
+                var content = await response.Content.ReadAsStringAsync();
+                var parsedObject = JsonConvert.DeserializeObject<User>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to user response");
+                }
+                return parsedObject;
+            }
+        }
+
+        public async Task<User> AddUser(User user)
+        {
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            var payload = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            using (var response = await _client.PostAsync(UsersRequestUrl, payload))
+            {
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return null;
+                }
+                var content = await response.Content.ReadAsStringAsync();
+                var parsedObject = JsonConvert.DeserializeObject<User>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to user response");
+                }
+                return parsedObject;
+            }
+        }
+
+        public async Task<bool> UpdateUser(User user)
+        {
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return false;
+            }
+            var payload = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            using (var response = await _client.PutAsync(string.Format("{0}/{1}", UsersRequestUrl, user.Id),payload))
+            {
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return false;
+                }
+                return true;                
+            }
+        }
+
+
+        public async Task<User> DeleteUser(int id)
+        {
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            using (var response = await _client.DeleteAsync(string.Format("{0}/{1}", UsersRequestUrl, id)))
+            {
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return null;
+                }
+                var content = await response.Content.ReadAsStringAsync();
+                var parsedObject = JsonConvert.DeserializeObject<User>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to user response");
+                }
+                return parsedObject;
             }
         }
     }

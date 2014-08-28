@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
@@ -36,7 +42,7 @@ namespace PropertyTracker.Web.Api.Controllers
         {
             var entityUserList = db.Users;
             var userDtoList = Mapper.Map<IEnumerable<Entity.Models.User>, Dto.Models.UserList>(entityUserList);
-
+            GenerateUserPhotoLinks(userDtoList);
             ValidationResult userListValidatorResult = new UserListValidator().Validate(userDtoList, ruleSet: "default,NoPassword");
             if (!userListValidatorResult.IsValid)
             {
@@ -59,6 +65,7 @@ namespace PropertyTracker.Web.Api.Controllers
             }
 
             var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            GenerateUserPhotoLink(userDto);
             ValidationResult userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
             
             if (!userValidatorResult.IsValid)
@@ -70,6 +77,85 @@ namespace PropertyTracker.Web.Api.Controllers
 
 
             return Ok(userDto);
+        }
+
+        // GET: api/Users/5/photo
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("{id:int}/photo", Name = "GetUserPhotoRoute")]        
+        public async Task<HttpResponseMessage> GetUserPhoto(int id)
+        {
+            var cancelToken = new CancellationToken();
+
+            Entity.Models.User userEntity = await db.Users.FindAsync(cancelToken, id);
+            if (userEntity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            var photoData = userEntity.Photo;
+            if (photoData == null)
+            {
+                // TODO - learn how to serve static files, but this works for now
+                var root = HttpContext.Current.Server.MapPath("~/App_Data");
+                photoData = File.ReadAllBytes(root + "/nouser@2x.png");
+            }
+
+            //Image img = (System.Drawing.Image) userEntity.Photo;
+            //byte[] imgData = img.ImageData;
+            //MemoryStream ms = new MemoryStream(userEntity.Photo);
+            var response = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new ByteArrayContent(photoData),              
+            };
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
+            return response;            
+        }
+
+        // Post: api/Users/5/photo
+        [HttpPost]
+        [Route("{id:int}/photo", Name = "UploadUserPhotoRoute")]
+
+        [ResponseType(typeof (void))]
+        public async Task<HttpResponseMessage> UploadUserPhoto(int id)
+        {
+            Entity.Models.User userEntity = db.Users.Find(id);
+            if (userEntity == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+       
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            try
+            {
+                // Read the form data.
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                // This illustrates how to get the file names.
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    Trace.WriteLine(file.Headers.ContentDisposition.FileName);
+                    Trace.WriteLine("Server file path: " + file.LocalFileName);
+
+                    // TODO - should be async read/write
+                    var info = new FileInfo(file.LocalFileName);
+                    userEntity.Photo = File.ReadAllBytes(info.FullName);
+                    db.SaveChanges();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (System.Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }            
         }
 
         // PUT: api/Users/5
@@ -164,6 +250,7 @@ namespace PropertyTracker.Web.Api.Controllers
             db.SaveChanges();
             
             userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            GenerateUserPhotoLink(userDto);
             userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
 
             if (!userValidatorResult.IsValid)
@@ -188,6 +275,7 @@ namespace PropertyTracker.Web.Api.Controllers
 
             // Get DTO object before deleting or this will fail.
             var userDto = Mapper.Map<Entity.Models.User, Dto.Models.User>(userEntity);
+            GenerateUserPhotoLink(userDto);
             ValidationResult userValidatorResult = new UserValidator().Validate(userDto, ruleSet: "default,NoPassword");
             if (!userValidatorResult.IsValid)
             {
@@ -223,6 +311,20 @@ namespace PropertyTracker.Web.Api.Controllers
             base.Dispose(disposing);
         }
 
+        private void GenerateUserPhotoLink(PropertyTracker.Dto.Models.User userDto)
+        {            
+            //userDto.PhotoUrl = Url.Link("GetUserPhotoRoute", userDto.Id);
+            userDto.PhotoUrl = Url.Content(string.Format("{0}/photo", userDto.Id)); // DO NOT start url with "/" so it will make it relative to "api/users"
+            //userDto.PhotoUrl = "http://lorempixel.com/256/256/people/" + userDto.Username; // Will return random image each time
+        }
+
+        private void GenerateUserPhotoLinks(PropertyTracker.Dto.Models.UserList userDtoList)
+        {
+            foreach (var userDto in userDtoList.Users)
+            {
+                GenerateUserPhotoLink(userDto);
+            }
+        }
         private bool UserExists(int id)
         {
             return db.Users.Count(e => e.Id == id) > 0;
