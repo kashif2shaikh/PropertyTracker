@@ -39,39 +39,26 @@ namespace PropertyTracker.Web.Api.Controllers
         {
             loggedInUser = GetLoggedInUser();
 
-            if (requestParams != null)
+            if (requestParams == null)
             {
-                Trace.WriteLine("GetProperties: pageParams:" + requestParams.ToString());
-                var result = new PropertyListRequestValidator().Validate(requestParams);
-                if (!result.IsValid)
-                {
-                    return new ValidatorError("Error validating page request parameters", HttpStatusCode.BadRequest, result, Request);
-                }
-            }           
-
-            // Get properties based on parameters we got
-            var entityPropList = GetPropertiesQuery(requestParams);
-            var propertyDtoList = Mapper.Map<IEnumerable<Entity.Models.Property>, Dto.Models.PropertyList>(entityPropList);
-            GenerateUserPhotoLinks(propertyDtoList);
-
-            if (requestParams != null)
-            {
-                // If requestParams is not empty, we should have received page info.
-                propertyDtoList = new PaginatedPropertyList
-                {
-                    Properties = propertyDtoList.Properties,
-                    CurrentPage = requestParams.CurrentPage,
-                    PageSize = requestParams.PageSize,
-                    TotalPages = (int) Math.Ceiling((double) propertyDtoList.Properties.Count/(double) requestParams.PageSize),
-                    TotalItems = propertyDtoList.Properties.Count
-                };
+                return BadRequest("Property list request parameters are missing");
             }
-                                 
-            return Ok(propertyDtoList);
+
+            
+            var result = new PropertyListRequestValidator().Validate(requestParams);
+            if (!result.IsValid)
+            {
+                return new ValidatorError("Error validating page request parameters", HttpStatusCode.BadRequest, result, Request);
+            }
+                 
+            // Get properties based on parameters we got
+            var paginatedList = GetPaginatedPropertyList(requestParams);
+
+            return Ok(paginatedList);
         }
 
         // #future: If we want to build on this query - make return type IQueryable<>
-        private IEnumerable<Entity.Models.Property> GetPropertiesQuery(PropertyListRequest requestParams = null)
+        private IQueryable<Entity.Models.Property> PropertiesQuery(PropertyListRequest requestParams = null)
         {
             // Only return properties that logged in user belongs to.
             var query = db.Properties.Where(p => p.CompanyId == loggedInUser.CompanyId);
@@ -119,11 +106,30 @@ namespace PropertyTracker.Web.Api.Controllers
                     // Skip Needs orderby clause
                     query = query.OrderBy(p => p.Name);
                 }
-
-                // Finally page request - this parameter is mandatory if request params were given
-                query = query.Skip(requestParams.CurrentPage * requestParams.PageSize).Take(requestParams.PageSize);
             }
             return query;
+        }
+
+        private PaginatedPropertyList GetPaginatedPropertyList(PropertyListRequest requestParams)
+        {
+            var query = PropertiesQuery(requestParams);
+            var totalItems = (double)query.Count();
+
+            query = query.Skip(requestParams.CurrentPage * requestParams.PageSize).Take(requestParams.PageSize);            
+            
+            var propertyDtoList = Mapper.Map<IQueryable<Entity.Models.Property>, List<Dto.Models.Property>>(query);
+            GenerateUserPhotoLinks(propertyDtoList);
+
+            // If requestParams is not empty, we should have received page info.
+            var paginatedList = new PaginatedPropertyList
+            {
+                Properties = propertyDtoList,
+                CurrentPage = requestParams.CurrentPage,
+                PageSize = requestParams.PageSize,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)requestParams.PageSize),
+                TotalItems = (int)totalItems
+            };
+            return paginatedList;
         }
 
 

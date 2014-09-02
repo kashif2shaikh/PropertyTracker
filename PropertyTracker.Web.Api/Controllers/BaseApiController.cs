@@ -62,6 +62,14 @@ namespace PropertyTracker.Web.Api.Controllers
             }            
         }
 
+        protected void GenerateUserPhotoLinks(IEnumerable<PropertyTracker.Dto.Models.Property> propertyDtoList)
+        {
+            foreach (var propertyDto in propertyDtoList)
+            {
+                GenerateUserPhotoLinks(propertyDto.Users);
+            }
+        }
+
       
     }
 }
