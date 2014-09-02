@@ -7,6 +7,9 @@ namespace PropertyTracker.Dto.Validators
     {
         public UserListValidator()
         {
+            // First set the cascade mode
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(list => list.Users).SetCollectionValidator(new UserValidator());
         }
     }

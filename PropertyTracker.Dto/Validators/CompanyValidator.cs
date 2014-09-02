@@ -7,6 +7,9 @@ namespace PropertyTracker.Dto.Validators
     {
         public CompanyValidator()
         {
+            // First set the cascade mode
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(company => company.Id).NotEmpty();
             RuleFor(company => company.Name).NotEmpty();
             RuleFor(company => company.Country).NotEmpty();

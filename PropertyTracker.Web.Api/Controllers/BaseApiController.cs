@@ -12,7 +12,7 @@ namespace PropertyTracker.Web.Api.Controllers
 {
     public class BaseApiController : ApiController
     {
-        public User GetLoggedInUser()
+        protected User GetLoggedInUser()
         {
             // User is already logged in - verify.
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
@@ -28,5 +28,40 @@ namespace PropertyTracker.Web.Api.Controllers
             }
             return userIdentity.User;
         }
+
+        protected void GenerateUserPhotoLink(PropertyTracker.Dto.Models.User userDto)
+        {
+            //
+            // For some reason Url.Content doesn't compute the base url properly for GET "api/users",
+            // so we just build it ourselves            
+            userDto.PhotoUrl = Url.Content(string.Format("{0}/api/users/{1}/photo", ControllerContext.Configuration.VirtualPathRoot, userDto.Id));
+            //userDto.PhotoUrl = Url.Link("GetUserPhotoRoute", userDto.Id); // returns null for GET /api/users
+
+            // If you want a random pic - use this.
+            //userDto.PhotoUrl = "http://lorempixel.com/256/256/people/" + userDto.Username; 
+        }
+
+        protected void GenerateUserPhotoLinks(IEnumerable<Dto.Models.User> userList)
+        {
+            foreach (var userDto in userList)
+            {
+                GenerateUserPhotoLink(userDto);
+            }
+        }
+
+        protected void GenerateUserPhotoLinks(PropertyTracker.Dto.Models.UserList userDtoList)
+        {
+            GenerateUserPhotoLinks(userDtoList.Users);            
+        }
+
+        protected void GenerateUserPhotoLinks(PropertyTracker.Dto.Models.PropertyList propertyDtoList)
+        {
+            foreach (var propertyDto in propertyDtoList.Properties)
+            {
+                GenerateUserPhotoLinks(propertyDto.Users);
+            }            
+        }
+
+      
     }
 }

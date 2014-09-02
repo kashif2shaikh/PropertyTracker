@@ -2,7 +2,7 @@
 
 namespace PropertyTracker.Dto.Validators.Extensions
 {
-    public class IsNullValidator : PropertyValidator
+    public class IsNullValidator : FluentValidation.Validators.PropertyValidator
     {
 
         public IsNullValidator()

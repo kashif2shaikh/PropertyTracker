@@ -200,13 +200,14 @@ namespace PropertyTracker.Web.Api.Controllers
             db.Users.Attach(userEntity);
             db.Entry(userEntity).State = EntityState.Modified;
 
-            /* Properties no longer part of User DTO
-            db.Entry(userEntity).Collection(u => u.Properties).Load(); // force load         
-            var propertyIdList = userDto.Properties;
-            var newProperties = db.Properties.Where(p => propertyIdList.Contains(p.Id)).ToList();
-            // For this to work, you must load existing Property collection 
-            userEntity.Properties = newProperties;
-             */
+            if (userDto.Properties != null)
+            {
+                db.Entry(userEntity).Collection(u => u.Properties).Load(); // force load         
+                var propertyIdList = userDto.Properties.Select(p => p.Id);
+                var newProperties = db.Properties.Where(p => propertyIdList.Contains(p.Id)).ToList();
+                
+                userEntity.Properties = newProperties; // for this to work you must force load existing Property collection
+            }
 
             try
             {
@@ -246,17 +247,21 @@ namespace PropertyTracker.Web.Api.Controllers
 
             var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
 
+            if (userDto.Properties != null)
+            {
+                var propertyIdList = userDto.Properties.Select(p => p.Id);
+                var properties = db.Properties.Where(p => propertyIdList.Contains(p.Id));
+                foreach (var p in properties)
+                {
+                    p.Users.Add(userEntity);
+                }
+            }
+
+
             var company = db.Companies.Find(userDto.Company.Id);
             company.Users.Add(userEntity);
 
-            /* Properties no longer part of User DTO
-            var propertyIdList = userDto.Properties;
-            var properties = db.Properties.Where(p => propertyIdList.Contains(p.Id));
-            foreach (var p in properties)
-            {
-                p.Users.Add(userEntity);
-            }
-            */
+         
             
             db.SaveChanges();
             
@@ -300,14 +305,7 @@ namespace PropertyTracker.Web.Api.Controllers
                 p.Users.Remove(userEntity);
             }
             db.Users.Remove(userEntity);
-            //db.Entry(userEntity).Collection(u => u.Properties).Load(); // force load
-            /*
-            foreach (var p in userEntity.Properties)
-            {
-                p.Users.Remove(userEntity);
-            }
-            */
-
+            
             db.SaveChanges();
            
             return Ok(userDto);
@@ -322,25 +320,7 @@ namespace PropertyTracker.Web.Api.Controllers
             base.Dispose(disposing);
         }
        
-        private void GenerateUserPhotoLink(PropertyTracker.Dto.Models.User userDto)
-        {
-            //
-            // For some reason Url.Content doesn't compute the base url properly for GET "api/users",
-            // so we just build it ourselves            
-            userDto.PhotoUrl = Url.Content(string.Format("{0}/api/users/{1}/photo", ControllerContext.Configuration.VirtualPathRoot, userDto.Id));
-            //userDto.PhotoUrl = Url.Link("GetUserPhotoRoute", userDto.Id); // returns null for GET /api/users
-
-            // If you want a random pic - use this.
-            //userDto.PhotoUrl = "http://lorempixel.com/256/256/people/" + userDto.Username; 
-        }
-
-        private void GenerateUserPhotoLinks(PropertyTracker.Dto.Models.UserList userDtoList)
-        {
-            foreach (var userDto in userDtoList.Users)
-            {
-                GenerateUserPhotoLink(userDto);
-            }
-        }
+       
         private bool UserExists(int id)
         {
             return db.Users.Count(e => e.Id == id) > 0;

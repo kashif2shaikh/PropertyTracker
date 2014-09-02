@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PropertyTracker.Dto.Models
 {
@@ -10,10 +11,12 @@ namespace PropertyTracker.Dto.Models
         public string StateProvince { get; set; }
         public string Country { get; set; }
         public double SquareFeet { get; set; }
-
         
-        //public List<int> Users { get; set; }
-        //public int CompanyId { get; set; }
-        public Company Company { get; set; }
+        public int CompanyId { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<User> Users { get; set; }
+        
+        //public Company Company { get; set; }
     }
 }
