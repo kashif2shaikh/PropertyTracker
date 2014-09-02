@@ -175,6 +175,7 @@ namespace PropertyTracker.Web.Api.Security
             if (user.Password != password)
             {
                 Console.WriteLine("Password does not match for username: {0}", username);
+                return false;
             }
 
 

@@ -70,7 +70,8 @@ namespace PropertyTracker.Web.Api.Controllers
             return Ok(propertyDtoList);
         }
 
-        private IQueryable<Entity.Models.Property> GetPropertiesQuery(PropertyListRequest requestParams = null)
+        // #future: If we want to build on this query - make return type IQueryable<>
+        private IEnumerable<Entity.Models.Property> GetPropertiesQuery(PropertyListRequest requestParams = null)
         {
             // Only return properties that logged in user belongs to.
             var query = db.Properties.Where(p => p.CompanyId == loggedInUser.CompanyId);
@@ -126,6 +127,7 @@ namespace PropertyTracker.Web.Api.Controllers
         }
 
 
+        /* Obsolete: Properties are now returned part of User DTO
             // GET: api/users/5/properties
         [HttpGet]
         [Route("~/api/users/{userId:int}/properties", Name = "GetPropertiesByUserRoute")]
@@ -157,6 +159,7 @@ namespace PropertyTracker.Web.Api.Controllers
 
             return Ok(propertyDtoList);
         }
+        */
 
         // GET: api/Properties/5
         [HttpGet]
