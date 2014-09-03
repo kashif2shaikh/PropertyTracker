@@ -51,8 +51,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             set.Bind(logoutButton).To(vm => vm.LogoutCommand);
             set.Bind(TabBarItem).For(v => v.Title).To(vm => vm.TabTitle);
             set.Bind(TabBarItem).For(v => v.BadgeValue).To(vm => vm.TabBadgeValue);
-            set.Bind(Title).To(vm => vm.TabTitle);
-            set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);            
+            //set.Bind(Title).To(vm => vm.TabTitle);
+            //set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);            
             set.Apply();
 
             // Data is fetched after

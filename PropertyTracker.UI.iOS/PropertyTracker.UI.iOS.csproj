@@ -184,6 +184,7 @@
     <None Include="packages.config" />
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
     <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
+    <InterfaceDefinition Include="Views\PropertyCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -197,6 +198,10 @@
     <Compile Include="Common\ViewControllerExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="P.cs" />
+    <Compile Include="P.designer.cs">
+      <DependentUpon>P.cs</DependentUpon>
+    </Compile>
     <Compile Include="PropertyTracker.UI.iOSViewController.cs" />
     <Compile Include="PropertyTracker.UI.iOSViewController.designer.cs">
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
@@ -219,6 +224,10 @@
     <Compile Include="ViewControllers\PropertyListViewController.cs" />
     <Compile Include="ViewControllers\PropertyListViewController.designer.cs">
       <DependentUpon>PropertyListViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyCell.cs" />
+    <Compile Include="Views\PropertyCell.designer.cs">
+      <DependentUpon>PropertyCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

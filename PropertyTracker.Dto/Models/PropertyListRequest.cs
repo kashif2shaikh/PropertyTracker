@@ -36,7 +36,12 @@ namespace PropertyTracker.Dto.Models
             CurrentPage = 0;
             PageSize = DefaultPageSize;
 
+            SortColumn = NameColumn;
             SortAscending = true;
+
+            NameFilter = String.Empty;
+            CityFilter = String.Empty;
+            StateFilter = String.Empty;
         }
     }
 }

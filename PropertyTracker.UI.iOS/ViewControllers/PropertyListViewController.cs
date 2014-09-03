@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using Cirrious.MvvmCross.Binding.BindingContext;
+using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Touch.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -12,8 +13,10 @@ using PropertyTracker.UI.iOS.Views;
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
-	public partial class PropertyListViewController : MvxViewController
+	public partial class PropertyListViewController : MvxTableViewController
 	{
+        private const string PropertyCellId = "PropertyCell";
+
 		static bool UserInterfaceIdiomIsPhone
 		{
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
@@ -31,7 +34,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		}
 
 		public override void ViewDidLoad()
-		{
+		{            
 			base.ViewDidLoad();
 			//NavigationController.NavigationBarHidden = false;
 
@@ -40,7 +43,12 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 			this.SetTitleAndTabBarItem(ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
 
+            var source = new MvxStandardTableViewSource(TableView, UITableViewCellStyle.Subtitle, new NSString(PropertyCellId), "TitleText Name;DetailText City",
+                UITableViewCellAccessory.DisclosureIndicator);
+            TableView.Source = source;
+
 			var set = this.CreateBindingSet<PropertyListViewController, PropertyListViewModel>();
+            set.Bind(source).To(vm => vm.PaginatedPropertyListModel.Properties);
 			set.Bind(logoutButton).To(vm => vm.LogoutCommand);
 			set.Bind(TabBarItem).For(v => v.Title).To(vm => vm.TabTitle);
 			set.Bind(TabBarItem).For(v => v.BadgeValue).To(vm => vm.TabBadgeValue);
@@ -50,6 +58,9 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			set.Apply();
 
 			//NavigationItem.Title;
+
+            // Data is fetched after
+            TableView.ReloadData();
 
 
 		}

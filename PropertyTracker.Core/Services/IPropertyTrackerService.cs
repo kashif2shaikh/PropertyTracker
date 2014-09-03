@@ -19,6 +19,7 @@ namespace PropertyTracker.Core.Services
         Task<User> DeleteUser(int id);
 
         // Properties API
+        Task<PaginatedPropertyList> GetProperties(PropertyListRequest requestParams);
 
     }
 }

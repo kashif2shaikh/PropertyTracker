@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Flurl;
 using Newtonsoft.Json;
 using PropertyTracker.Dto.Models;
 
@@ -30,7 +31,7 @@ namespace PropertyTracker.Core.Services
         // These are all relative to base
         private const string LoginRequestUrl= "login";
         private const string UsersRequestUrl = "users";
-        private const string PropertyRequestUrl = "property";
+        private const string PropertiesRequestUrl = "properties";
 
         private readonly HttpClient _client;
         private readonly HttpClientHandler _handler;
@@ -216,6 +217,36 @@ namespace PropertyTracker.Core.Services
                 }
                 return parsedObject;
             }
+        }
+
+        public async Task<PaginatedPropertyList> GetProperties(PropertyListRequest requestParams)
+        {
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+
+            var url = PropertiesRequestUrl.SetQueryParams(requestParams);
+
+
+            using (var response = await _client.GetAsync(url))            
+            {
+                if (response.IsSuccessStatusCode == false)
+                {
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return null;
+                }
+                var content = await response.Content.ReadAsStringAsync();
+
+                var parsedObject = JsonConvert.DeserializeObject<PaginatedPropertyList>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to userlist response");
+                }
+                return parsedObject;
+            }
+           
         }
     }
 }

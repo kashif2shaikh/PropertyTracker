@@ -16,7 +16,7 @@ namespace PropertyTracker.Core.ViewModels
         private readonly IPropertyTrackerService _propertyTrackerService;
         private readonly IUserDialogService _dialogService;    
 
-        public UserListViewModel(IPropertyTrackerService service,  IUserDialogService dialogService) : base()
+        public UserListViewModel(IPropertyTrackerService service,  IUserDialogService dialogService)
         {
             _propertyTrackerService = service;
             _dialogService = dialogService;
