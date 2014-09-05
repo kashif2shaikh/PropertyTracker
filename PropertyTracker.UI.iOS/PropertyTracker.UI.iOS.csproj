@@ -225,9 +225,6 @@
     <Compile Include="Views\PropertyListCell.designer.cs">
       <DependentUpon>PropertyListCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppDelegate.designer.cs">
-      <DependentUpon>AppDelegate.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewControllers\PropertyListOptionsViewController.cs" />
     <Compile Include="ViewControllers\PropertyListOptionsViewController.designer.cs">
       <DependentUpon>PropertyListOptionsViewController.cs</DependentUpon>
