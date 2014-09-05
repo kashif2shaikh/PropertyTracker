@@ -12,72 +12,116 @@ using PropertyTracker.Dto.Models;
 
 namespace PropertyTracker.Core.ViewModels
 {
-    public class PaginatedPropertyListModel : MvxNotifyPropertyChanged
+    public class PaginatedPropertyListModel //: MvxNotifyPropertyChanged
     {
         private readonly IPropertyTrackerService _propertyTrackerService;
         private readonly IUserDialogService _dialogService;
 
-        public PaginatedPropertyListModel(IPropertyTrackerService service,  IUserDialogService dialogService)
+		public ObservableCollection<Property> Properties { get; set;}
+
+		public int CurrentPage { get; set;}
+
+		public int PageSize { get; set;}
+
+		public string NameFilter { get; set;}
+
+		public string CityFilter { get; set;}
+
+		public string StateFilter { get; set;}
+
+		public string SortColumn { get; set;}
+
+		public bool SortAscending { get; set;}
+
+		public int TotalPages { get; set; }
+
+		public PaginatedPropertyListModel(IPropertyTrackerService service,  IUserDialogService dialogService)
         {
             _propertyTrackerService = service;
             _dialogService = dialogService;
 
-            Properties = new ObservableCollection<Property>();
+			Reset ();
         }
 
-        private ObservableCollection<Property> _properties;
-        public ObservableCollection<Property> Properties
-        {
-            get { return _properties; }
-            set 
-            { 
-                _properties = value;
-                RaisePropertyChanged(() => Properties);
-            }
-        }
-       
-        public IMvxCommand GetPropertiesCommand
-        {
-            get { return new MvxCommand(GetProperties); }
-        }
-        
-        public IMvxCommand GetMorePropertiesCommand
-        {
-            get { return new MvxCommand(GetMoreProperties); }
-        }
-
-        public PropertyListRequest RequestParams { get; set; }
+		public void Reset()
+		{
+			CurrentPage = 0;
+			PageSize = PropertyListRequest.DefaultPageSize;
+			NameFilter = "";
+			CityFilter = "";
+			StateFilter = "";
+			SortColumn = PropertyListRequest.NameColumn;
+			SortAscending = true;
+		}
+			                							     
         public PaginatedPropertyList LastResult;
+       
 
-        public async void GetProperties()
-        {
-            RequestParams = new PropertyListRequest
-            {
-                CurrentPage = 0,
-                PageSize = 25,
-                SortColumn = PropertyListRequest.CityColumn,
-                SortAscending = true,
-                //NameFilter = "Beach",
-                //CityFilter = "San Diego",
-                //StateFilter = "California"                
-            };
-            LastResult = await GetProperties(RequestParams);
-            Properties = new ObservableCollection<Property>(LastResult.Properties);             
-        }
+		public async void GetProperties()
+		{
+			CurrentPage = 0;
 
-        public async void GetMoreProperties()
-        {
-            RequestParams.CurrentPage += 1;
-            LastResult = await GetProperties(RequestParams);
-            foreach (var p in LastResult.Properties)
-            {
-                Properties.Add(p);
-            }
-        }
+			var requestParams = new PropertyListRequest
+			{
+				CurrentPage = CurrentPage,
+				PageSize = PageSize,
+				NameFilter = NameFilter,
+				CityFilter = CityFilter,
+				StateFilter = StateFilter,
+				SortColumn = SortColumn,
+				SortAscending = SortAscending,
+			};
+			
+			var result = await GetPropertiesAsync(requestParams);
+			if(result != null)
+			{
+				Properties.Clear ();
+				foreach (var p in result.Properties)
+				{
+					Properties.Add(p);
+				}
+				LastResult = result;
+				TotalPages = LastResult.TotalPages;
+			}
+		}				
 
-        public async Task<PaginatedPropertyList> GetProperties(PropertyListRequest requestParams)
+		public async void GetMoreProperties( )
+		{
+			CurrentPage += 1;
+
+			var requestParams = new PropertyListRequest
+			{
+				CurrentPage = CurrentPage,
+				PageSize = PageSize,
+				NameFilter = NameFilter,
+				CityFilter = CityFilter,
+				StateFilter = StateFilter,
+				SortColumn = SortColumn,
+				SortAscending = SortAscending,
+			};
+
+			requestParams.CurrentPage += 1;
+			var result = await GetPropertiesAsync(requestParams);
+			if(result != null) 
+			{
+				foreach (var p in result.Properties)
+				{
+					Properties.Add(p);
+				}
+				LastResult = result;
+			}
+
+		}
+
+        private async Task<PaginatedPropertyList> GetPropertiesAsync(PropertyListRequest requestParams)
         {
             PaginatedPropertyList response = null;
+
+			if(LastResult != null && requestParams.CurrentPage >= TotalPages) {
+				_dialogService.Alert("", "All properties have been loaded", "OK");
+				return null;
+			}
+			
                       
             using (_dialogService.Loading("Getting properties..."))
                 response = await _propertyTrackerService.GetProperties(requestParams);

@@ -34,13 +34,6 @@
     </MtouchI18n>
     <StartupObject>
     </StartupObject>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchEnableGenericValueTypeSharing>True</MtouchEnableGenericValueTypeSharing>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -113,10 +106,6 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Acr.MvvmCross.Plugins.UserDialogs, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.0\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.dll</HintPath>
-    </Reference>
     <Reference Include="Acr.MvvmCross.Plugins.UserDialogs.Touch">
       <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.0\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.Touch.dll</HintPath>
     </Reference>
@@ -170,6 +159,9 @@
     </Reference>
     <Reference Include="Cirrious.MvvmCross">
       <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.MvvmCross.Plugins.UserDialogs">
+      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.0\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +220,17 @@
     <Compile Include="Views\PropertyCell.cs" />
     <Compile Include="Views\PropertyCell.designer.cs">
       <DependentUpon>PropertyCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyListCell.cs" />
+    <Compile Include="Views\PropertyListCell.designer.cs">
+      <DependentUpon>PropertyListCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AppDelegate.designer.cs">
+      <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\PropertyListOptionsViewController.cs" />
+    <Compile Include="ViewControllers\PropertyListOptionsViewController.designer.cs">
+      <DependentUpon>PropertyListOptionsViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

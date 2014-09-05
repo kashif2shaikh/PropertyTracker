@@ -23,8 +23,9 @@ namespace PropertyTracker.UI.iOS.Views
 
 			this.DelayBind(() => {
                 var set = this.CreateBindingSet<PropertyCell, Property>();
-                set.Bind(this.TextLabel).To(property => property.Name);
-                set.Bind(this.DetailTextLabel).To(property => property.City);
+				set.Bind(PropertyName).To(property => property.Name);
+                set.Bind(PropertyCity).To(property => property.City);
+				set.Bind(PropertyStateProvince).To(property => property.StateProvince);
                 //set.Bind(_imageViewLoader).To (property => property.ImageUrl);
 				set.Apply ();
 			});

@@ -54,6 +54,13 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             //NavigationController.NavigationBarHidden = false;
         }
 
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear (animated);
+			ViewModel.Username = "kshaikh";
+			ViewModel.Password = "1234";
+		}
+
         /* IViewPresenter Methods */
         public void ViewPresenterAdded()
         {
