@@ -20,8 +20,8 @@
                                 <segue destination="PuX-7u-jJT" kind="embed" identifier="PropertyListOptionsSegue" id="U3o-QF-FoV"/>
                             </connections>
                         </containerView>
-                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="soM-zK-p9o">
-                            <rect key="frame" x="0.0" y="242" width="320" height="44"/>
+                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="soM-zK-p9o" fixedFrame="YES">
+                            <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <items>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="4hL-DR-nfa"/>
@@ -93,7 +93,7 @@
         <scene sceneID="b5R-M8-1fn">
             <objects>
                 <tableViewController storyboardIdentifier="PropertyListOptionsViewController" id="PuX-7u-jJT" customClass="PropertyListOptionsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="SDc-6S-4Ye">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="SDc-6S-4Ye" allowsSelection="NO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="176"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -217,9 +217,11 @@
                         <outlet property="SortLabel" destination="IQH-GU-Q6s" id="15t-Mv-Dpz"/>
                         <outlet property="SortOrderSwitch" destination="O6a-Eu-UkH" id="IwH-hB-7Dj"/>
                         <outlet property="StateProvFilterLabel" destination="RuQ-Fo-I7u" id="wXS-HW-1Iq"/>
+                        <outlet property="ad" destination="56" id="name-outlet-56"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZhH-Xt-Juk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="56" numberOfTapsRequired="1"/>
             </objects>
             <point key="canvasLocation" x="412" y="-32"/>
         </scene>
@@ -229,4 +231,11 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <resources>
+        <image name="Default-568h.png" width="640" height="1136"/>
+        <image name="Images\UserListIcon.png" width="64" height="43"/>
+        <image name="Images\UserIcon.png" width="48" height="43"/>
+        <image name="Images\PropertyListIcon.png" width="46" height="54"/>
+        <image name="Images\PropertyIcon.png" width="28" height="48"/>
+    </resources>
 </document>

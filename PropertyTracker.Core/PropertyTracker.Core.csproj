@@ -37,9 +37,13 @@
     <Compile Include="PresentationHints\LogoutPresentationHint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Services\GeoDataService.cs" />
+    <Compile Include="Services\IGeoDataService.cs" />
     <Compile Include="Services\IPropertyTrackerService.cs" />
     <Compile Include="Services\PropertyTrackerService.cs" />
+    <Compile Include="ViewModels\CityPickerViewModel.cs" />
     <Compile Include="ViewModels\PaginatedPropertyListModel.cs" />
+    <Compile Include="ViewModels\StatePickerViewModel.cs" />
     <Compile Include="ViewModels\TabItemModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -80,15 +80,27 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 			set.Apply();
 
-			_optionsVC.SearchBar.SearchButtonClicked += (object sender, EventArgs e) => {
-				_optionsVC.SearchBar.ResignFirstResponder ();
-			};
+            // Because Options VC is not an MVVM-based view controller, we have to handle the event handling manually.
+            // #future make this options VC backed by a MVVM ViewModel, so we don't have to do this crap here.
+			_optionsVC.SearchBar.SearchButtonClicked += (object sender, EventArgs e) => _optionsVC.SearchBar.ResignFirstResponder ();
 				
 			_optionsVC.SearchBar.CancelButtonClicked += (object sender, EventArgs e) => {
 				// Bound variable - this will clear search bar
 				ViewModel.NameFilter = "";
 				_optionsVC.SearchBar.ResignFirstResponder ();
 			};
+
+            _optionsVC.CityFilterTapGestureRecognizer.AddTarget(() =>
+            {
+                var controller = this.CreateViewControllerFor<CityPickerViewModel>() as UIViewController;
+                NavigationController.PushViewController(controller, true);
+            });
+
+            _optionsVC.StateFilterTapGestureRecognizer.AddTarget(() =>
+            {
+                var controller = this.CreateViewControllerFor<StatePickerViewModel>() as UIViewController;
+                NavigationController.PushViewController(controller, true);
+            });
 
 			_optionsVC.SortColumnSegmentControl.ValueChanged += (object sender, EventArgs e) => {
 				var segment = sender as UISegmentedControl;
@@ -164,7 +176,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
 		{
-			// This is called before ViewDidLoad
+			// This is called before ViewDidLoad, and this is a container view 
+            // within this view controller - so it does not have a ViewModel 
 			if(segue.Identifier == "PropertyListOptionsSegue")
 			{
 				_optionsVC = segue.DestinationViewController as PropertyListOptionsViewController;

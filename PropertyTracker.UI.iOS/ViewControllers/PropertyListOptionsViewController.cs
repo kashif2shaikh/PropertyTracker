@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Drawing;
-
+using Cirrious.MvvmCross.Touch.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 

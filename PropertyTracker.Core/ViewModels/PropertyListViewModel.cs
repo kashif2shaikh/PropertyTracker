@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Acr.MvvmCross.Plugins.UserDialogs;
 using Cirrious.CrossCore;
+using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Core.PresentationHints;
 using PropertyTracker.Core.Services;
@@ -21,16 +22,20 @@ namespace PropertyTracker.Core.ViewModels
     {
         private readonly IPropertyTrackerService _propertyTrackerService;
         private readonly IUserDialogService _dialogService;
-
+        private readonly IMvxMessenger _messenger;
+        
     
-
 		private PropertyListRequest _requestParams { get; set; }
         private PaginatedPropertyListModel _listModel { get; set; }
+
         
-        public PropertyListViewModel(IPropertyTrackerService service,  IUserDialogService dialogService) : base()
+
+        public PropertyListViewModel(IPropertyTrackerService service, IUserDialogService dialogService, IMvxMessenger messenger)
+            : base()
         {
             _propertyTrackerService = service;
             _dialogService = dialogService;
+            _messenger = messenger;
 
             TabTitle = "Properties";
             TabImageName = "PropertyListIcon.png";
@@ -38,8 +43,36 @@ namespace PropertyTracker.Core.ViewModels
             TabBadgeValue = null;
 
 			_properties = new ObservableCollection<Property> ();
-			_listModel = new PaginatedPropertyListModel(service, dialogService);
-			_listModel.Properties = _properties;
+			_listModel = new PaginatedPropertyListModel(service, dialogService)
+			{
+			    Properties = _properties
+			};
+
+            RegisterSubscriptions();        
+        }
+
+        public override void Start()
+        {
+            base.Start();
+            _listModel.GetProperties();
+        }
+
+        private MvxSubscriptionToken _cityPickerToken;
+        private MvxSubscriptionToken _statePickerToken;
+        private void RegisterSubscriptions()
+        {
+            _cityPickerToken = _messenger.Subscribe<CityPickerMessage>(OnCityPickerMessage);
+            _statePickerToken = _messenger.Subscribe<StatePickerMessage>(OnStatePickerMessage);    
+        }
+
+        private void OnCityPickerMessage(CityPickerMessage msg)
+        {
+            CityFilter = msg.City;
+        }
+
+        private void OnStatePickerMessage(StatePickerMessage msg)
+        {
+            StateFilter = msg.State;
         }
 
 		private void Reset()
@@ -56,13 +89,7 @@ namespace PropertyTracker.Core.ViewModels
 			RaisePropertyChanged(() => SortAscending);
 		}
 
-       
-        public override void Start()
-        {
-            base.Start();
-			_listModel.GetProperties ();
-        }
-
+            
 		private ObservableCollection<Property> _properties;
 		public ObservableCollection<Property> Properties
 		{
@@ -120,12 +147,12 @@ namespace PropertyTracker.Core.ViewModels
 			_tokenSource = new CancellationTokenSource ();
 			try
 			{
-				await Task.Delay (500, _tokenSource.Token);
+				await Task.Delay (500 /*ms*/, _tokenSource.Token);
 				_listModel.GetProperties();
 			}
 			catch (TaskCanceledException e)
 			{
-
+                // eat exception when delay is aborted
 			}
 		}
 			

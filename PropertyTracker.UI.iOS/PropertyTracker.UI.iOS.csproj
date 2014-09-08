@@ -198,6 +198,7 @@
     <Compile Include="PropertyTracker.UI.iOSViewController.designer.cs">
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\CityPickerViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>

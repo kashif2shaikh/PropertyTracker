@@ -117,10 +117,11 @@ namespace PropertyTracker.Core.ViewModels
         {
             PaginatedPropertyList response = null;
 
-			if(LastResult != null && requestParams.CurrentPage >= TotalPages) {
-				_dialogService.Alert("", "All properties have been loaded", "OK");
-				return null;
-			}
+            
+            //if(LastResult != null && requestParams.CurrentPage >= TotalPages) {
+            //    _dialogService.Alert("", "All properties have been loaded", "OK");
+            //    return null;
+            //}
 			
                       
             using (_dialogService.Loading("Getting properties..."))

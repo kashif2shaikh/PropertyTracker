@@ -35,8 +35,11 @@ namespace PropertyTracker.Core.Services
 
         private readonly HttpClient _client;
         private readonly HttpClientHandler _handler;
+        
         public bool LoggedIn { get; private set; }
-      
+
+        public User LoggedInUser { get; private set; }
+
         public PropertyTrackerService()
         {
             
@@ -90,15 +93,23 @@ namespace PropertyTracker.Core.Services
                 if (parsedObject != null)
                 {
                     LoggedIn = true;
+                    LoggedInUser = parsedObject.User;
                 }
                 else
                 {
                     Debug.WriteLine("Could not deserialize json(" + content + ") to login response");
                     LoggedIn = false;
+                    LoggedInUser = null;
                 }
                 LoggedIn = parsedObject != null;
                 return parsedObject;
             }
+        }
+
+        public async void Logout()
+        {
+            LoggedIn = false;
+            LoggedInUser = null;
         }
 
         public async Task<UserList> GetUsers()
