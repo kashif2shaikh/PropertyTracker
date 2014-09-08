@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Acr.MvvmCross.Plugins.UserDialogs;
 using Cirrious.MvvmCross.Plugins.Messenger;
+using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Core.Services;
 using PropertyTracker.Dto.Models;
 
@@ -39,6 +42,14 @@ namespace PropertyTracker.Core.ViewModels
             Cities = new ObservableCollection<string>();
         }
 
+        public void Init(string city)
+        {
+            if (city != null)
+            {
+                SelectedCity = city;
+            }
+        }
+
         public override void Start()
         {
             base.Start();
@@ -56,6 +67,27 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
+        private string _selectedCity;
+        public string SelectedCity
+        {
+            get { return _selectedCity; }
+            set 
+            { 
+                _selectedCity = value;
+                RaisePropertyChanged(() => SelectedCity);
+            }
+        }
+
+        public ICommand CityPickerDoneCommand
+        {
+            get { return new MvxCommand(SendCityPickerMessage); }
+        }
+
+        protected void SendCityPickerMessage()
+        {            
+            var message = new CityPickerMessage(this, SelectedCity);
+            _messenger.Publish(message);
+        }
     }
 
     public class CityPickerMessage : MvxMessage
@@ -67,4 +99,6 @@ namespace PropertyTracker.Core.ViewModels
 
         public string City { get; private set; }        
     }
+
+
 }

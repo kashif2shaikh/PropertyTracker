@@ -4,6 +4,7 @@ using System.Drawing;
 using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using PropertyTracker.Core.ViewModels;
@@ -62,7 +63,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		
 			var set = this.CreateBindingSet<PropertyListViewController, PropertyListViewModel>();
 			set.Bind(source).To(vm => vm.Properties);
-
+            
 			set.Bind (_optionsVC.SearchBar).For(v => v.Text).To (vm => vm.NameFilter);
 			set.Bind (_optionsVC.CityFilterLabel).To (vm => vm.CityFilter);
 			set.Bind (_optionsVC.StateProvFilterLabel).To (vm => vm.StateFilter);
@@ -78,7 +79,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			//set.Bind(Title).To(vm => vm.TabTitle);
 			//set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);
 
-			set.Apply();
+			set.Apply();		   
 
             // Because Options VC is not an MVVM-based view controller, we have to handle the event handling manually.
             // #future make this options VC backed by a MVVM ViewModel, so we don't have to do this crap here.
@@ -92,7 +93,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
             _optionsVC.CityFilterTapGestureRecognizer.AddTarget(() =>
             {
-                var controller = this.CreateViewControllerFor<CityPickerViewModel>() as UIViewController;
+                var controller = this.CreateViewControllerFor<CityPickerViewModel>(new {city = _optionsVC.CityFilterLabel.Text}) as UIViewController;
                 NavigationController.PushViewController(controller, true);
             });
 

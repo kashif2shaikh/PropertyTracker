@@ -33,53 +33,54 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
             // Release any cached data, images, etc that aren't in use.
         }
-
-        public ICommand CheckmarkCommand
-        {
-            get { return new MvxCommand<UITableViewCell>(item => item.Accessory = UITableViewCellAccessory.Checkmark); }
-        }
-
+       
         public override void ViewDidLoad()
         {          
             base.ViewDidLoad();
-            //var source = new MvxStandardTableViewSource(TableView, "Cell");
-            var source = new CustomTableSource(TableView, UITableViewCellStyle.Default, new NSString("CityPickerCell"), "TitleText", UITableViewCellAccessory.None);
+            
+            // Use custom table source so I can put checkmarks on cells
+            var source = new CustomTableSource(TableView, "TitleText");         
             TableView.Source = source;
             TableView.AllowsSelection = true;
+            
+            // reference: to allow multiple selection
             //TableView.AllowsMultipleSelection = true;
-            //source.SelectionChangedCommand = CheckmarkCommand;
+            //set.Bind(source).For(s => s.SelectionChangedCommand).To(vm => vm.CitySelectedCommand);           
 
             var set = this.CreateBindingSet<CityPickerViewController, CityPickerViewModel>();
-            set.Bind(source).To(vm => vm.Cities);
+            set.Bind(source).To(vm => vm.Cities);            
+            set.Bind(source).For(s => s.SelectedItem).To(vm => vm.SelectedCity);
             set.Apply();
-
+           
             TableView.ReloadData();
         }
 
-        // Need to override to to show checkmark on cell
-        class CustomTableSource : MvxStandardTableViewSource
+        public override void ViewWillDisappear(bool animated)
         {
-            public CustomTableSource(UITableView tableView, UITableViewCellStyle style, NSString cellIdentifier, string bindingText, UITableViewCellAccessory tableViewCellAccessory = UITableViewCellAccessory.None)
-                : base(tableView, style, cellIdentifier, bindingText, tableViewCellAccessory)
-            {
+            base.ViewWillDisappear(animated);
+            ViewModel.CityPickerDoneCommand.Execute(null);
+        }
 
+        class CustomTableSource : MvxStandardTableViewSource
+        {            
+            public CustomTableSource(UITableView tableView, string bindingText)
+                : base(tableView, bindingText)
+            {
+               
             }
 
             public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-            {                
-                UITableViewCell cell = GetCell(tableView, indexPath);
-                cell.Accessory = UITableViewCellAccessory.Checkmark;                
+            {
+                base.RowSelected(tableView, indexPath);
+                TableView.ReloadData();                                
             }
-
-            public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
-            {             
-                UITableViewCell cell = GetCell(tableView, indexPath);
-                cell.Accessory = UITableViewCellAccessory.None;
-            }
-
+      
             protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
             {
-                return base.GetOrCreateCellFor(tableView, indexPath, item);
+				var cell = base.GetOrCreateCellFor(tableView, indexPath, item);
+                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+                cell.Accessory =  item.Equals(SelectedItem) ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;				
+				return cell;
             }
         }
     }

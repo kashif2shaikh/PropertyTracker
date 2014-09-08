@@ -18,46 +18,28 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		public MonoTouch.UIKit.UILabel CityFilterLabel { get; private set; }
 
 		[Outlet]
+		public MonoTouch.UIKit.UITapGestureRecognizer CityFilterTapGestureRecognizer { get; set; }
+
+		[Outlet]
 		public MonoTouch.UIKit.UISearchBar SearchBar { get; private set; }
 
 		[Outlet]
 		public MonoTouch.UIKit.UISegmentedControl SortColumnSegmentControl { get; private set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel SortLabel { get; set; }
+		public MonoTouch.UIKit.UILabel SortLabel { get; set; }
 
 		[Outlet]
 		public MonoTouch.UIKit.UISwitch SortOrderSwitch { get; private set; }
 
 		[Outlet]
+		public MonoTouch.UIKit.UITapGestureRecognizer StateFilterTapGestureRecognizer { get; set; }
+
+		[Outlet]
 		public MonoTouch.UIKit.UILabel StateProvFilterLabel { get; private set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITapGestureRecognizer ad { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITapGestureRecognizer CityFilterTapGestureRecognizer { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITapGestureRecognizer StateFilterTapGestureRecognizer { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (ad != null) {
-				ad.Dispose ();
-				ad = null;
-			}
-			if (CityFilterTapGestureRecognizer != null) {
-				CityFilterTapGestureRecognizer.Dispose ();
-				CityFilterTapGestureRecognizer = null;
-			}
-			if (StateFilterTapGestureRecognizer != null) {
-				StateFilterTapGestureRecognizer.Dispose ();
-				StateFilterTapGestureRecognizer = null;
-			}
 		}
 	}
 }

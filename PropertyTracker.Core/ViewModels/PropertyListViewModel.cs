@@ -61,8 +61,8 @@ namespace PropertyTracker.Core.ViewModels
         private MvxSubscriptionToken _statePickerToken;
         private void RegisterSubscriptions()
         {
-            _cityPickerToken = _messenger.Subscribe<CityPickerMessage>(OnCityPickerMessage);
-            _statePickerToken = _messenger.Subscribe<StatePickerMessage>(OnStatePickerMessage);    
+            _cityPickerToken = _messenger.SubscribeOnMainThread<CityPickerMessage>(OnCityPickerMessage);
+            _statePickerToken = _messenger.SubscribeOnMainThread<StatePickerMessage>(OnStatePickerMessage);    
         }
 
         private void OnCityPickerMessage(CityPickerMessage msg)
