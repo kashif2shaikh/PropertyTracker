@@ -26,14 +26,20 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchDebug>True</MtouchDebug>
     <MtouchSdkVersion>7.1</MtouchSdkVersion>
-    <MtouchExtraArgs>
-    </MtouchExtraArgs>
     <MtouchArch>Default, ARMv7</MtouchArch>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
     <MtouchI18n>
     </MtouchI18n>
     <StartupObject>
     </StartupObject>
+    <MtouchProfiling>False</MtouchProfiling>
+    <MtouchExtraArgs />
+    <MtouchFastDev>False</MtouchFastDev>
+    <MtouchEnableGenericValueTypeSharing>True</MtouchEnableGenericValueTypeSharing>
+    <MtouchUseLlvm>False</MtouchUseLlvm>
+    <MtouchUseThumb>False</MtouchUseThumb>
+    <MtouchUseSGen>False</MtouchUseSGen>
+    <MtouchUseRefCounting>False</MtouchUseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -62,6 +68,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <StartupObject>
     </StartupObject>
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -190,14 +198,11 @@
     <Compile Include="Common\ViewControllerExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="P.cs" />
-    <Compile Include="P.designer.cs">
-      <DependentUpon>P.cs</DependentUpon>
-    </Compile>
     <Compile Include="PropertyTracker.UI.iOSViewController.cs" />
     <Compile Include="PropertyTracker.UI.iOSViewController.designer.cs">
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Common\CheckmarkTableSource.cs" />
     <Compile Include="ViewControllers\CityPickerViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.designer.cs">
@@ -206,6 +211,7 @@
     <Compile Include="ViewControllers\MainViewController.cs" />
     <Compile Include="AppSetup.cs" />
     <Compile Include="AppContainer.cs" />
+    <Compile Include="ViewControllers\StatePickerViewController.cs" />
     <Compile Include="ViewControllers\UserListViewController.cs" />
     <Compile Include="ViewControllers\UserListViewController.designer.cs">
       <DependentUpon>UserListViewController.cs</DependentUpon>

@@ -42,8 +42,10 @@ namespace PropertyTracker.Core.ViewModels
             Cities = new ObservableCollection<string>();
         }
 
-        public void Init(string city)
+		public void Init(string city, Guid requestedViewId)
         {
+			base.Init (requestedViewId);
+
             if (city != null)
             {
                 SelectedCity = city;
@@ -94,7 +96,7 @@ namespace PropertyTracker.Core.ViewModels
     {
         public CityPickerMessage(object sender, string city) : base(sender)
         {
-            City = city;            
+            City = city;
         }
 
         public string City { get; private set; }        

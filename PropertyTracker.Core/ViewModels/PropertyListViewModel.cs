@@ -57,22 +57,35 @@ namespace PropertyTracker.Core.ViewModels
             _listModel.GetProperties();
         }
 
+        
         private MvxSubscriptionToken _cityPickerToken;
         private MvxSubscriptionToken _statePickerToken;
         private void RegisterSubscriptions()
         {
-            _cityPickerToken = _messenger.SubscribeOnMainThread<CityPickerMessage>(OnCityPickerMessage);
-            _statePickerToken = _messenger.SubscribeOnMainThread<StatePickerMessage>(OnStatePickerMessage);    
+            _cityPickerToken = _messenger.Subscribe<CityPickerMessage>(OnCityPickerMessage);
+            _statePickerToken = _messenger.Subscribe<StatePickerMessage>(OnStatePickerMessage);    
         }
-
+			        
         private void OnCityPickerMessage(CityPickerMessage msg)
         {
-            CityFilter = msg.City;
-        }
+            var cityView = msg.Sender as CityPickerViewModel;
 
+            // Only handle city picker msg if we were expecting it.
+			if (cityView != null && ViewInstanceId.Equals (cityView.RequestedByViewInstanceId))
+            {                
+                CityFilter = msg.City;                
+            } 
+        }
+		
         private void OnStatePickerMessage(StatePickerMessage msg)
         {
-            StateFilter = msg.State;
+            var stateView = msg.Sender as StatePickerViewModel;
+
+            // Only handle state picker msg if we were expecting it
+            if (stateView != null && ViewInstanceId.Equals (stateView.RequestedByViewInstanceId))
+            {
+                StateFilter = msg.State;
+            }
         }
 
 		private void Reset()

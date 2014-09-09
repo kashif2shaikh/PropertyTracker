@@ -55,8 +55,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 			//var source = new MvxSimpleTableViewSource(TableView,
 
-			TableView.Source = source; 
-
+			TableView.Source = source;
+          
 			//var inset = TableView.ContentInset;
 			//inset.Top -= 176;
 			//TableView.ContentInset = inset;
@@ -79,27 +79,47 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			//set.Bind(Title).To(vm => vm.TabTitle);
 			//set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);
 
-			set.Apply();		   
+			set.Apply();
+
+            // Reload clicked - run command and hide search options
+            /*
+		    GetPropertiesButtonItem.Clicked += (sender, args) =>
+		    {
+		        //HideSearchOptions(true);
+                //TableView.ReloadData();
+		    };
+            */
 
             // Because Options VC is not an MVVM-based view controller, we have to handle the event handling manually.
-            // #future make this options VC backed by a MVVM ViewModel, so we don't have to do this crap here.
+            // #future make this options VC backed by a MVVM ViewModel, so we don't have to do this crap here.            
+
 			_optionsVC.SearchBar.SearchButtonClicked += (object sender, EventArgs e) => _optionsVC.SearchBar.ResignFirstResponder ();
 				
 			_optionsVC.SearchBar.CancelButtonClicked += (object sender, EventArgs e) => {
 				// Bound variable - this will clear search bar
 				ViewModel.NameFilter = "";
 				_optionsVC.SearchBar.ResignFirstResponder ();
+			    HideSearchOptions(true);
 			};
 
             _optionsVC.CityFilterTapGestureRecognizer.AddTarget(() =>
             {
-                var controller = this.CreateViewControllerFor<CityPickerViewModel>(new {city = _optionsVC.CityFilterLabel.Text}) as UIViewController;
-                NavigationController.PushViewController(controller, true);
+				var controller = this.CreateViewControllerFor<CityPickerViewModel>(new 
+					{
+						city = _optionsVC.CityFilterLabel.Text, 
+					 	requestedViewId = ViewModel.ViewInstanceId
+					}) as CityPickerViewController;
+
+                NavigationController.PushViewController(controller, true);				
             });
 
             _optionsVC.StateFilterTapGestureRecognizer.AddTarget(() =>
             {
-                var controller = this.CreateViewControllerFor<StatePickerViewModel>() as UIViewController;
+                var controller = this.CreateViewControllerFor<StatePickerViewModel>(new
+                {
+                    state = _optionsVC.StateProvFilterLabel.Text,
+                    requestedViewId = ViewModel.ViewInstanceId
+                }) as StatePickerViewController;
                 NavigationController.PushViewController(controller, true);
             });
 
@@ -126,17 +146,24 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             // Data is fetched after
             TableView.ReloadData();
 
-
-		
-
+		    //ViewModel.Properties.CollectionChanged += (sender, args) => HideSearchOptions(true);
 		}
+
+	    private bool _searchOptionsHidden;
+	    private void HideSearchOptions(bool force = false)
+	    {
+	        if (_searchOptionsHidden && !force) return;
+
+	        // Only hide search options once
+	        TableView.ContentOffset = new PointF(0, -64 + 176);
+	        _searchOptionsHidden = true;
+	    }
 
 
 
 		public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
-
 
 			//NavigationController.Nav
 			//NavigationItem.BackBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, (o, e) => { });
@@ -153,9 +180,12 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 			//NavigationController.NavigationBarHidden = false;
 			//Console.WriteLine("Property Navigation Controller:" + NavigationController);
+		
+            HideSearchOptions();
 
-			TableView.ContentOffset = new PointF (0, -64+176);
-
+			// Because we are updating a static City/State Filter cells within OptionsVC via binding property - we need
+			// to reload the table view so the new cells are redrawn.
+			_optionsVC.TableView.ReloadData ();
 
 		}
 

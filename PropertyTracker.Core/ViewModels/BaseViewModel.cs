@@ -14,10 +14,23 @@ namespace PropertyTracker.Core.ViewModels
         // 
         public Guid ViewInstanceId {get; set;}
 
+		public Guid RequestedByViewInstanceId { get; set; }
+
+
         protected BaseViewModel()
         {
            ViewInstanceId = Guid.NewGuid();
         }
+
+		public void Init(Guid requestedViewId)
+		{
+			if (requestedViewId != null)
+			{
+				RequestedByViewInstanceId = requestedViewId;
+			}
+		}
+
+
         public bool ShowViewModel<TViewModel>() where TViewModel : IMvxViewModel
         {
             var requestedBy = new MvxRequestedBy();
