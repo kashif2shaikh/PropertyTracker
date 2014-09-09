@@ -32,14 +32,8 @@
     </MtouchI18n>
     <StartupObject>
     </StartupObject>
-    <MtouchProfiling>False</MtouchProfiling>
-    <MtouchExtraArgs />
-    <MtouchFastDev>False</MtouchFastDev>
-    <MtouchEnableGenericValueTypeSharing>True</MtouchEnableGenericValueTypeSharing>
-    <MtouchUseLlvm>False</MtouchUseLlvm>
-    <MtouchUseThumb>False</MtouchUseThumb>
-    <MtouchUseSGen>False</MtouchUseSGen>
-    <MtouchUseRefCounting>False</MtouchUseRefCounting>
+    <MtouchExtraArgs>
+    </MtouchExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -185,6 +179,7 @@
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
     <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
     <InterfaceDefinition Include="Views\PropertyCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\AddUserViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -235,6 +230,10 @@
     <Compile Include="ViewControllers\PropertyListOptionsViewController.cs" />
     <Compile Include="ViewControllers\PropertyListOptionsViewController.designer.cs">
       <DependentUpon>PropertyListOptionsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\AddUserViewController.cs" />
+    <Compile Include="ViewControllers\AddUserViewController.designer.cs">
+      <DependentUpon>AddUserViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

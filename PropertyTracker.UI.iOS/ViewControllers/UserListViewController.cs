@@ -40,6 +40,12 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             var logoutButton = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Bordered, null);
             NavigationItem.LeftBarButtonItem = logoutButton;
 
+			var addUserButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, (o, e) => {
+				var controller = this.CreateViewControllerFor<AddUserViewModel>() as AddUserViewController;
+				NavigationController.PushViewController(controller, true);
+			});
+			NavigationItem.RightBarButtonItem = addUserButton;
+
             var source = new MvxStandardTableViewSource(TableView, UITableViewCellStyle.Subtitle, new NSString(UserCellId), "TitleText Fullname;DetailText Username;ImageUrl PhotoUrl;",
                 UITableViewCellAccessory.DisclosureIndicator);
             TableView.Source = source;
