@@ -37,6 +37,9 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		MonoTouch.UIKit.UIImageView PhotoImageView { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIImageView PlaceholderImageView { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel PropertiesLabel { get; set; }
 
 		[Outlet]
@@ -57,6 +60,11 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 				CancelButtonItem = null;
 			}
 
+			if (CompanyNameTextField != null) {
+				CompanyNameTextField.Dispose ();
+				CompanyNameTextField = null;
+			}
+
 			if (ConfirmPasswordTextField != null) {
 				ConfirmPasswordTextField.Dispose ();
 				ConfirmPasswordTextField = null;
@@ -72,9 +80,19 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 				PasswordTextField = null;
 			}
 
+			if (PhotoImageTapGestureRecognizer != null) {
+				PhotoImageTapGestureRecognizer.Dispose ();
+				PhotoImageTapGestureRecognizer = null;
+			}
+
 			if (PhotoImageView != null) {
 				PhotoImageView.Dispose ();
 				PhotoImageView = null;
+			}
+
+			if (PlaceholderImageView != null) {
+				PlaceholderImageView.Dispose ();
+				PlaceholderImageView = null;
 			}
 
 			if (PropertiesLabel != null) {
@@ -90,16 +108,6 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			if (UsernameTextField != null) {
 				UsernameTextField.Dispose ();
 				UsernameTextField = null;
-			}
-
-			if (PhotoImageTapGestureRecognizer != null) {
-				PhotoImageTapGestureRecognizer.Dispose ();
-				PhotoImageTapGestureRecognizer = null;
-			}
-
-			if (CompanyNameTextField != null) {
-				CompanyNameTextField.Dispose ();
-				CompanyNameTextField = null;
 			}
 		}
 	}

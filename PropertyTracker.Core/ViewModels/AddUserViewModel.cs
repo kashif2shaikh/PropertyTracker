@@ -118,13 +118,15 @@ namespace PropertyTracker.Core.ViewModels
         public event EventHandler AddUserSuccessEventHandler;
 	    private void AddUserSuccess()
 	    {
-			AddUserSuccessEventHandler (this, EventArgs.Empty);
+			if(AddUserSuccessEventHandler != null)
+				AddUserSuccessEventHandler (this, EventArgs.Empty);
 	    }
 
         public event EventHandler AddUserFailedEventHandler;
 	    private void AddUserFailed()
 	    {
-			AddUserFailedEventHandler (this, EventArgs.Empty);
+			if(AddUserFailedEventHandler != null)
+				AddUserFailedEventHandler (this, EventArgs.Empty);
 	    }
 
 	    private bool AddUserValidation()
@@ -178,7 +180,7 @@ namespace PropertyTracker.Core.ViewModels
 
         private void DoChoosePicture()
         {
-            _pictureChooserTask.ChoosePictureFromLibrary(400, 95, OnPicture, () => { });
+			_pictureChooserTask.ChoosePictureFromLibrary(400, 95, OnPicture, OnPictureCancelled);
         }
 
         private byte[] _photoDataBytes;
@@ -188,16 +190,27 @@ namespace PropertyTracker.Core.ViewModels
             set { _photoDataBytes = value; RaisePropertyChanged(() => PhotoDataBytes); }
         }
 
-
+		public event EventHandler OnPictureEventHandler;
         private void OnPicture(Stream pictureStream)
         {
             var memoryStream = new MemoryStream();
             pictureStream.CopyTo(memoryStream);
             PhotoDataBytes = memoryStream.ToArray();
+
+			if(OnPictureEventHandler != null)
+			{
+				OnPictureEventHandler (this, EventArgs.Empty);
+			}
         }
 
-
-
+		public event EventHandler OnPictureCancelledEventHandler;
+		private void OnPictureCancelled()
+		{
+			if(OnPictureCancelledEventHandler != null)
+			{
+				OnPictureCancelledEventHandler (this, EventArgs.Empty);
+			}
+		}
 	}
 }
 
