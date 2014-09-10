@@ -34,6 +34,7 @@ namespace PropertyTracker.Web.Api.Controllers
     public class UsersController : BaseApiController
     {
         private PropertyTrackerContext db = new PropertyTrackerContext();
+        private Entity.Models.User loggedInUser = null;
 
         // GET: api/Users
         [HttpGet]
@@ -41,7 +42,10 @@ namespace PropertyTracker.Web.Api.Controllers
         [ResponseType(typeof(Dto.Models.UserList))]
         public IHttpActionResult GetUsers()
         {
-            var entityUserList = db.Users;
+            loggedInUser = GetLoggedInUser();
+
+            var entityUserList = db.Users.Where(u => u.CompanyId == loggedInUser.CompanyId);
+
             var userDtoList = Mapper.Map<IEnumerable<Entity.Models.User>, Dto.Models.UserList>(entityUserList);
             GenerateUserPhotoLinks(userDtoList);
             ValidationResult userListValidatorResult = new UserListValidator().Validate(userDtoList, ruleSet: "default,NoPassword");
@@ -59,7 +63,9 @@ namespace PropertyTracker.Web.Api.Controllers
         [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult GetUser(int id)
         {
-            Entity.Models.User userEntity = db.Users.Find(id);
+            loggedInUser = GetLoggedInUser();
+
+            Entity.Models.User userEntity = db.Users.FirstOrDefault(u => u.CompanyId == loggedInUser.CompanyId && u.Id == id);
             if (userEntity == null)
             {
                 return NotFound();
@@ -85,7 +91,7 @@ namespace PropertyTracker.Web.Api.Controllers
         [AllowAnonymous]
         [Route("{id:int}/photo", Name = "GetUserPhotoRoute")]        
         public async Task<HttpResponseMessage> GetUserPhoto(int id)
-        {
+        {            
             var cancelToken = new CancellationToken();
 
             Entity.Models.User userEntity = await db.Users.FindAsync(cancelToken, id);
@@ -130,7 +136,9 @@ namespace PropertyTracker.Web.Api.Controllers
         [ResponseType(typeof (void))]
         public async Task<HttpResponseMessage> UploadUserPhoto(int id)
         {
-            Entity.Models.User userEntity = db.Users.Find(id);
+            loggedInUser = GetLoggedInUser();
+
+            Entity.Models.User userEntity = db.Users.FirstOrDefault(u => u.CompanyId == loggedInUser.CompanyId && u.Id == id);
             if (userEntity == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -175,6 +183,8 @@ namespace PropertyTracker.Web.Api.Controllers
         [ResponseType(typeof(void))]        
         public IHttpActionResult UpdateUser(int id, Dto.Models.User userDto)
         {
+            loggedInUser = GetLoggedInUser();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -195,8 +205,18 @@ namespace PropertyTracker.Web.Api.Controllers
             {
                 return new BadRequestErrorMessageResult("Updated user DTO id mismatch", this);
             }
-
+            
             var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
+            if (userEntity.CompanyId != loggedInUser.CompanyId)
+            {
+                // Updated user does not have same company. Make it appear as user does not exist for this company.
+                return NotFound();
+            }
+            else if (db.Users.Count(u => u.CompanyId == loggedInUser.CompanyId && u.Id != userEntity.Id && u.Username == userEntity.Username) > 0)
+            {
+                return new BadRequestErrorMessageResult("Another user has the same username as updated user", this);
+            }
+
             db.Users.Attach(userEntity);
             db.Entry(userEntity).State = EntityState.Modified;
 
@@ -234,6 +254,8 @@ namespace PropertyTracker.Web.Api.Controllers
         [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult NewUser(Dto.Models.User userDto)
         {
+            loggedInUser = GetLoggedInUser();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -246,6 +268,14 @@ namespace PropertyTracker.Web.Api.Controllers
             }
 
             var userEntity = Mapper.Map<Dto.Models.User, Entity.Models.User>(userDto);
+            if (userEntity.CompanyId != loggedInUser.CompanyId)
+            {
+                return new BadRequestErrorMessageResult("New user does not have same company as logged in user", this);
+            }
+            else if (db.Users.Count(u => u.CompanyId == loggedInUser.CompanyId && u.Id != userEntity.Id && u.Username == userEntity.Username) > 0)
+            {
+                return new BadRequestErrorMessageResult("Another user has the same username as new user", this);
+            }
 
             if (userDto.Properties != null)
             {
@@ -283,7 +313,9 @@ namespace PropertyTracker.Web.Api.Controllers
         [ResponseType(typeof(Dto.Models.User))]
         public IHttpActionResult DeleteUser(int id)
         {
-            Entity.Models.User userEntity = db.Users.Find(id);
+            loggedInUser = GetLoggedInUser();
+
+            Entity.Models.User userEntity = db.Users.FirstOrDefault(u => u.CompanyId == loggedInUser.CompanyId && u.Id == id);
             if (userEntity == null)
             {
                 return NotFound();

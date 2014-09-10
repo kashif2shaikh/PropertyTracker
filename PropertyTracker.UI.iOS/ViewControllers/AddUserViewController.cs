@@ -8,7 +8,7 @@ using Cirrious.MvvmCross.Touch.Views;
 using PropertyTracker.Core.ViewModels;
 using Cirrious.MvvmCross.Binding.BindingContext;
 
-namespace PropertyTracker.UI.iOS
+namespace PropertyTracker.UI.iOS.ViewControllers
 {
 	public partial class AddUserViewController : MvxTableViewController
 	{
@@ -39,9 +39,14 @@ namespace PropertyTracker.UI.iOS
 			// Perform any additional setup after loading the view, typically from a nib.
 
 			var set = this.CreateBindingSet<AddUserViewController, AddUserViewModel>();
+            //set.Bind(TakeButton).To(vm => vm.TakePictureCommand);
+            //set.Bind(ChooseButton).To(vm => vm.ChoosePictureCommand);
 			//set.Bind(LoginButton).To(vm => vm.LoginCommand);
-			//set.Bind (UsernameTextField).To (vm => vm.Username);
-			//set.Bind (PasswordTextField).To (vm => vm.Password);
+            set.Bind(FullNameTextField).To(vm => vm.FullName);
+            set.Bind(UsernameTextField).To (vm => vm.Username);
+			set.Bind(PasswordTextField).To (vm => vm.Password);
+		    set.Bind(ConfirmPasswordTextField).To(vm => vm.ConfirmPassword);
+		    set.Bind(AddButtonItem).To(vm => vm.AddUserCommand);
 			set.Apply ();
 		}
 	}
