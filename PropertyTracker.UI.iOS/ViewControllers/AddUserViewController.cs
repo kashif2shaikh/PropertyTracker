@@ -42,12 +42,19 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             //set.Bind(TakeButton).To(vm => vm.TakePictureCommand);
             //set.Bind(ChooseButton).To(vm => vm.ChoosePictureCommand);
 			//set.Bind(LoginButton).To(vm => vm.LoginCommand);
+			set.Bind(CompanyNameTextField).To (vm => vm.CompanyName);
             set.Bind(FullNameTextField).To(vm => vm.FullName);
             set.Bind(UsernameTextField).To (vm => vm.Username);
 			set.Bind(PasswordTextField).To (vm => vm.Password);
 		    set.Bind(ConfirmPasswordTextField).To(vm => vm.ConfirmPassword);
 		    set.Bind(AddButtonItem).To(vm => vm.AddUserCommand);
 			set.Apply ();
+
+
+			// Dismiss view controller after user added
+			ViewModel.AddUserSuccessEventHandler += (object sender, EventArgs e) => NavigationController.PopViewControllerAnimated (true);
+
+			CancelButtonItem.Clicked += (object sender, EventArgs e) => NavigationController.PopViewControllerAnimated (true);
 		}
 	}
 }

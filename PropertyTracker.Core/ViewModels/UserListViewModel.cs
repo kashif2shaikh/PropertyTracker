@@ -58,18 +58,20 @@ namespace PropertyTracker.Core.ViewModels
 
         public async void GetUsers()
         {
-            UserList response = null;
 
-            using (_dialogService.Loading("Getting users..."))
-                response = await _propertyTrackerService.GetUsers();
+            object response = null;
+            using (_dialogService.Loading("Getting users..."))            
+                response = await _propertyTrackerService.GetUsers();                                                           
 
-            if (response != null)
-                Users = response.Users;
+            if (response is UserList)
+            {
+                Users = (response as UserList).Users;
+            }
             else
-                _dialogService.Alert("Failed to retreive users", "Request Failed", "OK");
-
-        }
-        
-        
+            {
+                var msg = response is ErrorResult ? (response as ErrorResult).Message : "Failed to retreive users";
+                _dialogService.Alert(msg, "Request Failed");
+            } 
+        }               
     }
 }

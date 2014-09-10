@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Input;
 using Acr.MvvmCross.Plugins.UserDialogs;
+using Cirrious.CrossCore.Core;
 using Cirrious.MvvmCross.Plugins.PictureChooser;
 using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Core.Services;
@@ -22,6 +23,11 @@ namespace PropertyTracker.Core.ViewModels
             _propertyTrackerService = service;
             _dialogService = dialogService;
             _pictureChooserTask = pictureChooserTask;
+		}
+			
+		public string CompanyName
+		{
+			get { return _propertyTrackerService.LoggedInUser.Company.Name; }
 		}
 
 	    private string _fullname;
@@ -67,13 +73,13 @@ namespace PropertyTracker.Core.ViewModels
 	        }
 	    }
 
-	    private List<Property> _prop;
+	    private List<Property> _properties;
 	    public List<Property> Properties
 	    {
-	        get { return _prop; }
+			get { return _properties; }
 	        set 
 	        { 
-	            _prop = value;
+				_properties = value;
 	            RaisePropertyChanged(() => Properties);
 	        }
 	    }
@@ -94,16 +100,31 @@ namespace PropertyTracker.Core.ViewModels
                 Company = _propertyTrackerService.LoggedInUser.Company,
 	        };
 
-	        var response = await _propertyTrackerService.AddUser(newUser);
-	        if (response == null)
+	        object response = null;
+            using (_dialogService.Loading("Adding user..."))
+                response = await _propertyTrackerService.AddUser(newUser);
+
+	        if (response is User)
 	        {
-	            _dialogService.Alert("Failed to add new user", "Request Error", "OK", AddUserFailed);
+	            _dialogService.Alert("User added successfully", null, "OK", AddUserSuccess);
 	        }
+	        else
+	        {
+	            var msg = response is ErrorResult ? (response as ErrorResult).Message : "Failed to add new user";
+                _dialogService.Alert(msg, "Request Error", "OK", AddUserFailed);	            	            
+	        }                          
 	    }
 
+        public event EventHandler AddUserSuccessEventHandler;
+	    private void AddUserSuccess()
+	    {
+			AddUserSuccessEventHandler (this, EventArgs.Empty);
+	    }
+
+        public event EventHandler AddUserFailedEventHandler;
 	    private void AddUserFailed()
 	    {
-	        
+			AddUserFailedEventHandler (this, EventArgs.Empty);
 	    }
 
 	    private bool AddUserValidation()

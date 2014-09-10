@@ -62,8 +62,11 @@ namespace PropertyTracker.Core.Services
 
         }
 
-        public async Task<LoginResponse> Login(string username, string password)
-        {           
+        public async Task<object> Login(string username, string password)
+        {
+            LoggedIn = false;
+            LoggedInUser = null;
+
             // Setup Authorization header - 
             _client.DefaultRequestHeaders.Authorization = new BasicAuthenticationHeaderValue(username, password);
             
@@ -82,13 +85,15 @@ namespace PropertyTracker.Core.Services
 
             using (var response = await _client.PostAsync(LoginRequestUrl, payload))
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
-                    Debug.WriteLine("Request failed: " + response.ToString());                   
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+                    Debug.WriteLine("Request failed: " + response.ToString());
                     _client.DefaultRequestHeaders.Authorization = null;
-                    return null;
+                    return errorResult;
                 }
-                var content = await response.Content.ReadAsStringAsync();
+                
                 var parsedObject = JsonConvert.DeserializeObject<LoginResponse>(content);
                 if (parsedObject != null)
                 {
@@ -97,9 +102,7 @@ namespace PropertyTracker.Core.Services
                 }
                 else
                 {
-                    Debug.WriteLine("Could not deserialize json(" + content + ") to login response");
-                    LoggedIn = false;
-                    LoggedInUser = null;
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to login response");                  
                 }
                 LoggedIn = parsedObject != null;
                 return parsedObject;
@@ -112,7 +115,7 @@ namespace PropertyTracker.Core.Services
             LoggedInUser = null;
         }
 
-        public async Task<UserList> GetUsers()
+        public async Task<object> GetUsers()
         {
             if (!LoggedIn)
             {
@@ -121,12 +124,13 @@ namespace PropertyTracker.Core.Services
             }
             using (var response = await _client.GetAsync(UsersRequestUrl))
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
-                    Debug.WriteLine("Request failed: " + response.ToString());                                        
-                    return null;
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return errorResult;
                 }
-                var content = await response.Content.ReadAsStringAsync();
 
                 var parsedObject = JsonConvert.DeserializeObject<UserList>(content);
                 if (parsedObject == null)
@@ -137,7 +141,7 @@ namespace PropertyTracker.Core.Services
             }
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<object> GetUser(int id)
         {
             if (!LoggedIn)
             {
@@ -146,12 +150,13 @@ namespace PropertyTracker.Core.Services
             }
             using (var response = await _client.GetAsync(string.Format("{0}/{1}", UsersRequestUrl, id)))            
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
                     Debug.WriteLine("Request failed: " + response.ToString());
-                    return null;
-                }
-                var content = await response.Content.ReadAsStringAsync();
+                    return errorResult;
+                }                
                 var parsedObject = JsonConvert.DeserializeObject<User>(content);
                 if (parsedObject == null)
                 {
@@ -161,7 +166,7 @@ namespace PropertyTracker.Core.Services
             }
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<object> AddUser(User user)
         {
             if (!LoggedIn)
             {
@@ -171,12 +176,13 @@ namespace PropertyTracker.Core.Services
             var payload = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
             using (var response = await _client.PostAsync(UsersRequestUrl, payload))
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
                     Debug.WriteLine("Request failed: " + response.ToString());
-                    return null;
-                }
-                var content = await response.Content.ReadAsStringAsync();
+                    return errorResult;
+                }                
                 var parsedObject = JsonConvert.DeserializeObject<User>(content);
                 if (parsedObject == null)
                 {
@@ -186,27 +192,29 @@ namespace PropertyTracker.Core.Services
             }
         }
 
-        public async Task<bool> UpdateUser(User user)
+        public async Task<object> UpdateUser(User user)
         {
             if (!LoggedIn)
             {
                 Debug.WriteLine("Not logged in");
-                return false;
+                return null;
             }
             var payload = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
             using (var response = await _client.PutAsync(string.Format("{0}/{1}", UsersRequestUrl, user.Id),payload))
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
                     Debug.WriteLine("Request failed: " + response.ToString());
-                    return false;
+                    return errorResult;
                 }
-                return true;                
+                return true;
             }
         }
 
 
-        public async Task<User> DeleteUser(int id)
+        public async Task<object> DeleteUser(int id)
         {
             if (!LoggedIn)
             {
@@ -215,22 +223,24 @@ namespace PropertyTracker.Core.Services
             }
             using (var response = await _client.DeleteAsync(string.Format("{0}/{1}", UsersRequestUrl, id)))
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
                     Debug.WriteLine("Request failed: " + response.ToString());
-                    return null;
+                    return errorResult;
                 }
-                var content = await response.Content.ReadAsStringAsync();
+                
                 var parsedObject = JsonConvert.DeserializeObject<User>(content);
                 if (parsedObject == null)
-                {
-                    Debug.WriteLine("Could not deserialize json(" + content + ") to user response");
+                {                    
+                    Debug.WriteLine("Could not deserialize json(" + content + ")");
                 }
                 return parsedObject;
             }
         }
 
-        public async Task<PaginatedPropertyList> GetProperties(PropertyListRequest requestParams)
+        public async Task<object> GetProperties(PropertyListRequest requestParams)
         {
             if (!LoggedIn)
             {
@@ -243,20 +253,21 @@ namespace PropertyTracker.Core.Services
 			// Flurl seems to skip bool parameters. Add it manually.
 			url.SetQueryParam ("SortAscending", requestParams.SortAscending);
 
-
             using (var response = await _client.GetAsync(url))            
             {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)
                 {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;                    
                     Debug.WriteLine("Request failed: " + response.ToString());
-                    return null;
+                    return errorResult;
                 }
-                var content = await response.Content.ReadAsStringAsync();
-
+                
                 var parsedObject = JsonConvert.DeserializeObject<PaginatedPropertyList>(content);
                 if (parsedObject == null)
                 {
-                    Debug.WriteLine("Could not deserialize json(" + content + ") to userlist response");
+                   
+                        Debug.WriteLine("Could not deserialize json(" + content + ")");
                 }
                 return parsedObject;
             }

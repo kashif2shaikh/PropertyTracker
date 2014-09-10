@@ -169,6 +169,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\.DS_Store" />
+    <BundleResource Include="Images\UserIcon%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app_old.config" />
@@ -254,7 +255,6 @@
   <ItemGroup>
     <BundleResource Include="Images\PropertyIcon.png" />
     <BundleResource Include="Images\PropertyListIcon%402x.png" />
-    <BundleResource Include="Images\UserIcon.png" />
     <BundleResource Include="Images\UserListIcon%402x.png" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

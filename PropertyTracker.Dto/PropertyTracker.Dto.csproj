@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\ErrorResult.cs" />
     <Compile Include="Models\IPaginatedList.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\LoginResponse.cs" />

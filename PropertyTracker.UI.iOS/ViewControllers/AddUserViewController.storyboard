@@ -22,9 +22,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9tc-AE-EFF">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Images/UserIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="9tc-AE-EFF">
                                                     <rect key="frame" x="15" y="8" width="64" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <gestureRecognizers/>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="wpM-s2-Gmw" appends="YES" id="mG3-2U-Xt9"/>
+                                                    </connections>
                                                 </imageView>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Your Full Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fNK-8Q-TaR">
                                                     <rect key="frame" x="87" y="25" width="213" height="30"/>
@@ -40,8 +44,25 @@
                             </tableViewSection>
                             <tableViewSection id="1oo-IT-UDK">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Cbl-zo-kdy">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="nBa-hy-eRn">
                                         <rect key="frame" x="0.0" y="199" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nBa-hy-eRn" id="a3h-SU-ede">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Company Name" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="NIu-aV-Xyo">
+                                                    <rect key="frame" x="20" y="7" width="280" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Cbl-zo-kdy">
+                                        <rect key="frame" x="0.0" y="243" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cbl-zo-kdy" id="vkT-at-Pz0">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -58,7 +79,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="YPt-Oe-Wjj">
-                                        <rect key="frame" x="0.0" y="243" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="287" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YPt-Oe-Wjj" id="zqP-AV-sjN">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -75,7 +96,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hNE-Z2-pT1">
-                                        <rect key="frame" x="0.0" y="287" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="331" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hNE-Z2-pT1" id="Aql-d1-UKg">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -92,7 +113,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ofz-Km-ehX">
-                                        <rect key="frame" x="0.0" y="331" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="375" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ofz-Km-ehX" id="gue-b8-SHY">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -130,9 +151,11 @@
                     <connections>
                         <outlet property="AddButtonItem" destination="hbx-9z-D8m" id="mmp-tq-XUU"/>
                         <outlet property="CancelButtonItem" destination="KBh-zc-TuG" id="zDk-pN-Gcl"/>
+                        <outlet property="CompanyNameTextField" destination="NIu-aV-Xyo" id="HBz-cb-oSy"/>
                         <outlet property="ConfirmPasswordTextField" destination="Kwe-fP-J4o" id="E4T-LI-wFM"/>
                         <outlet property="FullNameTextField" destination="fNK-8Q-TaR" id="Mq6-PS-WYs"/>
                         <outlet property="PasswordTextField" destination="h5E-Xb-KYh" id="iL2-hs-D0h"/>
+                        <outlet property="PhotoImageTapGestureRecognizer" destination="wpM-s2-Gmw" id="Qn7-sX-pwK"/>
                         <outlet property="PhotoImageView" destination="9tc-AE-EFF" id="zEA-wu-Gmi"/>
                         <outlet property="PropertiesLabel" destination="mAV-74-x7Z" id="tzp-ir-uzu"/>
                         <outlet property="PropertiesTapGestureRecognizer" destination="1PZ-pn-Nk4" id="Y2b-5w-xDH"/>
@@ -148,10 +171,14 @@
                     </items>
                 </navigationBar>
                 <tapGestureRecognizer id="1PZ-pn-Nk4"/>
+                <tapGestureRecognizer id="wpM-s2-Gmw"/>
             </objects>
             <point key="canvasLocation" x="113" y="85"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Images/UserIcon.png" width="16" height="16"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

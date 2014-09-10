@@ -66,15 +66,18 @@ namespace PropertyTracker.Core.ViewModels
             if (_propertyTrackerService.LoggedIn)
                 ShowViewModel<MainViewModel>();
 
-            LoginResponse response = null;
+            object response = null;
             
             using (_dialogService.Loading("Logging in..."))
                 response = await _propertyTrackerService.Login(Username, Password);
 
-            if (response != null)
+            if (response is LoginResponse)
                 ShowViewModel<MainViewModel>();
             else
-                _dialogService.Alert("Invalid credentials", "Login Failed", "OK");            
+            {
+                var msg = response is ErrorResult ? (response as ErrorResult).Message : "Failed to Login";                                    
+                _dialogService.Alert(msg, "Request Failed");
+            }                            
         }       
     }
 }

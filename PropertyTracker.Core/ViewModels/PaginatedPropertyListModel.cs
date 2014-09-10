@@ -115,27 +115,19 @@ namespace PropertyTracker.Core.ViewModels
 
         private async Task<PaginatedPropertyList> GetPropertiesAsync(PropertyListRequest requestParams)
         {
-            PaginatedPropertyList response = null;
-
-            
-            //if(LastResult != null && requestParams.CurrentPage >= TotalPages) {
-            //    _dialogService.Alert("", "All properties have been loaded", "OK");
-            //    return null;
-            //}
-			
-                      
+            object response = null;
+		                      
             using (_dialogService.Loading("Getting properties..."))
                 response = await _propertyTrackerService.GetProperties(requestParams);
 
-            if (response != null)
+            if (response is PaginatedPropertyList)
             {
-                return response;
+                return response as PaginatedPropertyList;
             }
-            else
-            {
-                _dialogService.Alert("Failed to retreive properties", "Request Failed", "OK");
-                return null;
-            }                
+
+            var msg = response is ErrorResult ? (response as ErrorResult).Message : "Failed to retreive properties";
+            _dialogService.Alert(msg, "Request Failed");
+            return null;
         }
     }
 }

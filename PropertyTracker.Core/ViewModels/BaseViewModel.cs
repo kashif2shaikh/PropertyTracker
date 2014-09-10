@@ -22,6 +22,7 @@ namespace PropertyTracker.Core.ViewModels
            ViewInstanceId = Guid.NewGuid();
         }
 
+		/*
 		public void Init(Guid requestedViewId)
 		{
 			if (requestedViewId != null)
@@ -29,6 +30,7 @@ namespace PropertyTracker.Core.ViewModels
 				RequestedByViewInstanceId = requestedViewId;
 			}
 		}
+		*/
 
 
         public bool ShowViewModel<TViewModel>() where TViewModel : IMvxViewModel

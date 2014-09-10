@@ -1,12 +1,10 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-using System;
 using MonoTouch.Foundation;
-using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -21,6 +19,9 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		MonoTouch.UIKit.UIBarButtonItem CancelButtonItem { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UITextField CompanyNameTextField { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UITextField ConfirmPasswordTextField { get; set; }
 
 		[Outlet]
@@ -28,6 +29,9 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField PasswordTextField { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UITapGestureRecognizer PhotoImageTapGestureRecognizer { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView PhotoImageView { get; set; }
@@ -40,9 +44,63 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField UsernameTextField { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (AddButtonItem != null) {
+				AddButtonItem.Dispose ();
+				AddButtonItem = null;
+			}
+
+			if (CancelButtonItem != null) {
+				CancelButtonItem.Dispose ();
+				CancelButtonItem = null;
+			}
+
+			if (ConfirmPasswordTextField != null) {
+				ConfirmPasswordTextField.Dispose ();
+				ConfirmPasswordTextField = null;
+			}
+
+			if (FullNameTextField != null) {
+				FullNameTextField.Dispose ();
+				FullNameTextField = null;
+			}
+
+			if (PasswordTextField != null) {
+				PasswordTextField.Dispose ();
+				PasswordTextField = null;
+			}
+
+			if (PhotoImageView != null) {
+				PhotoImageView.Dispose ();
+				PhotoImageView = null;
+			}
+
+			if (PropertiesLabel != null) {
+				PropertiesLabel.Dispose ();
+				PropertiesLabel = null;
+			}
+
+			if (PropertiesTapGestureRecognizer != null) {
+				PropertiesTapGestureRecognizer.Dispose ();
+				PropertiesTapGestureRecognizer = null;
+			}
+
+			if (UsernameTextField != null) {
+				UsernameTextField.Dispose ();
+				UsernameTextField = null;
+			}
+
+			if (PhotoImageTapGestureRecognizer != null) {
+				PhotoImageTapGestureRecognizer.Dispose ();
+				PhotoImageTapGestureRecognizer = null;
+			}
+
+			if (CompanyNameTextField != null) {
+				CompanyNameTextField.Dispose ();
+				CompanyNameTextField = null;
+			}
 		}
 	}
 }
