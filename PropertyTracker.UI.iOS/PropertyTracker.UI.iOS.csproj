@@ -180,7 +180,6 @@
     <None Include="packages.config" />
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
     <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
-    <InterfaceDefinition Include="Views\PropertyCell.xib" />
     <InterfaceDefinition Include="ViewControllers\AddUserViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
@@ -221,10 +220,6 @@
     <Compile Include="ViewControllers\PropertyListViewController.designer.cs">
       <DependentUpon>PropertyListViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\PropertyCell.cs" />
-    <Compile Include="Views\PropertyCell.designer.cs">
-      <DependentUpon>PropertyCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\PropertyListCell.cs" />
     <Compile Include="Views\PropertyListCell.designer.cs">
       <DependentUpon>PropertyListCell.cs</DependentUpon>
@@ -236,6 +231,10 @@
     <Compile Include="ViewControllers\AddUserViewController.cs" />
     <Compile Include="ViewControllers\AddUserViewController.designer.cs">
       <DependentUpon>AddUserViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserListCell.cs" />
+    <Compile Include="Views\UserListCell.designer.cs">
+      <DependentUpon>UserListCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -125,7 +125,7 @@ namespace PropertyTracker.Web.Api.Controllers
                 StatusCode = HttpStatusCode.OK,
                 Content = new ByteArrayContent(photoData),              
             };
-            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
             return response;            
         }
 

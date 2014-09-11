@@ -21,7 +21,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             {
                 // if same item is selected, de-select
                 SelectedItem = String.Empty;
-            }                
+            }
+
             TableView.ReloadData();                                
         }
 

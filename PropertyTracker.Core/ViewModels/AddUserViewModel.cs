@@ -101,12 +101,32 @@ namespace PropertyTracker.Core.ViewModels
 	        };
 
 	        object response = null;
-            using (_dialogService.Loading("Adding user..."))
-                response = await _propertyTrackerService.AddUser(newUser);
+			object imageResponse = null;
+			bool uploadedImage = false;
+			using (_dialogService.Loading ("Adding user...")) {
+				response = await _propertyTrackerService.AddUser (newUser);
+				if(response is User && PhotoDataBytes != null && PhotoDataBytes.Length > 0) {
+					imageResponse = await _propertyTrackerService.UploadUserPhoto ((response as User).Id, PhotoDataBytes);
+					uploadedImage = true;
+				}
+			}
 
 	        if (response is User)
 	        {
-	            _dialogService.Alert("User added successfully", null, "OK", AddUserSuccess);
+				bool alertDisplayed = false;
+				if(uploadedImage) {
+					if(imageResponse is ErrorResult) {
+						_dialogService.Alert ((imageResponse as ErrorResult).Message, "Photo Upload Failed (User Add Successful)", "OK", AddUserSuccess);
+						alertDisplayed = true;
+					}
+					else if(imageResponse == null) {
+						_dialogService.Alert ("Photo Upload Failed (User was added successfully)", "Request Failed", "OK", AddUserSuccess);
+						alertDisplayed = true;
+					}
+				}
+					
+				if(alertDisplayed == false)
+	            	_dialogService.Alert("User added successfully", null, "OK", AddUserSuccess);
 	        }
 	        else
 	        {
@@ -165,7 +185,7 @@ namespace PropertyTracker.Core.ViewModels
 
         private void DoTakePicture()
         {
-            _pictureChooserTask.TakePicture(400, 95, OnPicture, () => { });
+            _pictureChooserTask.TakePicture(128, 60, OnPicture, () => { });
         }
 
         private MvxCommand _choosePictureCommand;
@@ -180,7 +200,7 @@ namespace PropertyTracker.Core.ViewModels
 
         private void DoChoosePicture()
         {
-			_pictureChooserTask.ChoosePictureFromLibrary(400, 95, OnPicture, OnPictureCancelled);
+			_pictureChooserTask.ChoosePictureFromLibrary(128, 60, OnPicture, OnPictureCancelled);
         }
 
         private byte[] _photoDataBytes;

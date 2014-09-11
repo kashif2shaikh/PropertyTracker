@@ -45,9 +45,12 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 				NavigationController.PushViewController(controller, true);
 			});
 			NavigationItem.RightBarButtonItem = addUserButton;
+          
+			var source = new MvxStandardTableViewSource (TableView, UserListCell.Key);
 
-            var source = new MvxStandardTableViewSource(TableView, UITableViewCellStyle.Subtitle, new NSString(UserCellId), "TitleText Fullname;DetailText Username;ImageUrl PhotoUrl;",
-                UITableViewCellAccessory.DisclosureIndicator);
+			//var source = new CustomTableSource(TableView, UITableViewCellStyle.Subtitle, new NSString(UserCellId), "TitleText Fullname;DetailText Username;ImageUrl PhotoUrl;",
+            //    UITableViewCellAccessory.DisclosureIndicator);
+
             TableView.Source = source;
 
             this.SetTitleAndTabBarItem(ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
@@ -69,36 +72,30 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         {
             base.ViewWillAppear(animated);
 
-            //NavigationController.NavigationBarHidden = false;
-
            
+        }       	        
+    }
 
-            /*
-            var source = new MvxStandardTableViewSource(TableView, "TitleText Name");
-            TableView.Source = source;
-            
-            var set = this.CreateBinding(UserListViewController, 
-            set.Bind(logoutButton).To<PropertyListViewModel>(vm => vm.LogoutCommand).Apply();
-            set.Bind(source).To(vm => vm.Kittens);
-            set.Apply();
-            
-
-            TableView.ReloadData();
-            */
-           
-        }
-
-        private void Logout()
+    // Need to subclass so we can customize UIImageView. We could also have created a new User Cell XIB, but that would be way more
+    // monkey-work.
+    class CustomTableSource : MvxStandardTableViewSource
+    {
+        public CustomTableSource(UITableView tableView, UITableViewCellStyle style, NSString cellIdentifier, string bindingText,
+            UITableViewCellAccessory tableViewCellAccessory = UITableViewCellAccessory.None) : base(tableView,style,cellIdentifier,bindingText,tableViewCellAccessory)
         {
-
+            
         }
-
-        public override void ViewDidAppear(bool animated)
+        
+        protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
         {
-            base.ViewDidAppear(animated);
-
-            //ViewModel.ChangeStuff();
-
+            var cell = base.GetOrCreateCellFor(tableView, indexPath, item);
+            cell.ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+            cell.ImageView.ClipsToBounds = true;
+            var frame = cell.ImageView.Frame;
+            frame.Width = 64;
+            frame.Height = 64;
+            cell.ImageView.Frame = frame;
+            return cell;
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Flurl;
 using Newtonsoft.Json;
 using PropertyTracker.Dto.Models;
+using System.Globalization;
+using System.IO;
 
 namespace PropertyTracker.Core.Services
 {
@@ -32,6 +34,7 @@ namespace PropertyTracker.Core.Services
         private const string LoginRequestUrl= "login";
         private const string UsersRequestUrl = "users";
         private const string PropertiesRequestUrl = "properties";
+		private const string PhotoUrl = "photo";
 
         private readonly HttpClient _client;
         private readonly HttpClientHandler _handler;
@@ -239,6 +242,39 @@ namespace PropertyTracker.Core.Services
                 return parsedObject;
             }
         }
+
+		public async Task<object> UploadUserPhoto (int id, byte[] photoData)
+		{
+			if (!LoggedIn)
+			{
+				Debug.WriteLine("Not logged in");
+				return null;
+			}
+			using(var requestContent = new MultipartFormDataContent())
+			{
+				//    here you can specify boundary if you need---^
+				var imageContent = new ByteArrayContent(photoData);
+				imageContent.Headers.ContentType = 
+					MediaTypeHeaderValue.Parse("image/jpeg");
+
+				requestContent.Add(imageContent, "image", "image.jpg");
+
+				using (var response = await _client.PostAsync(string.Format("{0}/{1}/{2}", UsersRequestUrl, id, PhotoUrl), requestContent))
+				{
+					var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+					if (response.IsSuccessStatusCode == false)
+					{
+						var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+						Debug.WriteLine("Request failed: " + response.ToString());
+						return errorResult;
+					}
+
+					return true;
+				}
+
+			}
+
+		}
 
         public async Task<object> GetProperties(PropertyListRequest requestParams)
         {
