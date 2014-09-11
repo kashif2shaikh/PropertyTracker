@@ -9,6 +9,7 @@ using MonoTouch.CoreFoundation;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using PropertyTracker.Core.ViewModels;
+using PropertyTracker.UI.iOS.Common;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
@@ -39,7 +40,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             base.ViewDidLoad();
             
             // Use custom table source so I can put checkmarks on cells
-            var source = new CheckmarkTableSource(TableView, "TitleText");         
+            var source = new SingleCheckmarkTableSource(TableView, "TitleText");         
             TableView.Source = source;
             TableView.AllowsSelection = true;
             

@@ -38,10 +38,7 @@ namespace PropertyTracker.Core.ViewModels
 
         public void Init(string state, Guid requestedViewId)
         {
-			if(requestedViewId != null)
-			{
-				RequestedByViewInstanceId = requestedViewId;
-			}
+            RequestedByViewInstanceId = requestedViewId;
 
             if (state != null)
             {

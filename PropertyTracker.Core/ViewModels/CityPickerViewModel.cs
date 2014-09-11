@@ -43,13 +43,10 @@ namespace PropertyTracker.Core.ViewModels
         }
 
 		public void Init(string city, Guid requestedViewId)
-        {		
-			if(requestedViewId != null)
-			{
-				RequestedByViewInstanceId = requestedViewId;
-			}
+        {
+		    RequestedByViewInstanceId = requestedViewId;
 
-            if (city != null)
+		    if (city != null)
             {
                 SelectedCity = city;
             }				

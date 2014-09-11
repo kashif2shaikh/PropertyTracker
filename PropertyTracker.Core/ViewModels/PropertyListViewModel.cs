@@ -23,12 +23,20 @@ namespace PropertyTracker.Core.ViewModels
         private readonly IPropertyTrackerService _propertyTrackerService;
         private readonly IUserDialogService _dialogService;
         private readonly IMvxMessenger _messenger;
-        
-    
-		private PropertyListRequest _requestParams { get; set; }
-        private PaginatedPropertyListModel _listModel { get; set; }
 
-        
+        private readonly PaginatedPropertyListModel _listModel;
+
+        private ObservableCollection<Property> _properties;
+        public ObservableCollection<Property> Properties
+        {
+            get { return _properties; }
+            set
+            {
+                _properties = value;
+                _listModel.Properties = _properties;
+                RaisePropertyChanged(() => Properties);
+            }
+        }
 
         public PropertyListViewModel(IPropertyTrackerService service, IUserDialogService dialogService, IMvxMessenger messenger)
             : base()
@@ -101,20 +109,7 @@ namespace PropertyTracker.Core.ViewModels
 			RaisePropertyChanged(() => SortColumn);
 			RaisePropertyChanged(() => SortAscending);
 		}
-
-            
-		private ObservableCollection<Property> _properties;
-		public ObservableCollection<Property> Properties
-		{
-			get { return _properties; }
-			set 
-			{ 
-				_properties = value;
-				_listModel.Properties = _properties;
-				RaisePropertyChanged(() => Properties);
-			}
-		}
-
+            	
 		private int CurrentPage
 		{
 			get { return _listModel.CurrentPage; }

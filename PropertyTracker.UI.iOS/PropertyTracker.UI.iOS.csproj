@@ -181,6 +181,7 @@
     <None Include="ToDo-MvvmCross\_ Touch UI.txt" />
     <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\AddUserViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\PropertyPickerViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
     <Compile Include="Bootstrap\UserDialogPluginBootstrap.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\MultipleCheckmarkTableSource.cs" />
     <Compile Include="Common\MvxTouchViewExtensions.cs" />
     <Compile Include="Common\ViewControllerExtensions.cs" />
     <Compile Include="Main.cs" />
@@ -198,7 +200,7 @@
     <Compile Include="PropertyTracker.UI.iOSViewController.designer.cs">
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\CheckmarkTableSource.cs" />
+    <Compile Include="Common\SingleCheckmarkTableSource.cs" />
     <Compile Include="ViewControllers\CityPickerViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.designer.cs">
@@ -235,6 +237,14 @@
     <Compile Include="Views\UserListCell.cs" />
     <Compile Include="Views\UserListCell.designer.cs">
       <DependentUpon>UserListCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\PropertyPickerViewController.cs" />
+    <Compile Include="ViewControllers\PropertyPickerViewController.designer.cs">
+      <DependentUpon>PropertyPickerViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyPickerCell.cs" />
+    <Compile Include="Views\PropertyPickerCell.designer.cs">
+      <DependentUpon>PropertyPickerCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
