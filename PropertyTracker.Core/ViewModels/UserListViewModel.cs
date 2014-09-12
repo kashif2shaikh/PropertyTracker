@@ -72,6 +72,7 @@ namespace PropertyTracker.Core.ViewModels
                 var msg = response is ErrorResult ? (response as ErrorResult).Message : "Failed to retreive users";
                 _dialogService.Alert(msg, "Request Failed");
             } 
-        }               
+        }
+               
     }
 }

@@ -12,7 +12,7 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
 	public partial class AddUserViewController : MvxTableViewController
-	{
+	{	    
 		public AddUserViewController(IntPtr handle)
 			: base(handle)
 		{
@@ -59,7 +59,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 						requestedViewId = ViewModel.ViewInstanceId
 					}) as PropertyPickerViewController;
 
-				NavigationController.PushViewController(controller, true);	
+				NavigationController.PushViewController(controller, true);			    
 			});
 
 			PhotoImageTapGestureRecognizer.AddTarget(() => {
@@ -103,6 +103,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 				return true; 
 			};
 		}
+        
+	   
 	}
 }
 

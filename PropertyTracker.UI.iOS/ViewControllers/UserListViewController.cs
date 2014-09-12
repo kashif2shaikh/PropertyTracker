@@ -15,6 +15,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 {
     public partial class UserListViewController : MvxTableViewController
     {
+        private bool _addUserViewLoaded;
         private const string UserCellId = "UserCell";
         static bool UserInterfaceIdiomIsPhone
         {
@@ -43,6 +44,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			var addUserButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, (o, e) => {
 				var controller = this.CreateViewControllerFor<AddUserViewModel>() as AddUserViewController;
 				NavigationController.PushViewController(controller, true);
+			   _addUserViewLoaded = true;
 			});
 			NavigationItem.RightBarButtonItem = addUserButton;
           
@@ -71,8 +73,12 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-
-           
+            if (_addUserViewLoaded)
+            {
+                // if we loaded add user view, then refresh screen
+                ViewModel.GetUsers();
+                _addUserViewLoaded = false;
+            }           
         }       	        
     }
 
