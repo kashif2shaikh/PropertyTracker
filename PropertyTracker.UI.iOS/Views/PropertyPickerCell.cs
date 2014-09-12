@@ -33,7 +33,7 @@ namespace PropertyTracker.UI.iOS.Views
 
 		public static PropertyPickerCell Create ()
 		{
-			return (PropertyListCell)Nib.Instantiate (null, null) [0];
+            return (PropertyPickerCell)Nib.Instantiate(null, null)[0];
 		}
 	}
 }

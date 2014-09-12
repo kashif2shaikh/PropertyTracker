@@ -1,10 +1,12 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
+using System;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -47,68 +49,9 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField UsernameTextField { get; set; }
-		
+
 		void ReleaseDesignerOutlets ()
 		{
-			if (AddButtonItem != null) {
-				AddButtonItem.Dispose ();
-				AddButtonItem = null;
-			}
-
-			if (CancelButtonItem != null) {
-				CancelButtonItem.Dispose ();
-				CancelButtonItem = null;
-			}
-
-			if (CompanyNameTextField != null) {
-				CompanyNameTextField.Dispose ();
-				CompanyNameTextField = null;
-			}
-
-			if (ConfirmPasswordTextField != null) {
-				ConfirmPasswordTextField.Dispose ();
-				ConfirmPasswordTextField = null;
-			}
-
-			if (FullNameTextField != null) {
-				FullNameTextField.Dispose ();
-				FullNameTextField = null;
-			}
-
-			if (PasswordTextField != null) {
-				PasswordTextField.Dispose ();
-				PasswordTextField = null;
-			}
-
-			if (PhotoImageTapGestureRecognizer != null) {
-				PhotoImageTapGestureRecognizer.Dispose ();
-				PhotoImageTapGestureRecognizer = null;
-			}
-
-			if (PhotoImageView != null) {
-				PhotoImageView.Dispose ();
-				PhotoImageView = null;
-			}
-
-			if (PlaceholderImageView != null) {
-				PlaceholderImageView.Dispose ();
-				PlaceholderImageView = null;
-			}
-
-			if (PropertiesLabel != null) {
-				PropertiesLabel.Dispose ();
-				PropertiesLabel = null;
-			}
-
-			if (PropertiesTapGestureRecognizer != null) {
-				PropertiesTapGestureRecognizer.Dispose ();
-				PropertiesTapGestureRecognizer = null;
-			}
-
-			if (UsernameTextField != null) {
-				UsernameTextField.Dispose ();
-				UsernameTextField = null;
-			}
 		}
 	}
 }

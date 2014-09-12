@@ -25,7 +25,6 @@ namespace PropertyTracker.UI.iOS.Views
 
 		void ReleaseDesignerOutlets ()
 		{
-
 		}
 	}
 }

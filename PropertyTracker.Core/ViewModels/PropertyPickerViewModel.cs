@@ -32,8 +32,8 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
-        private List<int> _selectedPropertyIndexList;
-        public List<int> SelectedPropertyIndexList
+		private ObservableCollection<int> _selectedPropertyIndexList;
+		public ObservableCollection<int> SelectedPropertyIndexList
         {
             get { return _selectedPropertyIndexList; }
             set 
@@ -50,6 +50,7 @@ namespace PropertyTracker.Core.ViewModels
             _messenger = messenger;
 
             _properties = new ObservableCollection<Property>();
+			_selectedPropertyIndexList = new ObservableCollection<int> ();
             _listModel = new PaginatedPropertyListModel(_propertyTrackerService, _dialogService)
             {
                 Properties = _properties

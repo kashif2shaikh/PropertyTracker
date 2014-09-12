@@ -51,11 +51,18 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			set.Bind(PhotoImageView).To(vm => vm.PhotoDataBytes).WithConversion("InMemoryImage");
 			set.Apply ();
 
+			PropertiesTapGestureRecognizer.AddTarget(() => {
+				var controller = this.CreateViewControllerFor<PropertyPickerViewModel>(new 
+					{
+						requestedViewId = ViewModel.ViewInstanceId
+					}) as PropertyPickerViewController;
 
+				NavigationController.PushViewController(controller, true);	
+			});
 
 			PhotoImageTapGestureRecognizer.AddTarget(() => {
 				ViewModel.ChoosePictureCommand.Execute (null);
-			});
+			});				
 
 			ViewModel.OnPictureEventHandler += (object sender, EventArgs e) => {
 				PlaceholderImageView.Hidden = true;
