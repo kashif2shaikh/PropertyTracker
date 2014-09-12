@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Input;
 using Acr.MvvmCross.Plugins.UserDialogs;
 using Cirrious.CrossCore.Core;
+using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.MvvmCross.Plugins.PictureChooser;
 using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Core.Services;
@@ -17,13 +18,34 @@ namespace PropertyTracker.Core.ViewModels
         private readonly IPropertyTrackerService _propertyTrackerService;
         private readonly IUserDialogService _dialogService;
         private readonly IMvxPictureChooserTask _pictureChooserTask;
+        private readonly IMvxMessenger _messenger;
 
-        public AddUserViewModel(IPropertyTrackerService service, IUserDialogService dialogService, IMvxPictureChooserTask pictureChooserTask) 
+        public AddUserViewModel(IPropertyTrackerService service, IUserDialogService dialogService, IMvxPictureChooserTask pictureChooserTask, IMvxMessenger messenger) 
 		{
             _propertyTrackerService = service;
             _dialogService = dialogService;
             _pictureChooserTask = pictureChooserTask;
+            _messenger = messenger;
+            _properties = new List<Property>();
+            RegisterSubscriptions();
 		}
+
+        private MvxSubscriptionToken _propertyPickerToken;        
+        private void RegisterSubscriptions()
+        {
+            _propertyPickerToken = _messenger.Subscribe<PropertyPickerMessage>(OnPropertyPickeryMessage);            
+        }
+
+        private void OnPropertyPickeryMessage(PropertyPickerMessage msg)
+        {
+            var pickerView = msg.Sender as PropertyPickerViewModel;
+
+            // Only handle city picker msg if we were expecting it.
+            if (pickerView != null && ViewInstanceId.Equals(pickerView.RequestedByViewInstanceId))
+            {
+                Properties = msg.Properties;
+            }
+        }
 			
 		public string CompanyName
 		{

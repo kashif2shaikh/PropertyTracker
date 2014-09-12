@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Input;
 using Acr.MvvmCross.Plugins.UserDialogs;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.MvvmCross.ViewModels;
 using FluentValidation.Results;
+using Newtonsoft.Json;
 using PropertyTracker.Core.Services;
 using PropertyTracker.Dto.Models;
 
@@ -32,12 +34,14 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
-		private ObservableCollection<int> _selectedPropertyIndexList;
-		public ObservableCollection<int> SelectedPropertyIndexList
+        private List<Property> _selectedProperties; 
+
+		private List<int> _selectedPropertyIndexList;
+		public List<int> SelectedPropertyIndexList
         {
             get { return _selectedPropertyIndexList; }
-            set 
-            { 
+            set
+            {
                 _selectedPropertyIndexList = value;
                 RaisePropertyChanged(() => SelectedPropertyIndexList);
             }
@@ -49,29 +53,49 @@ namespace PropertyTracker.Core.ViewModels
             _dialogService = dialogService;
             _messenger = messenger;
 
-            _properties = new ObservableCollection<Property>();
-			_selectedPropertyIndexList = new ObservableCollection<int> ();
+            _properties = new ObservableCollection<Property>();          
+			_selectedPropertyIndexList = new List<int> ();
             _listModel = new PaginatedPropertyListModel(_propertyTrackerService, _dialogService)
             {
-                Properties = _properties
+                Properties = _properties,
+                // Return all properties as picker won't work if selected items cross over multiple batches!
+                PageSize = PropertyListRequest.NoLimitForPageSize
             };
+
+
         }
 
-        public void Init(Guid requestedViewId)
+        public void Init(string jsonSelectedPropertyList, Guid requestedViewId)
         {		            
-            RequestedByViewInstanceId = requestedViewId;            
-
-            // TODO - figure out how we can add list of items.
-
-
+            RequestedByViewInstanceId = requestedViewId;
+            _selectedProperties = JsonConvert.DeserializeObject<List<Property>>(jsonSelectedPropertyList);                     
         }
 
-        public override void Start()
+        private void CreateSelectedPropertyIndexList()
+        {
+            if (_selectedProperties != null && Properties != null)
+            {
+                var pindex = 0;
+                foreach (var prop in Properties)
+                {
+                    if (_selectedProperties.FirstOrDefault(p => p.Id == prop.Id) != null)
+                    {
+                        SelectedPropertyIndexList.Add(pindex);
+                    }
+                    pindex++;
+                }
+                _selectedProperties = null;
+            }
+        }
+
+        public override async void Start()
         {
             base.Start();
-            _listModel.GetProperties();
+            await _listModel.GetProperties();
+            CreateSelectedPropertyIndexList();
         }
 
+        /*
         public IMvxCommand GetPropertiesCommand
         {
             get
@@ -84,6 +108,7 @@ namespace PropertyTracker.Core.ViewModels
         {
             get { return new MvxCommand(() => _listModel.GetMoreProperties()); }
         }
+        */
 
         public ICommand PropertyPickerDoneCommand
         {

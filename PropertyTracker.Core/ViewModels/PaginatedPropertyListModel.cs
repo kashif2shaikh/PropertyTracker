@@ -57,7 +57,7 @@ namespace PropertyTracker.Core.ViewModels
         public PaginatedPropertyList LastResult;
        
 
-		public async void GetProperties()
+		public async Task GetProperties()
 		{
 			CurrentPage = 0;
 
@@ -85,7 +85,7 @@ namespace PropertyTracker.Core.ViewModels
 			}
 		}				
 
-		public async void GetMoreProperties( )
+		public async Task GetMoreProperties( )
 		{
 			CurrentPage += 1;
 

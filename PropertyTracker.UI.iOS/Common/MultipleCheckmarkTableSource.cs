@@ -15,8 +15,7 @@ namespace PropertyTracker.UI.iOS.Common
   
         public MultipleCheckmarkTableSource(UITableView tableView, NSString cellIdentifier) : base(tableView, cellIdentifier)
         {
-			SelectedItemIndexList = new List<int> ();
-               
+			SelectedItemIndexList = new List<int> ();               
         }
         
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)

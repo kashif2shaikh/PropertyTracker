@@ -5,6 +5,7 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
+using Newtonsoft.Json;
 using PropertyTracker.Core.ViewModels;
 using Cirrious.MvvmCross.Binding.BindingContext;
 
@@ -54,6 +55,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			PropertiesTapGestureRecognizer.AddTarget(() => {
 				var controller = this.CreateViewControllerFor<PropertyPickerViewModel>(new 
 					{
+                        jsonSelectedPropertyList =  JsonConvert.SerializeObject(ViewModel.Properties),
 						requestedViewId = ViewModel.ViewInstanceId
 					}) as PropertyPickerViewController;
 

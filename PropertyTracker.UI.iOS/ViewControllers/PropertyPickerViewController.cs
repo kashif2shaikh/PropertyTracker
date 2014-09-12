@@ -37,27 +37,29 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			var source = new MultipleCheckmarkTableSource (TableView, PropertyPickerCell.Key);
 					
 			TableView.Source = source;
-			TableView.AllowsSelection = true;
-			//TableView.AllowsMultipleSelection = true;
-				
+			TableView.AllowsSelection = true; // needed for checkmark source
+							
 			var set = this.CreateBindingSet<PropertyPickerViewController, PropertyPickerViewModel>();
 			set.Bind(source).To(vm => vm.Properties);
 			set.Bind(source).For(s => s.SelectedItemIndexList).To(vm => vm.SelectedPropertyIndexList);
-            set.Bind(GetPropertiesButtonItem).To(vm => vm.GetPropertiesCommand);
-            set.Bind(GetMorePropertiesButtonItem).To(vm => vm.GetMorePropertiesCommand);
+            
+            /* 
+             * Disable batched results. 
+             */
+            //set.Bind(GetPropertiesButtonItem).To(vm => vm.GetPropertiesCommand);
+            //set.Bind(GetMorePropertiesButtonItem).To(vm => vm.GetMorePropertiesCommand);
+            PropertyToolBar.Hidden = true;
 			
 			set.Apply();
-
-			// Reload clicked - run command and hide search options
-			/*
-		    GetPropertiesButtonItem.Clicked += (sender, args) =>
-		    {
-		        //HideSearchOptions(true);
-                //TableView.ReloadData();
-		    };
-            */
-
+           
 		    TableView.ReloadData();
 		}
+
+	    public override void ViewWillDisappear(bool animated)
+	    {
+	        base.ViewWillDisappear(animated);
+
+	        ViewModel.PropertyPickerDoneCommand.Execute(null);
+	    }
 	}
 }
