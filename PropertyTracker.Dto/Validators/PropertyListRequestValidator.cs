@@ -16,7 +16,10 @@ namespace PropertyTracker.Dto.Validators
             // First set the cascade mode
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(req => req.PageSize).GreaterThanOrEqualTo(PropertyListRequest.MinPageSize).LessThanOrEqualTo(PropertyListRequest.MaxPageSize);
+            RuleFor(req => req.PageSize)
+                .Must(pageSize => (pageSize >= PropertyListRequest.MinPageSize && pageSize <= PropertyListRequest.MaxPageSize))
+                .Unless(req => (req.PageSize == PropertyListRequest.NoLimitForPageSize));
+                
             RuleFor(req => req.CurrentPage).GreaterThanOrEqualTo(0);
 
             RuleFor(req => req.SortColumn).Must(col => (col == PropertyListRequest.CityColumn ||

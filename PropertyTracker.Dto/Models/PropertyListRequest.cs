@@ -12,6 +12,7 @@ namespace PropertyTracker.Dto.Models
         public const int DefaultPageSize = 10;
         public const int MinPageSize = 1;
         public const int MaxPageSize = 100;
+        public const int NoLimitForPageSize = -1;
 
         public const string NameColumn = "Name";
         public const string CityColumn = "City";
@@ -19,7 +20,7 @@ namespace PropertyTracker.Dto.Models
               
         // Page Parameters
         public int CurrentPage { get; set; }
-        public int PageSize { get; set; } // Must be less than MaxPageSize
+        public int PageSize { get; set; } // Must be less than MaxPageSize or NoLimitForPageSize
 
         // Search/Filter Parameters
         public string NameFilter { get; set; }

@@ -113,10 +113,14 @@ namespace PropertyTracker.Web.Api.Controllers
         private PaginatedPropertyList GetPaginatedPropertyList(PropertyListRequest requestParams)
         {
             var query = PropertiesQuery(requestParams);
-            var totalItems = (double)query.Count();
-
-            query = query.Skip(requestParams.CurrentPage * requestParams.PageSize).Take(requestParams.PageSize);            
             
+            var totalItems = query.Count();
+            
+            // if no limit for page size, then page size will be equal to total items so we return all results.
+            var pageSize = requestParams.PageSize != PropertyListRequest.NoLimitForPageSize ? requestParams.PageSize : totalItems;
+
+            query = query.Skip(requestParams.CurrentPage * pageSize).Take(pageSize);
+                                       
             var propertyDtoList = Mapper.Map<IQueryable<Entity.Models.Property>, List<Dto.Models.Property>>(query);
             GenerateUserPhotoLinks(propertyDtoList);
 
@@ -125,9 +129,9 @@ namespace PropertyTracker.Web.Api.Controllers
             {
                 Properties = propertyDtoList,
                 CurrentPage = requestParams.CurrentPage,
-                PageSize = requestParams.PageSize,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)requestParams.PageSize),
-                TotalItems = (int)totalItems
+                PageSize =  pageSize,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                TotalItems = totalItems
             };
             return paginatedList;
         }
