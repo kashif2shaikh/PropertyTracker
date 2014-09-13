@@ -41,6 +41,7 @@
     <Compile Include="Services\IGeoDataService.cs" />
     <Compile Include="Services\IPropertyTrackerService.cs" />
     <Compile Include="Services\PropertyTrackerService.cs" />
+    <Compile Include="ViewModels\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\CityPickerViewModel.cs" />
     <Compile Include="ViewModels\PaginatedPropertyListModel.cs" />
     <Compile Include="ViewModels\StatePickerViewModel.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PropertyListViewModel.cs" />
+    <Compile Include="ViewModels\UserDetailViewModel.cs" />
     <Compile Include="ViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\FirstViewModel.cs" />

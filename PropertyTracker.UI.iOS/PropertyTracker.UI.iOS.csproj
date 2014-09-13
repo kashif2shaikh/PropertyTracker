@@ -203,6 +203,10 @@
       <DependentUpon>PropertyTracker.UI.iOSViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\SingleCheckmarkTableSource.cs" />
+    <Compile Include="ViewControllers\BaseUserViewController.cs" />
+    <Compile Include="ViewControllers\BaseUserViewController.designer.cs">
+      <DependentUpon>BaseUserViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\CityPickerViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.cs" />
     <Compile Include="ViewControllers\LoginViewController.designer.cs">
