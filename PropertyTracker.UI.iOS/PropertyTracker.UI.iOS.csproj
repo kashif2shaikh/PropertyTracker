@@ -184,6 +184,7 @@
     <InterfaceDefinition Include="ViewControllers\PropertyListViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\AddUserViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\PropertyPickerViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\UserDetailViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -216,6 +217,10 @@
     <Compile Include="AppSetup.cs" />
     <Compile Include="AppContainer.cs" />
     <Compile Include="ViewControllers\StatePickerViewController.cs" />
+    <Compile Include="ViewControllers\UserDetailViewController.cs" />
+    <Compile Include="ViewControllers\UserDetailViewController.designer.cs">
+      <DependentUpon>UserDetailViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\UserListViewController.cs" />
     <Compile Include="ViewControllers\UserListViewController.designer.cs">
       <DependentUpon>UserListViewController.cs</DependentUpon>
