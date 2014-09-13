@@ -16,12 +16,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
     public partial class UserListViewController : MvxTableViewController
     {
         private bool _addUserViewLoaded;
-        private const string UserCellId = "UserCell";
-        static bool UserInterfaceIdiomIsPhone
-        {
-            get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-        }
-
+      
         public UserListViewController(IntPtr handle)
             : base(handle)
         {
@@ -75,33 +70,10 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             base.ViewWillAppear(animated);
             if (_addUserViewLoaded)
             {
-                // if we loaded add user view, then refresh screen
+                // if we loaded add user view, then refresh screen when screen is dismissed
                 ViewModel.GetUsers();
                 _addUserViewLoaded = false;
             }           
         }       	        
-    }
-
-    // Need to subclass so we can customize UIImageView. We could also have created a new User Cell XIB, but that would be way more
-    // monkey-work.
-    class CustomTableSource : MvxStandardTableViewSource
-    {
-        public CustomTableSource(UITableView tableView, UITableViewCellStyle style, NSString cellIdentifier, string bindingText,
-            UITableViewCellAccessory tableViewCellAccessory = UITableViewCellAccessory.None) : base(tableView,style,cellIdentifier,bindingText,tableViewCellAccessory)
-        {
-            
-        }
-        
-        protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath, object item)
-        {
-            var cell = base.GetOrCreateCellFor(tableView, indexPath, item);
-            cell.ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-            cell.ImageView.ClipsToBounds = true;
-            var frame = cell.ImageView.Frame;
-            frame.Width = 64;
-            frame.Height = 64;
-            cell.ImageView.Frame = frame;
-            return cell;
-        }
     }
 }
