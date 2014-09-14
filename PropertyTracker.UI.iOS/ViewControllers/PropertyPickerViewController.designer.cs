@@ -1,12 +1,10 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-using System;
 using MonoTouch.Foundation;
-using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -22,9 +20,23 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 		[Outlet]
 		MonoTouch.UIKit.UIToolbar PropertyToolBar { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
+			if (GetMorePropertiesButtonItem != null) {
+				GetMorePropertiesButtonItem.Dispose ();
+				GetMorePropertiesButtonItem = null;
+			}
+
+			if (GetPropertiesButtonItem != null) {
+				GetPropertiesButtonItem.Dispose ();
+				GetPropertiesButtonItem = null;
+			}
+
+			if (PropertyToolBar != null) {
+				PropertyToolBar.Dispose ();
+				PropertyToolBar = null;
+			}
 		}
 	}
 }
