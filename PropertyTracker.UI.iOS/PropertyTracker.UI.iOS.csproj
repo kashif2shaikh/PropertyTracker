@@ -183,6 +183,7 @@
     <InterfaceDefinition Include="ViewControllers\AddUserViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\PropertyPickerViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\UserDetailViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\AddPropertyViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -256,6 +257,14 @@
       <DependentUpon>PropertyPickerCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Bootstrap\UserDialogsPluginBootstrap.cs" />
+    <Compile Include="ViewControllers\AddPropertyViewController.cs" />
+    <Compile Include="ViewControllers\AddPropertyViewController.designer.cs">
+      <DependentUpon>AddPropertyViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\BasePropertyViewController.cs" />
+    <Compile Include="ViewControllers\BasePropertyViewController.designer.cs">
+      <DependentUpon>BasePropertyViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

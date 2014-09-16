@@ -55,6 +55,8 @@
     <Compile Include="ViewModels\AddUserViewModel.cs" />
     <Compile Include="ViewModels\PropertyPickerViewModel.cs" />
     <Compile Include="ViewModels\UserDetailViewModel.cs" />
+    <Compile Include="ViewModels\BasePropertyViewModel.cs" />
+    <Compile Include="ViewModels\AddPropertyViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

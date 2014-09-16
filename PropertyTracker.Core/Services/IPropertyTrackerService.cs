@@ -24,6 +24,11 @@ namespace PropertyTracker.Core.Services
 
         // Properties API
         Task<object> GetProperties(PropertyListRequest requestParams);
+		Task<object> GetProperty(int id);
+		Task<object> AddProperty(Property property);
+		Task<object> UpdateProperty(Property property);
+		Task<object> DeleteProperty(int id);
+
 
     }
 }

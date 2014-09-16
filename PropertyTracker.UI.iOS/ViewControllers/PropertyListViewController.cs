@@ -46,6 +46,13 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			var logoutButton = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Bordered, null);
 			NavigationItem.LeftBarButtonItem = logoutButton;
 
+			var addPropertyButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, (o, e) => {
+				var controller = this.CreateViewControllerFor<AddPropertyViewModel> () as AddPropertyViewController;
+				NavigationController.PushViewController (controller, true);
+			});
+
+			NavigationItem.RightBarButtonItem = addPropertyButton;
+
 			this.SetTitleAndTabBarItem(ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
 
             //var source = new MvxStandardTableViewSource(TableView, UITableViewCellStyle.Subtitle, new NSString(PropertyCellId), "TitleText Name;DetailText City",

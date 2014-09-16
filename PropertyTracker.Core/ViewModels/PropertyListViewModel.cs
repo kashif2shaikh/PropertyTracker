@@ -68,10 +68,12 @@ namespace PropertyTracker.Core.ViewModels
         
         private MvxSubscriptionToken _cityPickerToken;
         private MvxSubscriptionToken _statePickerToken;
+		private MvxSubscriptionToken _propertiesUpdatedMessageToken;
         private void RegisterSubscriptions()
         {
             _cityPickerToken = _messenger.Subscribe<CityPickerMessage>(OnCityPickerMessage);
-            _statePickerToken = _messenger.Subscribe<StatePickerMessage>(OnStatePickerMessage);    
+            _statePickerToken = _messenger.Subscribe<StatePickerMessage>(OnStatePickerMessage);
+			_propertiesUpdatedMessageToken = _messenger.Subscribe<PropertiesUpdatedMessage>(OnPropertiesUpdatedMessaged);
         }
 			        
         private void OnCityPickerMessage(CityPickerMessage msg)
@@ -95,6 +97,13 @@ namespace PropertyTracker.Core.ViewModels
                 StateFilter = msg.State;
             }
         }
+
+		private void OnPropertiesUpdatedMessaged(PropertiesUpdatedMessage msg)
+		{
+			// Property added/updated
+			Reset ();
+			_listModel.GetProperties();
+		}
 
 		private void Reset()
 		{
@@ -227,4 +236,15 @@ namespace PropertyTracker.Core.ViewModels
             get { return new MvxCommand(() => ChangePresentation(new LogoutPresentationHint())); }
         }
     }
+
+	public class PropertiesUpdatedMessage : MvxMessage
+	{
+		public PropertiesUpdatedMessage(object sender)
+			: base(sender)
+		{
+
+		}
+
+		public Property Property { get; set;}
+	}
 }

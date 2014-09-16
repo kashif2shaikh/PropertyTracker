@@ -332,5 +332,26 @@ namespace PropertyTracker.Core.Services
             }
            
         }
+			
+
+		public async Task<object> GetProperty(int id)
+		{
+			return null;
+		}
+
+		public async Task<object> AddProperty(Property property)
+		{
+			return null;
+		}
+
+		public async Task<object> UpdateProperty(Property property){
+
+			return null;
+		}
+
+		public async Task<object> DeleteProperty(int id)
+		{
+			return null;
+		}
     }
 }
