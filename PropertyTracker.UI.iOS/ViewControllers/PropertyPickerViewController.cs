@@ -37,7 +37,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			var source = new MultipleCheckmarkTableSource (TableView, PropertyPickerCell.Key);
 					
 			TableView.Source = source;
-			TableView.AllowsSelection = true; // needed for checkmark source
+			TableView.AllowsSelection = !ViewModel.ViewOnlyMode;
 							
 			var set = this.CreateBindingSet<PropertyPickerViewController, PropertyPickerViewModel>();
 			set.Bind(source).To(vm => vm.Properties);

@@ -12,7 +12,7 @@ using System.CodeDom.Compiler;
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
 	[Register ("AddUserViewController")]
-	partial class AddUserViewController : BaseUserViewController
+	partial class AddUserViewController
 	{
 		[Outlet]
 		MonoTouch.UIKit.UIBarButtonItem AddButtonItem { get; set; }

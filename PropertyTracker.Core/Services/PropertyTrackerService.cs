@@ -276,6 +276,29 @@ namespace PropertyTracker.Core.Services
 
 		}
 
+		public async Task<object> DownloadUserPhoto (User user)
+		{
+			if (!LoggedIn)
+			{
+				Debug.WriteLine("Not logged in");
+				return null;
+			}
+				
+			using (var response = await _client.GetAsync(user.PhotoUrl))
+			{
+				var content = response.Content != null ? await response.Content.ReadAsByteArrayAsync () : null;
+				if (response.IsSuccessStatusCode == false)
+				{
+					var errorString = System.Text.Encoding.UTF8.GetString (content, 0, content.Length);
+					var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(errorString) : null;
+					Debug.WriteLine("Request failed: " + response.ToString());
+					return errorResult;
+				}
+
+				return content;
+			}
+		}
+
         public async Task<object> GetProperties(PropertyListRequest requestParams)
         {
             if (!LoggedIn)

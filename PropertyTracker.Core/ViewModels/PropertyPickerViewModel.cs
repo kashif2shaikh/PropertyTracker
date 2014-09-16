@@ -22,6 +22,9 @@ namespace PropertyTracker.Core.ViewModels
         private readonly IMvxMessenger _messenger;       
         private readonly PaginatedPropertyListModel _listModel;
 
+
+		public bool ViewOnlyMode {get; set;}
+
         private ObservableCollection<Property> _properties;
         public ObservableCollection<Property> Properties
         {
@@ -61,12 +64,11 @@ namespace PropertyTracker.Core.ViewModels
                 // Return all properties as picker won't work if selected items cross over multiple batches!
                 PageSize = PropertyListRequest.NoLimitForPageSize
             };
-
-
         }
 
-        public void Init(string jsonSelectedPropertyList, Guid requestedViewId)
+        public void Init(bool viewOnlyMode, string jsonSelectedPropertyList, Guid requestedViewId)
         {		            
+			ViewOnlyMode = viewOnlyMode;
             RequestedByViewInstanceId = requestedViewId;
             _selectedProperties = JsonConvert.DeserializeObject<List<Property>>(jsonSelectedPropertyList);                     
         }

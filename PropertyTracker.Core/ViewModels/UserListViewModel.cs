@@ -8,29 +8,47 @@ using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Core.PresentationHints;
 using PropertyTracker.Core.Services;
 using PropertyTracker.Dto.Models;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using System.Collections.ObjectModel;
 
 namespace PropertyTracker.Core.ViewModels
 {
     public class UserListViewModel : TabItemModel
     {
         private readonly IPropertyTrackerService _propertyTrackerService;
-        private readonly IUserDialogService _dialogService;    
+        private readonly IUserDialogService _dialogService;
+		private readonly  IMvxMessenger _messenger;
 
-        public UserListViewModel(IPropertyTrackerService service,  IUserDialogService dialogService)
+		public UserListViewModel(IPropertyTrackerService service,  IUserDialogService dialogService,  IMvxMessenger messenger)
         {
             _propertyTrackerService = service;
             _dialogService = dialogService;
+			_messenger = messenger;
 
             TabTitle = "Users";
             TabImageName = "UserListIcon.png";
             TabSelectedImageName = null;
             TabBadgeValue = null;
 
-            Users = new List<User>();
+			Users = new ObservableCollection<User>();
+			RegisterSubscriptions ();
+
         }
 
-        private List<User> _users;
-        public List<User> Users
+		private MvxSubscriptionToken _usersUpdatedMessageToken;
+		protected void RegisterSubscriptions()
+		{
+			_usersUpdatedMessageToken = _messenger.Subscribe<UsersUpdatedMessage> (OnUsersUpdatedMessaged);   
+		}
+
+		private void OnUsersUpdatedMessaged(UsersUpdatedMessage msg)
+		{
+			// Users were added/updated, refresh list
+			GetUsers ();
+		}
+
+		private ObservableCollection<User> _users;
+		public ObservableCollection<User> Users
         {
             get { return _users; }
             set 
@@ -65,7 +83,11 @@ namespace PropertyTracker.Core.ViewModels
 
             if (response is UserList)
             {
-                Users = (response as UserList).Users;
+				Users.Clear ();
+				foreach(var user in (response as UserList).Users) {
+					Users.Add(user);
+				}
+				//Users = new (response as UserList).Users;
             }
             else
             {
@@ -73,6 +95,19 @@ namespace PropertyTracker.Core.ViewModels
                 _dialogService.Alert(msg, "Request Failed");
             } 
         }
+
+
                
     }
+
+	public class UsersUpdatedMessage : MvxMessage
+	{
+		public UsersUpdatedMessage(object sender)
+			: base(sender)
+		{
+
+		}
+
+		public User User { get; set;}
+	}
 }

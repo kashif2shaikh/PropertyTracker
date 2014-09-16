@@ -20,6 +20,7 @@ namespace PropertyTracker.Core.Services
         Task<object> UpdateUser(User user);
         Task<object> DeleteUser(int id);
 		Task<object> UploadUserPhoto (int id, byte[] photoData);
+		Task<object> DownloadUserPhoto (User user);
 
         // Properties API
         Task<object> GetProperties(PropertyListRequest requestParams);

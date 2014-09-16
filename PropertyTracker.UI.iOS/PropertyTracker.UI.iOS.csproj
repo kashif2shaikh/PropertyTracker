@@ -106,12 +106,6 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Acr.MvvmCross.Plugins.UserDialogs.Touch">
-      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.0\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="BTProgressHUD">
-      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.0\lib\MonoTouch\BTProgressHUD.dll</HintPath>
-    </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.DownloadCache">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.DownloadCache.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.DownloadCache.dll</HintPath>
     </Reference>
@@ -132,10 +126,6 @@
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser.Touch">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.PictureChooser.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
@@ -165,12 +155,20 @@
       <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.1.1\lib\MonoTouch\Cirrious.MvvmCross.dll</HintPath>
     </Reference>
     <Reference Include="Acr.MvvmCross.Plugins.UserDialogs">
-      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.0\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.dll</HintPath>
+      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.1\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.MvvmCross.Plugins.UserDialogs.Touch">
+      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.1\lib\MonoTouch\Acr.MvvmCross.Plugins.UserDialogs.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\packages\Acr.MvvmCross.Plugins.UserDialogs.2.0.1\lib\MonoTouch\BTProgressHUD.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
-    <BundleResource Include="Resources\.DS_Store" />
     <BundleResource Include="Images\UserIcon%402x.png" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +255,7 @@
     <Compile Include="Views\PropertyPickerCell.designer.cs">
       <DependentUpon>PropertyPickerCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrap\UserDialogsPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />

@@ -64,6 +64,11 @@ namespace PropertyTracker.Core.ViewModels
 					
 				if(alertDisplayed == false)
 	            	_dialogService.Alert("User added successfully", null, "OK", AddUserSuccess);
+
+				var message = new UsersUpdatedMessage(this) {
+					User = response as User
+				};
+				_messenger.Publish(message);
 	        }
 	        else
 	        {

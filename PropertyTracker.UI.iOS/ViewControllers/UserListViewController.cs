@@ -11,12 +11,15 @@ using PropertyTracker.UI.iOS.Common;
 using PropertyTracker.UI.iOS.Views;
 
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
+using PropertyTracker.Dto.Models;
+using Newtonsoft.Json;
+
+
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
     public partial class UserListViewController : MvxTableViewController
     {
-        private bool _addUserViewLoaded;
-      
+              
         public UserListViewController(IntPtr handle)
             : base(handle)
         {
@@ -29,51 +32,55 @@ namespace PropertyTracker.UI.iOS.ViewControllers
         }
 
         public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
+		{
+			base.ViewDidLoad ();
 
-            NavigationController.NavigationBarHidden = false;
-            var logoutButton = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Bordered, null);
-            NavigationItem.LeftBarButtonItem = logoutButton;
+			NavigationController.NavigationBarHidden = false;
+			var logoutButton = new UIBarButtonItem ("Logout", UIBarButtonItemStyle.Bordered, null);
+			NavigationItem.LeftBarButtonItem = logoutButton;
 
 			var addUserButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, (o, e) => {
-				var controller = this.CreateViewControllerFor<AddUserViewModel>() as AddUserViewController;
-				NavigationController.PushViewController(controller, true);
-			   _addUserViewLoaded = true;
+				var controller = this.CreateViewControllerFor<AddUserViewModel> () as AddUserViewController;
+				NavigationController.PushViewController (controller, true);
 			});
 			NavigationItem.RightBarButtonItem = addUserButton;
           
 			var source = new MvxStandardTableViewSource (TableView, UserListCell.Key);
 
-			//var source = new CustomTableSource(TableView, UITableViewCellStyle.Subtitle, new NSString(UserCellId), "TitleText Fullname;DetailText Username;ImageUrl PhotoUrl;",
-            //    UITableViewCellAccessory.DisclosureIndicator);
+			TableView.Source = source;
 
-            TableView.Source = source;
-
-            this.SetTitleAndTabBarItem(ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
+			this.SetTitleAndTabBarItem (ViewModel.TabTitle, ViewModel.TabImageName, ViewModel.TabSelectedImageName, ViewModel.TabBadgeValue);
             
-            var set = this.CreateBindingSet<UserListViewController, UserListViewModel>();
-            set.Bind(source).To(vm => vm.Users);
-            set.Bind(logoutButton).To(vm => vm.LogoutCommand);
-            set.Bind(TabBarItem).For(v => v.Title).To(vm => vm.TabTitle);
-            set.Bind(TabBarItem).For(v => v.BadgeValue).To(vm => vm.TabBadgeValue);
-            //set.Bind(Title).To(vm => vm.TabTitle);
-            //set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);            
-            set.Apply();
+			var set = this.CreateBindingSet<UserListViewController, UserListViewModel> ();
+			set.Bind (source).To (vm => vm.Users);
+			set.Bind (logoutButton).To (vm => vm.LogoutCommand);
+			set.Bind (TabBarItem).For (v => v.Title).To (vm => vm.TabTitle);
+			set.Bind (TabBarItem).For (v => v.BadgeValue).To (vm => vm.TabBadgeValue);
+			//set.Bind(Title).To(vm => vm.TabTitle);
+			//set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);            
+			set.Apply ();
 
-            // Data is fetched after
-            TableView.ReloadData();
-        }
+			source.SelectedItemChanged += (object sender, EventArgs e) => {
+				var controller = this.CreateViewControllerFor<UserDetailViewModel> (new
+					{
+						jsonUser = JsonConvert.SerializeObject(source.SelectedItem as User)
+					}) as UserDetailViewController;
+				NavigationController.PushViewController (controller, true);
+				//var forceLoadView = controller.View; // force load view so we get ViewDidLoad and ViewModel initialized.
+				//controller.ViewModel.User = source.SelectedItem as User;
+			};
 
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-            if (_addUserViewLoaded)
-            {
-                // if we loaded add user view, then refresh screen when screen is dismissed
-                ViewModel.GetUsers();
-                _addUserViewLoaded = false;
-            }           
-        }       	        
+			// Data is fetched after
+			TableView.ReloadData ();
+
+			//ViewModel.Users.CollectionChanged += (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => TableView.ReloadData ();
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			//ViewModel.GetUsers ();
+		}
     }
+
 }

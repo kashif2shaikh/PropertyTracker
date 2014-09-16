@@ -92,6 +92,9 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
+
+
+
         public ICommand TakePictureCommand
         {
             get
@@ -144,7 +147,7 @@ namespace PropertyTracker.Core.ViewModels
 
         public event EventHandler OnPictureEventHandler;
 
-        private void OnPicture(Stream pictureStream)
+		protected virtual void OnPicture(Stream pictureStream)
         {
             var memoryStream = new MemoryStream();
             pictureStream.CopyTo(memoryStream);
@@ -158,7 +161,7 @@ namespace PropertyTracker.Core.ViewModels
 
         public event EventHandler OnPictureCancelledEventHandler;
 
-        private void OnPictureCancelled()
+        protected virtual void OnPictureCancelled()
         {
             if(OnPictureCancelledEventHandler != null)
             {

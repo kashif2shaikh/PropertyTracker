@@ -53,6 +53,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
             {
                 var controller = this.CreateViewControllerFor<PropertyPickerViewModel>(new
                 {
+					viewOnlyMode = !Editing,
                     jsonSelectedPropertyList = JsonConvert.SerializeObject(ViewModel.Properties),
                     requestedViewId = ViewModel.ViewInstanceId
                 }) as PropertyPickerViewController;
@@ -62,7 +63,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
             PhotoImageTapGestureRecognizer.AddTarget(() =>
             {
-                if(_editMode)
+                if(Editing)
                     ViewModel.ChoosePictureCommand.Execute(null);
             });		
 
@@ -103,34 +104,24 @@ namespace PropertyTracker.UI.iOS.ViewControllers
                                                                         return true; 
             };
 
-            EditMode = false;
+			SetEditing (true, false);
         }
 
-        public void MakeFieldsEditable()
-        {
-            EditMode = true;
-        }
+		public override void SetEditing (bool editing, bool animated)
+		{
+			base.SetEditing (editing, animated);
 
-        public void MakeFieldsReadOnly()
-        {
-            EditMode = false;
-        }
+			TableView.Editing = false; // don't show the cells in 'Edit mode' as the TableView inherits the editing flag from TableViewController
 
-        private bool _editMode;
-        public bool EditMode
+			MakeFieldsEditable (editing);
+		}
+
+		public void MakeFieldsEditable(bool editable)
         {
-            get { return _editMode; }
-            set
-            {
-                _editMode = value;
-                FullNameTextField.UserInteractionEnabled = _editMode;
-                UsernameTextField.UserInteractionEnabled = _editMode;
-                PasswordTextField.UserInteractionEnabled = _editMode;
-                ConfirmPasswordTextField.UserInteractionEnabled = _editMode; 
-            }
-            
+			FullNameTextField.UserInteractionEnabled = editable;
+			UsernameTextField.UserInteractionEnabled = editable;
+			PasswordTextField.UserInteractionEnabled = editable;
+			ConfirmPasswordTextField.UserInteractionEnabled = editable; 
         }
-        
-	   
     }
 }

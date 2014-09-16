@@ -7,7 +7,7 @@
         <!--User Detail View Controller - User Detail-->
         <scene sceneID="WwQ-Ef-wSc">
             <objects>
-                <tableViewController storyboardIdentifier="AddUserViewController" id="BxY-0l-mrP" customClass="UserDetailViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="UserDetailViewController" id="BxY-0l-mrP" customClass="UserDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="agl-PY-28J">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -147,17 +147,12 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="User Detail" id="Pvs-G5-B7J">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="W1s-Wv-Mt2"/>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="mF8-BH-8ud"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="User Detail" id="Pvs-G5-B7J"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="CancelButtonItem" destination="W1s-Wv-Mt2" id="i5k-ds-Eoe"/>
                         <outlet property="CompanyNameTextField" destination="Ygb-NZ-emY" id="Nss-x5-pL0"/>
                         <outlet property="ConfirmPasswordTextField" destination="fSd-LV-h86" id="FLh-F8-as7"/>
-                        <outlet property="EditButtonItem" destination="mF8-BH-8ud" id="h0v-Qd-hoH"/>
                         <outlet property="FullNameTextField" destination="tH0-Mm-48n" id="kDB-zu-wZ6"/>
                         <outlet property="PasswordTextField" destination="ina-oW-E6H" id="lbf-zd-88Q"/>
                         <outlet property="PhotoImageTapGestureRecognizer" destination="VOv-h3-tHw" id="ecG-Er-aod"/>
