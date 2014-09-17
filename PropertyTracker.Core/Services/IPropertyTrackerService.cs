@@ -10,7 +10,7 @@ namespace PropertyTracker.Core.Services
         // Login API
         bool LoggedIn { get; }
         User LoggedInUser { get; }
-        Task<object> Login(string username, string password);
+        Task<object> Login(string username, string password);      
         void Logout();
 
         // Users API

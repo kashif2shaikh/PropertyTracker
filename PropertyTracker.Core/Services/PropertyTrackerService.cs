@@ -65,6 +65,15 @@ namespace PropertyTracker.Core.Services
 
         }
 
+        private void UpdatedAuthenticationForUser(User user)
+        {
+            if (!String.IsNullOrWhiteSpace(user.Username) && !String.IsNullOrWhiteSpace(user.Password))
+            {
+                LoggedInUser = user;
+                _client.DefaultRequestHeaders.Authorization = new BasicAuthenticationHeaderValue(user.Username, user.Password);
+            }            
+        }
+
         public async Task<object> Login(string username, string password)
         {
             LoggedIn = false;
@@ -212,6 +221,13 @@ namespace PropertyTracker.Core.Services
                     Debug.WriteLine("Request failed: " + response.ToString());
                     return errorResult;
                 }
+                if (!String.IsNullOrWhiteSpace(user.Password) && user.Id == LoggedInUser.Id)
+                {
+                    // Logged in user changed his password - since server has already stored the password, we can simply update
+                    // service authentication so further service calls don't fail.
+                    UpdatedAuthenticationForUser(user);
+                }
+
                 return true;
             }
         }

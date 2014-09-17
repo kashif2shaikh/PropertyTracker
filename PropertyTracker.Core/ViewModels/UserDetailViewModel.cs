@@ -143,7 +143,7 @@ namespace PropertyTracker.Core.ViewModels
 			// Photo url does not change if photo is updated, it is a fixed path to photo resource for user
 			savedUser.PhotoUrl = _user.PhotoUrl;
 			_user = savedUser;
-
+		  
 			var message = new UsersUpdatedMessage(this) {
 				User = _user
 			};

@@ -218,13 +218,29 @@ namespace PropertyTracker.Web.Api.Controllers
             }
 
             db.Users.Attach(userEntity);
-            db.Entry(userEntity).State = EntityState.Modified;
+            // Don't mark entire entity as modified - fields are optional
+            //db.Entry(userEntity).State = EntityState.Modified;
 
+            if (userEntity.Fullname != null)
+            {
+                db.Entry(userEntity).Property(u => u.Fullname).IsModified = true;
+            }
+
+            if (userEntity.Username != null)
+            {
+                db.Entry(userEntity).Property(u => u.Username).IsModified = true;
+            }
+
+            if (userEntity.Password != null)
+            {
+                db.Entry(userEntity).Property(u => u.Password).IsModified = true;
+            }
+           
             if (userEntity.Password == null)
             {
                 // Entity validation will fail because Password column is not-null and password is optional field.
                 // NOTE: Must use Where/Select instead of Find, so entire entity is not loaded (otherwise it will conflict with Attach!)
-                userEntity.Password = db.Users.Where(u => u.Id == userEntity.Id).Select(u => u.Password).FirstOrDefault();
+                //userEntity.Password = db.Users.Where(u => u.Id == userEntity.Id).Select(u => u.Password).FirstOrDefault();
             }
 
             if (userDto.Properties != null)
@@ -234,10 +250,14 @@ namespace PropertyTracker.Web.Api.Controllers
                 var newProperties = db.Properties.Where(p => propertyIdList.Contains(p.Id)).ToList();
                 
                 userEntity.Properties = newProperties; // for this to work you must force load existing Property collection
+                db.Entry(userEntity).Property(u => u.Properties).IsModified = true;
             }
 
+
+           
             try
             {
+                db.Configuration.ValidateOnSaveEnabled = false;
                 db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -250,6 +270,10 @@ namespace PropertyTracker.Web.Api.Controllers
                 {
                     throw;
                 }
+            }
+            finally
+            {
+                //db.Configuration.ValidateOnSaveEnabled = true;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
