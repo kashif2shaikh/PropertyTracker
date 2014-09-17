@@ -49,8 +49,8 @@ namespace PropertyTracker.Core.Services
             LoggedIn = false;
             _handler = new HttpClientHandler
             {
-                //UseProxy = false, // must disable otherwise network requests will hang when using Mac debugging proxy (e.g. Charles Proxy)
-                //AllowAutoRedirect = false
+                UseProxy = false, // must disable otherwise network requests will hang when using Mac debugging proxy (e.g. Charles Proxy)
+                AllowAutoRedirect = false
             };
             
             _client = new HttpClient(_handler)

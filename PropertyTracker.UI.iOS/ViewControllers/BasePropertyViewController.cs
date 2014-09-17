@@ -67,6 +67,13 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 				return false;
 			};
 
+            // Done button pressed
+            SquareFeetTextField.ShouldReturn += (textField) =>
+            {
+                textField.ResignFirstResponder();
+                return true;
+            };
+
 
 			SetEditing (true, false);
 
