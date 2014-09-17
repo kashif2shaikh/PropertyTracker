@@ -1,16 +1,18 @@
 using System.Collections.Generic;
+using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
 using Cirrious.MvvmCross.ViewModels;
 using MonoTouch.UIKit;
 using PropertyTracker.Core.PresentationHints;
+using PropertyTracker.Core.Services;
 using PropertyTracker.UI.iOS.ViewControllers;
 using PropertyTracker.UI.iOS.Views;
 
 namespace PropertyTracker.UI.iOS
 {
     public class AppPresenter : MvxTouchViewPresenter
-    {
+    {        
         private List<IMvxTouchView> _viewPresenters = new List<IMvxTouchView>();
         private List<IMvxTouchView> _presentedViews = new List<IMvxTouchView>(); 
         private LoginViewController _loginViewController;
@@ -19,7 +21,7 @@ namespace PropertyTracker.UI.iOS
         public AppPresenter(UIApplicationDelegate applicationDelegate, UIWindow window)
             : base(applicationDelegate, window)
         {
-
+            
         }
 
         protected override UINavigationController CreateNavigationController(UIViewController viewController)
@@ -73,6 +75,9 @@ namespace PropertyTracker.UI.iOS
         {
             if (hint is LogoutPresentationHint)
             {
+                var service = Mvx.Resolve<IPropertyTrackerService>(); 
+                service.Logout();
+                
                 CloseUpTo(_loginViewController);
                 return;
             }

@@ -40,7 +40,7 @@ namespace PropertyTracker.Core.ViewModels
 
 		public IMvxCommand DeletePropertyCommand
 		{
-			get { return new MvxCommand(DeleteProperty); }
+			get { return new MvxCommand(DeletePropertyConfirm); }
 		}
 
 		public IMvxCommand SavePropertyCommand
@@ -95,6 +95,11 @@ namespace PropertyTracker.Core.ViewModels
 				var msg = response is ErrorResult ? (response as ErrorResult).Message : "Failed to save Property";
 				_dialogService.Alert(msg, "Request Error", "OK", SavePropertyFailed);	            	            
 			}                          
+		}
+
+		private void DeletePropertyConfirm()
+		{
+			_dialogService.Confirm ("Are you sure you want to delete this property?", (ok) => { if(ok) DeleteProperty (); });
 		}
 
 		private async void DeleteProperty()

@@ -121,10 +121,11 @@ namespace PropertyTracker.Core.Services
             }
         }
 
-        public async void Logout()
+        public void Logout()
         {
             LoggedIn = false;
             LoggedInUser = null;
+            _client.DefaultRequestHeaders.Authorization = null;
         }
 
         public async Task<object> GetUsers()
