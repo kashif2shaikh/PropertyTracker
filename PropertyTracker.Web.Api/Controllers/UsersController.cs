@@ -214,11 +214,18 @@ namespace PropertyTracker.Web.Api.Controllers
             }
             else if (db.Users.Count(u => u.CompanyId == loggedInUser.CompanyId && u.Id != userEntity.Id && u.Username == userEntity.Username) > 0)
             {
-                return new BadRequestErrorMessageResult("Another user has the same username as updated user", this);
+                return new BadRequestErrorMessageResult("Another user has the same username as this user", this);
             }
 
             db.Users.Attach(userEntity);
             db.Entry(userEntity).State = EntityState.Modified;
+
+            if (userEntity.Password == null)
+            {
+                // Entity validation will fail because Password column is not-null and password is optional field.
+                // NOTE: Must use Where/Select instead of Find, so entire entity is not loaded (otherwise it will conflict with Attach!)
+                userEntity.Password = db.Users.Where(u => u.Id == userEntity.Id).Select(u => u.Password).FirstOrDefault();
+            }
 
             if (userDto.Properties != null)
             {
@@ -274,7 +281,7 @@ namespace PropertyTracker.Web.Api.Controllers
             }
             else if (db.Users.Count(u => u.CompanyId == loggedInUser.CompanyId && u.Id != userEntity.Id && u.Username == userEntity.Username) > 0)
             {
-                return new BadRequestErrorMessageResult("Another user has the same username as new user", this);
+                return new BadRequestErrorMessageResult("Another user has the same username as this user", this);
             }
 
             if (userDto.Properties != null)

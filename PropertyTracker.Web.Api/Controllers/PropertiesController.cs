@@ -179,7 +179,7 @@ namespace PropertyTracker.Web.Api.Controllers
         {
             loggedInUser = GetLoggedInUser();
 
-            Entity.Models.Property propertyEntity = db.Properties.Find(id);
+            Entity.Models.Property propertyEntity = db.Properties.FirstOrDefault(p => p.CompanyId == loggedInUser.CompanyId && p.Id == id);                
             if (propertyEntity == null)
             {
                 return NotFound();
@@ -229,7 +229,11 @@ namespace PropertyTracker.Web.Api.Controllers
 
             if (propertyDto.CompanyId != loggedInUser.CompanyId)
             {
-                return BadRequest("Property request does not belong to same company as logged in user");
+                return BadRequest("Updated property does not belong to same company as logged in user");
+            }
+            else if (db.Properties.Count(p => p.CompanyId == loggedInUser.CompanyId && p.Id != propertyDto.Id && p.Name == propertyDto.Name) > 0)
+            {
+                return new BadRequestErrorMessageResult("Another property has the same name as this property", this);
             }
 
             var propertyEntity = Mapper.Map<Dto.Models.Property, Entity.Models.Property>(propertyDto);
@@ -286,7 +290,11 @@ namespace PropertyTracker.Web.Api.Controllers
 
             if (propertyDto.CompanyId != loggedInUser.CompanyId)
             {
-                return BadRequest("Property request does not belong to same company as logged in user");
+                return BadRequest("Property does not belong to same company as logged in user");
+            }
+            else if (db.Properties.Count(p => p.CompanyId == loggedInUser.CompanyId && p.Id != propertyDto.Id && p.Name == propertyDto.Name) > 0)
+            {
+                return new BadRequestErrorMessageResult("Another property has the same name as this property", this);
             }
 
             var propertyEntity = Mapper.Map<Dto.Models.Property, Entity.Models.Property>(propertyDto);
@@ -323,7 +331,7 @@ namespace PropertyTracker.Web.Api.Controllers
         {
             loggedInUser = GetLoggedInUser();
 
-            var propertyEntity = db.Properties.Find(id);
+            var propertyEntity = db.Properties.FirstOrDefault(p => p.CompanyId == loggedInUser.CompanyId && p.Id == id); 
             if (propertyEntity == null)
             {
                 return NotFound();
