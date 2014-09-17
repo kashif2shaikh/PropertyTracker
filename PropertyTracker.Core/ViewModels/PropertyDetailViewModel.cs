@@ -62,8 +62,9 @@ namespace PropertyTracker.Core.ViewModels
 		private async void SaveProperty()
 		{
 
-			Property updatedProperty = new Property()
+			var updatedProperty = new Property()
 			{
+                Id = _property.Id,
 				Name = PropertyName,
 				City = City,
 				StateProvince = State,

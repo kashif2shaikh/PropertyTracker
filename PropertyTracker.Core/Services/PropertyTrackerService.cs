@@ -49,8 +49,8 @@ namespace PropertyTracker.Core.Services
             LoggedIn = false;
             _handler = new HttpClientHandler
             {
-                UseProxy = false, // must disable otherwise network requests will hang when using Mac debugging proxy (e.g. Charles Proxy)
-                AllowAutoRedirect = false
+                //UseProxy = false, // must disable otherwise network requests will hang when using Mac debugging proxy (e.g. Charles Proxy)
+                //AllowAutoRedirect = false
             };
             
             _client = new HttpClient(_handler)
@@ -336,22 +336,100 @@ namespace PropertyTracker.Core.Services
 
 		public async Task<object> GetProperty(int id)
 		{
-			return null;
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            using (var response = await _client.GetAsync(string.Format("{0}/{1}", PropertiesRequestUrl, id)))
+            {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+                if (response.IsSuccessStatusCode == false)
+                {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return errorResult;
+                }
+                var parsedObject = JsonConvert.DeserializeObject<Property>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") response");
+                }
+                return parsedObject;
+            }
 		}
 
 		public async Task<object> AddProperty(Property property)
 		{
-			return null;
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            var payload = new StringContent(JsonConvert.SerializeObject(property), Encoding.UTF8, "application/json");
+            using (var response = await _client.PostAsync(PropertiesRequestUrl, payload))
+            {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+                if (response.IsSuccessStatusCode == false)
+                {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return errorResult;
+                }
+                var parsedObject = JsonConvert.DeserializeObject<Property>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ") to response");
+                }
+                return parsedObject;
+            }
 		}
 
 		public async Task<object> UpdateProperty(Property property){
 
-			return null;
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            var payload = new StringContent(JsonConvert.SerializeObject(property), Encoding.UTF8, "application/json");
+            using (var response = await _client.PutAsync(string.Format("{0}/{1}", PropertiesRequestUrl, property.Id), payload))
+            {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+                if (response.IsSuccessStatusCode == false)
+                {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return errorResult;
+                }
+                return true;
+            }
 		}
 
 		public async Task<object> DeleteProperty(int id)
 		{
-			return null;
+            if (!LoggedIn)
+            {
+                Debug.WriteLine("Not logged in");
+                return null;
+            }
+            using (var response = await _client.DeleteAsync(string.Format("{0}/{1}", PropertiesRequestUrl, id)))
+            {
+                var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
+                if (response.IsSuccessStatusCode == false)
+                {
+                    var errorResult = content != null ? JsonConvert.DeserializeObject<ErrorResult>(content) : null;
+                    Debug.WriteLine("Request failed: " + response.ToString());
+                    return errorResult;
+                }
+
+                var parsedObject = JsonConvert.DeserializeObject<Property>(content);
+                if (parsedObject == null)
+                {
+                    Debug.WriteLine("Could not deserialize json(" + content + ")");
+                }
+                return parsedObject;
+            }
 		}
     }
 }
