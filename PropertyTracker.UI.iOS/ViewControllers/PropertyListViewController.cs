@@ -13,6 +13,7 @@ using PropertyTracker.UI.iOS.Views;
 
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 using PropertyTracker.Dto.Models;
+using Newtonsoft.Json;
 
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -64,6 +65,16 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 			TableView.Source = source;
           
+
+			source.SelectedItemChanged += (object sender, EventArgs e) => {
+				var controller = this.CreateViewControllerFor<PropertyDetailViewModel> (new
+					{
+						jsonProperty = JsonConvert.SerializeObject(source.SelectedItem as Property)
+					}) as PropertyDetailViewController;
+				NavigationController.PushViewController (controller, true);
+				//var forceLoadView = controller.View; // force load view so we get ViewDidLoad and ViewModel initialized.
+				//controller.ViewModel.User = source.SelectedItem as User;
+			};
 			//var inset = TableView.ContentInset;
 			//inset.Top -= 176;
 			//TableView.ContentInset = inset;
@@ -147,6 +158,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 					break;
 				}
 			};
+
+
 
 			//NavigationItem.Title;
 

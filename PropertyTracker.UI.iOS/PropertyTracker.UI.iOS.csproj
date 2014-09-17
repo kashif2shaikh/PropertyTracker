@@ -184,6 +184,7 @@
     <InterfaceDefinition Include="ViewControllers\PropertyPickerViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\UserDetailViewController.storyboard" />
     <InterfaceDefinition Include="ViewControllers\AddPropertyViewController.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\PropertyDetailViewController.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppPresenter.cs" />
@@ -264,6 +265,10 @@
     <Compile Include="ViewControllers\BasePropertyViewController.cs" />
     <Compile Include="ViewControllers\BasePropertyViewController.designer.cs">
       <DependentUpon>BasePropertyViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\PropertyDetailViewController.cs" />
+    <Compile Include="ViewControllers\PropertyDetailViewController.designer.cs">
+      <DependentUpon>PropertyDetailViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

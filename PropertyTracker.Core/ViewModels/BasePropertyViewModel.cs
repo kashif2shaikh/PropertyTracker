@@ -99,6 +99,32 @@ namespace PropertyTracker.Core.ViewModels
 			}
 		}
 
+		protected bool PropertyValidation()
+		{
+			string msg = null;
+			int squareFeet = 0;
+
+			if (String.IsNullOrWhiteSpace(PropertyName))
+				msg = "Property name is empty";
+
+			else if (String.IsNullOrWhiteSpace(City))
+				msg = "Please select a city";
+
+			else if (String.IsNullOrWhiteSpace(State))
+				msg = "Please select a state/province";
+
+			else if (String.IsNullOrWhiteSpace(SquareFeet))
+				msg = "Square feet is empty";
+
+			else if (!int.TryParse (SquareFeet, out squareFeet) || squareFeet < 0)
+				msg = "Square feet is not valid";
+
+
+			if(msg != null)
+				_dialogService.Alert(msg, "Validation Error");
+
+			return msg == null;
+		}
 
 	}
 }

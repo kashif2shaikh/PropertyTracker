@@ -310,7 +310,7 @@ namespace PropertyTracker.Core.Services
             var url = PropertiesRequestUrl.SetQueryParams(requestParams);
 
 			// Flurl seems to skip bool parameters. Add it manually.
-			url.SetQueryParam ("SortAscending", requestParams.SortAscending);
+			url.SetQueryParam ("SortAscending", requestParams.SortAscending ? "true" : "false");
 
             using (var response = await _client.GetAsync(url))            
             {
