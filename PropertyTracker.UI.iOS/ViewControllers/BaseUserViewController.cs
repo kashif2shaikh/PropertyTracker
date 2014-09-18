@@ -2,6 +2,7 @@
 using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Touch.Views;
 using MonoTouch.UIKit;
+using MonoTouch.ObjCRuntime;
 using Newtonsoft.Json;
 using PropertyTracker.Core.ViewModels;
 
@@ -63,12 +64,19 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
             PhotoImageTapGestureRecognizer.AddTarget(() =>
             {
-                if(Editing)
-                    ViewModel.ChoosePictureCommand.Execute(null);
+				if(Editing) {
+					if(Runtime.Arch == Arch.DEVICE) {
+						ViewModel.TakePictureCommand.Execute(null);
+					}
+						else if(Runtime.Arch == Arch.SIMULATOR) {
+						ViewModel.ChoosePictureCommand.Execute(null);
+					}
+				}
+                    
             });		
 
             ViewModel.OnPictureEventHandler += (object sender, EventArgs e) => {
-                                                                                   PlaceholderImageView.Hidden = true;
+            	PlaceholderImageView.Hidden = true;
             };
 
             ViewModel.OnPictureCancelledEventHandler += (object sender, EventArgs e) => {
