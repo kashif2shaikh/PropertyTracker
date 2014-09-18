@@ -82,6 +82,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			var set = this.CreateBindingSet<PropertyListViewController, PropertyListViewModel>();
 			set.Bind(source).To(vm => vm.Properties);
             
+			_optionsVC.SearchBar.Text = ""; // for some reason this is null and we can't bind null references, so init.
 			set.Bind (_optionsVC.SearchBar).For(v => v.Text).To (vm => vm.NameFilter);
 			set.Bind (_optionsVC.CityFilterLabel).To (vm => vm.CityFilter);
 			set.Bind (_optionsVC.StateProvFilterLabel).To (vm => vm.StateFilter);
@@ -98,15 +99,6 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			//set.Bind(NavigationItem).For(v => v.Title).To(vm => vm.TabTitle);
 
 			set.Apply();
-
-            // Reload clicked - run command and hide search options
-            /*
-		    GetPropertiesButtonItem.Clicked += (sender, args) =>
-		    {
-		        //HideSearchOptions(true);
-                //TableView.ReloadData();
-		    };
-            */
 
             // Because Options VC is not an MVVM-based view controller, we have to handle the event handling manually.
             // #future make this options VC backed by a MVVM ViewModel, so we don't have to do this crap here.            
@@ -158,15 +150,9 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 					break;
 				}
 			};
-
-
-
-			//NavigationItem.Title;
-
-            // Data is fetched after
+				
             TableView.ReloadData();
 
-		    //ViewModel.Properties.CollectionChanged += (sender, args) => HideSearchOptions(true);
 		}
 
 	    private bool _searchOptionsHidden;
@@ -185,21 +171,6 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		{
 			base.ViewWillAppear(animated);
 
-			//NavigationController.Nav
-			//NavigationItem.BackBarButtonItem = new UIBarButtonItem("Logout", UIBarButtonItemStyle.Plain, (o, e) => { });
-			// NavigationItem.BackBarButtonItem.Title = "Logout";
-
-			//var navigationController = NavigationController;
-			// var item = NavigationItem;
-
-			//NavigationController.NavigationBar.PushNavigationItem(item, true);
-
-			//item.LeftBarButtonItem = new UIBarButtonItem("Logout A", UIBarButtonItemStyle.Bordered, (o, e) => { });
-
-			// We want to just share MainViewController's navigation bar.
-
-			//NavigationController.NavigationBarHidden = false;
-			//Console.WriteLine("Property Navigation Controller:" + NavigationController);
 		
             HideSearchOptions();
 
@@ -208,21 +179,10 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			_optionsVC.TableView.ReloadData ();
 
 		}
-
-
-
-		private void Logout()
-		{
-
-		}
-
+			
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
-
-
-			//ViewModel.ChangeStuff();
-
 		}
 
 		public override void PrepareForSegue (UIStoryboardSegue segue, NSObject sender)
@@ -237,42 +197,4 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			}
 		}
 	}
-
-
-//	public class TableSource : MvxTableViewSource
-//	{
-//		public TableSource(UITableView tableView)
-//			: base(tableView)
-//		{
-//			tableView.RegisterNibForCellReuse(PropertyCell.Nib);
-//		}
-//
-//		public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-//		{
-//			return PropertyCell.GetCellHeight();
-//		}
-//
-//		protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, NSIndexPath indexPath,
-//			object item)
-//		{
-//			NSString cellIdentifier;
-//			if (item is Property)
-//			{
-//				cellIdentifier = PropertyCell.Id;
-//			}
-//			/*
-//			else if (item is Dog)
-//			{
-//				cellIdentifier = DogCellIdentifier;
-//			}
-//			else
-//			{
-//				throw new ArgumentException("Unknown animal of type " + item.GetType().Name);
-//			}
-//			*/
-//
-//			return (UITableViewCell) TableView.DequeueReusableCell(cellIdentifier, indexPath);
-//		}
-//	}
-
 }

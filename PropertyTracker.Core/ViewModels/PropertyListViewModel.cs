@@ -59,10 +59,10 @@ namespace PropertyTracker.Core.ViewModels
             RegisterSubscriptions();        
         }
 
-        public override void Start()
+        public override async void Start()
         {
             base.Start();
-            _listModel.GetProperties();
+            await _listModel.GetProperties();
         }
 
         
@@ -98,11 +98,11 @@ namespace PropertyTracker.Core.ViewModels
             }
         }
 
-		private void OnPropertiesUpdatedMessaged(PropertiesUpdatedMessage msg)
+		private async void  OnPropertiesUpdatedMessaged(PropertiesUpdatedMessage msg)
 		{
 			// Property added/updated
 			Reset ();
-			_listModel.GetProperties();
+			await _listModel.GetProperties();
 		}
 
 		private void Reset()
@@ -165,7 +165,7 @@ namespace PropertyTracker.Core.ViewModels
 			try
 			{
 				await Task.Delay (500 /*ms*/, _tokenSource.Token);
-				_listModel.GetProperties();
+				await _listModel.GetProperties();
 			}
 			catch (TaskCanceledException e)
 			{
@@ -176,7 +176,7 @@ namespace PropertyTracker.Core.ViewModels
 		public string CityFilter
 		{
 			get { return _listModel.CityFilter; }
-			set 
+			set  
 			{ 
 				_listModel.CityFilter = value;
 				RaisePropertyChanged(() => CityFilter);
@@ -219,9 +219,9 @@ namespace PropertyTracker.Core.ViewModels
 
 		public IMvxCommand GetPropertiesCommand
 		{
-			get { return new MvxCommand (() => {
+			get { return new MvxCommand (async () => {
 					 Reset ();
-					_listModel.GetProperties ();
+					await _listModel.GetProperties ();
 				}); }
 		}
 

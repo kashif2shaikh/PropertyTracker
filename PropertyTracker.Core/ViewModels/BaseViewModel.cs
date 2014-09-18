@@ -46,9 +46,9 @@ namespace PropertyTracker.Core.ViewModels
             requestedBy.AdditionalInfo = ViewInstanceId.ToString();
             return ShowViewModel(
                 typeof(TViewModel),
-                null,
-                null,
-                requestedBy);
+                //null,
+                //null,
+                requestedBy:requestedBy);
         }
     }
 }

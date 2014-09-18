@@ -17,6 +17,7 @@ using Cirrious.MvvmCross.ViewModels;
 //
 
 using Cirrious.CrossCore.Exceptions;
+using MonoTouch.Foundation;
 
 
 namespace PropertyTracker.UI.iOS
@@ -42,21 +43,21 @@ namespace PropertyTracker.UI.iOS
 
 		    IMvxTouchView viewController = null;
 
-			try{
-				// Load from storyboard first
-				System.Console.WriteLine ("Loading Storyboard {0}.storyboard", viewType.Name);
-                viewController = (IMvxTouchView)UIStoryboard.FromName(viewType.Name, null).InstantiateInitialViewController();
-			}catch(Exception e){
+			if (NSBundle.MainBundle.PathForResource (viewType.Name, "storyboardc") != null) {
+				// If storyboard exists for this view, load it.
+				System.Console.WriteLine ("Creating view from Storyboard {0}.storyboard", viewType.Name);
+				var storyboard = UIStoryboard.FromName(viewType.Name, null);
+				viewController = (IMvxTouchView)storyboard.InstantiateInitialViewController();
+			}
+			else {
+				System.Console.WriteLine ("Storyboard {0}.storyboard does not exist: creating view of type instead", viewType.Name);
+				viewController = (IMvxTouchView)base.CreateViewOfType(viewType, request);
+			}
 
-				try {
-					// Not found - now try to load from XIB
-					System.Console.WriteLine ("Can't load Storyboard {0}.storyboard: loading XIB instead", viewType.Name);
-                    viewController = (IMvxTouchView)base.CreateViewOfType(viewType, request);
-				}
-				catch(Exception e2) {
-					System.Console.WriteLine ("Failed to create view of type {0}: **Storyboard exception**:" + e + "\n**XIB exception**:" + e2);
-				}
-			}				
+			if(viewController == null) {
+				System.Console.WriteLine ("Can't create view for type:" + viewType.Name);
+				throw new Exception ("Can't create view for type:" + viewType.Name);
+			}									
 			return viewController;
 		}
 	}

@@ -62,10 +62,7 @@ namespace PropertyTracker.Core.ViewModels
         }
 
         private async void Login()
-        {
-            if (_propertyTrackerService.LoggedIn)
-                ShowViewModel<MainViewModel>();
-
+        {            
             object response = null;
             
             using (_dialogService.Loading("Logging in..."))
