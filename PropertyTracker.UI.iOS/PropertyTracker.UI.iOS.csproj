@@ -158,9 +158,6 @@
     <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.PictureChooser.dll</HintPath>
     </Reference>
-    <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser.Touch">
-      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.PictureChooser.Touch.dll</HintPath>
-    </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.Messenger">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Messenger.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
@@ -279,12 +276,16 @@
     <Compile Include="ViewControllers\PropertyDetailViewController.designer.cs">
       <DependentUpon>PropertyDetailViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\FilePluginBootstrap.cs" />
     <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
+    <Compile Include="Plugins\PictureChooser\MvxImagePickerTask.cs" />
+    <Compile Include="Plugins\PictureChooser\MvxInMemoryImageValueConverter.cs" />
+    <Compile Include="Plugins\PictureChooser\Plugin.cs" />
+    <Compile Include="Plugins\PictureChooser\UIImageHelpers.cs" />
+    <Compile Include="Bootstrap\CustomPictureChooserPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -313,4 +314,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+    <Folder Include="Plugins\PictureChooser\" />
+  </ItemGroup>
 </Project>
