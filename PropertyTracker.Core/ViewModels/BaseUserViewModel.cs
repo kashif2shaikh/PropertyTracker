@@ -137,7 +137,7 @@ namespace PropertyTracker.Core.ViewModels
 
         private void DoTakePicture()
         {
-            _pictureChooserTask.TakePicture(128, 60, OnPicture, () => { });
+            _pictureChooserTask.TakePictureWithFrontCamera(128, 60, OnPicture, () => { });
         }
 
         private void DoChoosePicture()

@@ -13,12 +13,17 @@ using PropertyTracker.UI.iOS.Views;
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 using PropertyTracker.Dto.Models;
 using Newtonsoft.Json;
+using Cirrious.MvvmCross.Plugins.DownloadCache;
+using Cirrious.CrossCore;
+using Cirrious.CrossCore.Core;
+using Cirrious.MvvmCross.Plugins.Messenger;
 
 
 namespace PropertyTracker.UI.iOS.ViewControllers
 {
     public partial class UserListViewController : MvxTableViewController
     {
+		private  IMvxMessenger _messenger;
               
         public UserListViewController(IntPtr handle)
             : base(handle)
@@ -73,13 +78,28 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			// Data is fetched after
 			TableView.ReloadData ();
 
+			RegisterSubscriptions ();
 			//ViewModel.Users.CollectionChanged += (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) => TableView.ReloadData ();
+		}
+			
+		private MvxSubscriptionToken _usersUpdatedMessageToken;
+		protected void RegisterSubscriptions()
+		{
+			_messenger = Mvx.Resolve<IMvxMessenger> ();
+			_usersUpdatedMessageToken = _messenger.Subscribe<UsersUpdatedMessage> (OnUsersUpdatedMessaged);   
+		}
+
+		private void OnUsersUpdatedMessaged(UsersUpdatedMessage msg)
+		{
+			// Need to purge image cache 
+			var imageCache = Mvx.Resolve<IMvxImageCache<UIImage>> ();
+			imageCache.PurgeImage (msg.User.PhotoUrl);
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			//ViewModel.GetUsers ();
+
 		}
     }
 

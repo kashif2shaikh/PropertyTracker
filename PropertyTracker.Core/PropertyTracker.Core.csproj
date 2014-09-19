@@ -57,6 +57,25 @@
     <Compile Include="ViewModels\BasePropertyViewModel.cs" />
     <Compile Include="ViewModels\AddPropertyViewModel.cs" />
     <Compile Include="ViewModels\PropertyDetailViewModel.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser\IMvxCombinedPictureChooserTask.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser\IMvxPictureChooserTask.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser\MvxPictureChooserExtensionMethods.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser\MvxPictureDimensionHelper.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser\PluginLoader.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\IMvxFileDownloadCache.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\IMvxHttpFileDownloader.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\IMvxImageCache.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\IMvxLocalFileImageLoader.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxDynamicImageHelper.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxFileDownloadCache.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxFileDownloadRequest.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxFileDownloadedEventArgs.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxFileStoreHelper.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxHttpFileDownloader.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxImage.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxImageCache.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\MvxImageRequest.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\PluginLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -126,20 +145,19 @@
     <Reference Include="Cirrious.MvvmCross.Localization">
       <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.2.1\lib\portable-win+net45+wp8+win8+wpa81+MonoTouch+MonoAndroid\Cirrious.MvvmCross.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser">
-      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.2.1\lib\portable-win+net45+wp8+win8+wpa81+MonoTouch+MonoAndroid\Cirrious.MvvmCross.Plugins.PictureChooser.dll</HintPath>
-    </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.Messenger">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Messenger.3.2.1\lib\portable-win+net45+wp8+win8+wpa81+MonoTouch+MonoAndroid\Cirrious.MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.File">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.File.3.2.1\lib\portable-win+net45+wp8+win8+wpa81+MonoTouch+MonoAndroid\Cirrious.MvvmCross.Plugins.File.dll</HintPath>
     </Reference>
-    <Reference Include="Cirrious.MvvmCross.Plugins.DownloadCache">
-      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.DownloadCache.3.2.1\lib\portable-win+net45+wp8+win8+wpa81+MonoTouch+MonoAndroid\Cirrious.MvvmCross.Plugins.DownloadCache.dll</HintPath>
-    </Reference>
     <Reference Include="Cirrious.MvvmCross">
       <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.2.1\lib\portable-win+net45+wp8+win8+wpa81+MonoTouch+MonoAndroid\Cirrious.MvvmCross.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+    <Folder Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser\" />
+    <Folder Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache\" />
   </ItemGroup>
 </Project>

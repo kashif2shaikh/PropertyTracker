@@ -155,9 +155,6 @@
     <Reference Include="Cirrious.MvvmCross.Localization">
       <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser">
-      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.PictureChooser.dll</HintPath>
-    </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.Messenger">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Messenger.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.Messenger.dll</HintPath>
     </Reference>
@@ -166,12 +163,6 @@
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.File.Touch">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.File.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.File.Touch.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross.Plugins.DownloadCache">
-      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.DownloadCache.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.DownloadCache.dll</HintPath>
-    </Reference>
-    <Reference Include="Cirrious.MvvmCross.Plugins.DownloadCache.Touch">
-      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.DownloadCache.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Plugins.DownloadCache.Touch.dll</HintPath>
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Touch">
       <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.2.1\lib\MonoTouch\Cirrious.MvvmCross.Touch.dll</HintPath>
@@ -281,11 +272,15 @@
     <Compile Include="Bootstrap\DownloadCachePluginBootstrap.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
-    <Compile Include="Plugins\PictureChooser\MvxImagePickerTask.cs" />
-    <Compile Include="Plugins\PictureChooser\MvxInMemoryImageValueConverter.cs" />
-    <Compile Include="Plugins\PictureChooser\Plugin.cs" />
-    <Compile Include="Plugins\PictureChooser\UIImageHelpers.cs" />
     <Compile Include="Bootstrap\CustomPictureChooserPluginBootstrap.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser.Touch\MvxImagePickerTask.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser.Touch\MvxInMemoryImageValueConverter.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser.Touch\Plugin.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser.Touch\UIImageHelpers.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache.Touch\MvxDownloadCacheConfiguration.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache.Touch\MvxTouchImage.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache.Touch\MvxTouchLocalFileImageLoader.cs" />
+    <Compile Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache.Touch\Plugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
@@ -316,6 +311,7 @@
   </Target>
   <ItemGroup>
     <Folder Include="Plugins\" />
-    <Folder Include="Plugins\PictureChooser\" />
+    <Folder Include="Plugins\Cirrious.MvvmCross.Plugins.PictureChooser.Touch\" />
+    <Folder Include="Plugins\Cirrious.MvvmCross.Plugins.DownloadCache.Touch\" />
   </ItemGroup>
 </Project>

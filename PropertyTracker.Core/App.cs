@@ -29,6 +29,7 @@ namespace PropertyTracker.Core
             pluginManager.EnsurePluginLoaded<Acr.MvvmCross.Plugins.UserDialogs.PluginLoader>();
 
             pluginManager.EnsurePluginLoaded<Cirrious.MvvmCross.Plugins.Messenger.PluginLoader>();
+			pluginManager.EnsurePluginLoaded<Cirrious.MvvmCross.Plugins.DownloadCache.PluginLoader>();
 			pluginManager.EnsurePluginLoaded<Cirrious.MvvmCross.Plugins.PictureChooser.PluginLoader> ();
         }
 	}
