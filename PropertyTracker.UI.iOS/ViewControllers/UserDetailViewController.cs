@@ -40,13 +40,13 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 					ViewModel.SaveUserCommand.Execute ();
 				} else {
 					// Edit button pressed
-					SetEditing(true, true);
+					SetEditing(true, false);
 				}
 			};
 						
 			// Go back to view mode after save
 			ViewModel.SaveUserSuccessEventHandler += (object sender, EventArgs e) => {
-				SetEditing (false, true);
+				SetEditing (false, false);
 			};
 
 			ViewModel.SaveUserFailedEventHandler += (object sender, EventArgs e) => {
@@ -61,13 +61,15 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		{
 			base.SetEditing (editing, animated);
 			if(editing) {
+				Title = "Edit User";
 				var cancelButton = new UIBarButtonItem (UIBarButtonSystemItem.Cancel, (s, e) => {
-					SetEditing(false, true);
+					SetEditing(false, false);
 					ViewModel.CancelCommand.Execute ();
 				});
 				NavigationItem.LeftBarButtonItem = cancelButton;
 			}
 			else {
+				Title = "User Details";
 				NavigationItem.LeftBarButtonItem = null;
 			}
 		}

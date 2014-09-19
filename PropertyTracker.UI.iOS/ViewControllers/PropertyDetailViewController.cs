@@ -42,13 +42,13 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 					ViewModel.SavePropertyCommand.Execute ();
 				} else {
 					// Edit button pressed
-					SetEditing(true, true);
+					SetEditing(true, false);
 				}
 			};
 
 			// Go back to view mode after save
 			ViewModel.SavePropertySuccessEventHandler += (object sender, EventArgs e) => {
-				SetEditing (false, true);
+				SetEditing (false, false);
 			};
 
 			ViewModel.SavePropertyFailedEventHandler += (object sender, EventArgs e) => {
@@ -56,7 +56,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			};
 
 			ViewModel.DeletePropertySuccessEventHandler += (object sender, EventArgs e) => {
-				SetEditing (false, true);
+				SetEditing (false, false);
 				NavigationController.PopViewControllerAnimated(true);
 			};
 
@@ -73,14 +73,16 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		{
 			base.SetEditing (editing, animated);
 			if(editing) {
+				Title = "Edit Property";
 				var cancelButton = new UIBarButtonItem (UIBarButtonSystemItem.Cancel, (s, e) => {
-					SetEditing(false, true);
+					SetEditing(false, false);
 					ViewModel.CancelCommand.Execute ();
 				});
 				NavigationItem.LeftBarButtonItem = cancelButton;
 				DeletePropertyCell.Hidden = false;
 			}
 			else {
+				Title = "Property Details";
 				NavigationItem.LeftBarButtonItem = null;
 				DeletePropertyCell.Hidden = true;
 			}
