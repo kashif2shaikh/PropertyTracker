@@ -250,7 +250,6 @@ namespace PropertyTracker.Web.Api.Controllers
                 var newProperties = db.Properties.Where(p => propertyIdList.Contains(p.Id)).ToList();
                 
                 userEntity.Properties = newProperties; // for this to work you must force load existing Property collection
-                db.Entry(userEntity).Property(u => u.Properties).IsModified = true;
             }
 
 
@@ -273,7 +272,7 @@ namespace PropertyTracker.Web.Api.Controllers
             }
             finally
             {
-                //db.Configuration.ValidateOnSaveEnabled = true;
+                db.Configuration.ValidateOnSaveEnabled = true;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
