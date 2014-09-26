@@ -28,7 +28,7 @@ namespace PropertyTracker.Core.Services
     {
         // TODO: This should move into some configurable project/build setting
         //private const string PropertyTrackerServer = "http://192.168.15.60";
-		private const string PropertyTrackerServer = "http://192.168.11.187";
+		private const string PropertyTrackerServer = "http://192.168.11.165";
         private const string PropertyTrackerBaseAddress = PropertyTrackerServer + "/PropertyTracker.Web.Api/api/";
 
         // These are all relative to base

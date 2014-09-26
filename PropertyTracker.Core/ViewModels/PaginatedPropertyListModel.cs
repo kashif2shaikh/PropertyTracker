@@ -12,6 +12,11 @@ using PropertyTracker.Dto.Models;
 
 namespace PropertyTracker.Core.ViewModels
 {
+	public class PaginatedPropertyListUpdatedEventArgs : EventArgs
+	{
+		public PaginatedPropertyList LastResult { get; set; }
+	}
+
     public class PaginatedPropertyListModel //: MvxNotifyPropertyChanged
     {
         private readonly IPropertyTrackerService _propertyTrackerService;
@@ -55,6 +60,7 @@ namespace PropertyTracker.Core.ViewModels
 		}
 			                							     
         public PaginatedPropertyList LastResult;
+		public event EventHandler<PaginatedPropertyListUpdatedEventArgs> PropertyListUpdatedHandler;
        
 
 		public async Task GetProperties()
@@ -82,8 +88,19 @@ namespace PropertyTracker.Core.ViewModels
 				}
 				LastResult = result;
 				TotalPages = LastResult.TotalPages;
+				OnPropertyListUpdated (result);
 			}
-		}				
+		}
+
+		private void OnPropertyListUpdated(PaginatedPropertyList result)
+		{
+			if(PropertyListUpdatedHandler != null) {
+				var args = new PaginatedPropertyListUpdatedEventArgs () {
+					LastResult = result
+				};
+				PropertyListUpdatedHandler (this, args);
+			}
+		}
 
 		public async Task GetMoreProperties( )
 		{
@@ -99,8 +116,7 @@ namespace PropertyTracker.Core.ViewModels
 				SortColumn = SortColumn,
 				SortAscending = SortAscending,
 			};
-
-			requestParams.CurrentPage += 1;
+				
 			var result = await GetPropertiesAsync(requestParams);
 			if(result != null) 
 			{
@@ -109,6 +125,7 @@ namespace PropertyTracker.Core.ViewModels
 					Properties.Add(p);
 				}
 				LastResult = result;
+				OnPropertyListUpdated (result);
 			}
 
 		}

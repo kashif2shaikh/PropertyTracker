@@ -118,7 +118,20 @@ namespace PropertyTracker.Core.ViewModels
 			RaisePropertyChanged(() => SortColumn);
 			RaisePropertyChanged(() => SortAscending);
 		}
-            	
+
+		public event EventHandler<PaginatedPropertyListUpdatedEventArgs> PropertyListUpdatedHandler 
+		{ 
+			add
+			{
+				_listModel.PropertyListUpdatedHandler += value;
+			}
+
+			remove
+			{
+				_listModel.PropertyListUpdatedHandler -= value;
+			}
+		}
+							            
 		private int CurrentPage
 		{
 			get { return _listModel.CurrentPage; }

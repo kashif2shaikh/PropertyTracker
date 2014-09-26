@@ -14,6 +14,7 @@ using PropertyTracker.UI.iOS.Views;
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 using PropertyTracker.Dto.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -100,6 +101,14 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 			set.Apply();
 
+
+			// Initialize Property Toolbar Item with just Reload Button
+			PropertyToolBar.Items = new UIBarButtonItem[] {
+				new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace),
+				GetPropertiesButtonItem,
+				new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace)
+			};
+				
             // Because Options VC is not an MVVM-based view controller, we have to handle the event handling manually.
             // #future make this options VC backed by a MVVM ViewModel, so we don't have to do this crap here.            
 
@@ -148,6 +157,34 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 				case PropertyListOptionsViewController.SortColumn.State:
 					ViewModel.SortColumn = PropertyListRequest.StateColumn;
 					break;
+				}
+			};
+
+			ViewModel.PropertyListUpdatedHandler += (object sender, PaginatedPropertyListUpdatedEventArgs e) => {
+
+				// Update the 'Get Next 10' toolbar item, depending on list results.
+
+				if(e.LastResult != null) {
+					bool addMore = false;
+					if(e.LastResult.Properties.Count == 0) {
+						addMore = false;
+					}
+					else if(e.LastResult.CurrentPage >= (e.LastResult.TotalPages - 1)) {					
+						addMore = false;
+					}
+					else {
+						addMore = true;
+					}
+
+					List<UIBarButtonItem> itemList = new List<UIBarButtonItem>();
+					itemList.Add(new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace));
+					itemList.Add(GetPropertiesButtonItem);
+					if(addMore) {
+						itemList.Add(GetMorePropertiesButtonItem);
+					}						
+					itemList.Add(new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace));
+
+					PropertyToolBar.Items = itemList.ToArray ();
 				}
 			};
 				
