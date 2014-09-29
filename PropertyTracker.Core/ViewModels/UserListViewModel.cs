@@ -36,14 +36,21 @@ namespace PropertyTracker.Core.ViewModels
         }
 
 		private MvxSubscriptionToken _usersUpdatedMessageToken;
+		private MvxSubscriptionToken _propertiesUpdatedMessageToken;
 		protected void RegisterSubscriptions()
 		{
-			_usersUpdatedMessageToken = _messenger.Subscribe<UsersUpdatedMessage> (OnUsersUpdatedMessaged);   
+			_usersUpdatedMessageToken = _messenger.Subscribe<UsersUpdatedMessage> (OnUsersUpdatedMessaged);
+			_propertiesUpdatedMessageToken = _messenger.Subscribe<PropertiesUpdatedMessage>(OnPropertiesUpdatedMessaged);
 		}
 
 		private void OnUsersUpdatedMessaged(UsersUpdatedMessage msg)
 		{
 			// Users were added/updated, refresh list
+			GetUsers ();
+		}
+		private void  OnPropertiesUpdatedMessaged(PropertiesUpdatedMessage msg)
+		{
+			// Property was added/removed, refresh list, because user contains property info
 			GetUsers ();
 		}
 

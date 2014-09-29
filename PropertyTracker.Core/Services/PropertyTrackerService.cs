@@ -325,12 +325,24 @@ namespace PropertyTracker.Core.Services
                 return null;
             }
 
-            var url = PropertiesRequestUrl.SetQueryParams(requestParams);
+            var flurl = PropertiesRequestUrl.SetQueryParams(requestParams);
 
 			// Flurl seems to skip bool parameters. Add it manually.
-			url.SetQueryParam ("SortAscending", requestParams.SortAscending ? "true" : "false");
+			flurl.SetQueryParam ("SortAscending", requestParams.SortAscending ? "true" : "false");
 
-            using (var response = await _client.GetAsync(url))            
+			// Flurl doesn't know how to marshal a list into a query string, so we do it ourselves by
+			// emitting the same key for different userid values, so that Web Api query string 
+			// parsing will be able to re-create the List<int>
+
+			flurl.RemoveQueryParam ("UserIdListFilter");
+			string url = flurl;
+
+			foreach(var userid in requestParams.UserIdListFilter) {
+
+				url += "&UserIdListFilter=" + userid;  
+			}
+
+			using (var response = await _client.GetAsync(url))            
             {
                 var content = response.Content != null ? await response.Content.ReadAsStringAsync() : null;
                 if (response.IsSuccessStatusCode == false)

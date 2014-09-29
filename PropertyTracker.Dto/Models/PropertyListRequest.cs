@@ -48,7 +48,7 @@ namespace PropertyTracker.Dto.Models
             CityFilter = String.Empty;
             StateFilter = String.Empty;
 
-            UserIdListFilter = new List<int> {1, 2};
+			UserIdListFilter = new List<int> ();
             //UserIdFilter = -1;
         }
     }
