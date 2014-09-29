@@ -44,7 +44,19 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 			set.Bind(LoginButton).To(vm => vm.LoginCommand);
 			set.Bind (UsernameTextField).To (vm => vm.Username);
 			set.Bind (PasswordTextField).To (vm => vm.Password);
-			set.Apply ();		     
+			set.Apply ();
+
+			UsernameTextField.ShouldReturn += (textField) => {
+				textField.ResignFirstResponder ();
+				PasswordTextField.BecomeFirstResponder ();
+				return true; 
+			};
+
+			// Done button pressed
+			PasswordTextField.ShouldReturn += (textField) => { 
+				textField.ResignFirstResponder ();
+				return true; 
+			};
         }
 
         public override void ViewWillAppear(bool animated)
