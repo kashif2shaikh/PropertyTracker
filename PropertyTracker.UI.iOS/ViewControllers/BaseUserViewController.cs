@@ -56,7 +56,8 @@ namespace PropertyTracker.UI.iOS.ViewControllers
                 {
 					viewOnlyMode = !Editing,
                     jsonSelectedPropertyList = JsonConvert.SerializeObject(ViewModel.Properties),
-                    requestedViewId = ViewModel.ViewInstanceId
+                    requestedViewId = ViewModel.ViewInstanceId,
+					userId = ViewModel.UserId
                 }) as PropertyPickerViewController;
 
                 NavigationController.PushViewController(controller, true);
