@@ -4,6 +4,7 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.MvvmCross.ViewModels;
 using PropertyTracker.Dto.Models;
 using Acr.MvvmCross.Plugins.UserDialogs;
+using System.Collections.Generic;
 
 namespace PropertyTracker.Core.ViewModels
 {
@@ -22,6 +23,8 @@ namespace PropertyTracker.Core.ViewModels
 
 		private async void AddProperty()
 		{
+			// By default we add and associate property with the logged in user.
+			User user = _propertyTrackerService.LoggedInUser;
 
 			Property newProperty = new Property()
 			{
@@ -29,8 +32,9 @@ namespace PropertyTracker.Core.ViewModels
 				City = City,
 				StateProvince = State,
 				SquareFeet = Convert.ToInt32 (SquareFeet),
-				CompanyId = _propertyTrackerService.LoggedInUser.Company.Id,
-				Country = _propertyTrackerService.LoggedInUser.Company.Country				
+				CompanyId = user.Company.Id,
+				Country = user.Company.Country,
+				Users = new List<User>{ user } 
 			};
 
 			object response = null;
