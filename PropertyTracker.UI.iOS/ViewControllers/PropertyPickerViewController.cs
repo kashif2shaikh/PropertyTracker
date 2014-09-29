@@ -13,6 +13,9 @@ using PropertyTracker.UI.iOS.Views;
 
 // Make sure namespace is same in designer.cs - Xamarin skips adding subfolders to namespace!
 using PropertyTracker.Dto.Models;
+using PropertyTracker.Core.Services;
+using Cirrious.CrossCore;
+using System.Linq;
 
 
 namespace PropertyTracker.UI.iOS.ViewControllers
@@ -34,7 +37,7 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 		{            
 			base.ViewDidLoad();
 
-			var source = new MultipleCheckmarkTableSource (TableView, PropertyPickerCell.Key);
+			var source = new PropertyPickerTableSource (TableView, PropertyPickerCell.Key);
 					
 			TableView.Source = source;
 			TableView.AllowsSelection = !ViewModel.ViewOnlyMode;
@@ -61,5 +64,42 @@ namespace PropertyTracker.UI.iOS.ViewControllers
 
 	        ViewModel.PropertyPickerDoneCommand.Execute(null);
 	    }
+	}
+
+	public class PropertyPickerTableSource : MultipleCheckmarkTableSource
+	{
+		private readonly IPropertyTrackerService _propertyTrackerService;
+
+		public PropertyPickerTableSource(UITableView tableView, NSString cellIdentifier) : base(tableView, cellIdentifier)
+		{
+			_propertyTrackerService = Mvx.Resolve<IPropertyTrackerService> ();	
+		}
+
+		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			var property = GetItemAt (indexPath) as Property;
+
+			if(property.Users.Select(u => u.Id).Contains(_propertyTrackerService.LoggedInUser.Id)) {
+				// Only allow selection, if Property is assigned to logged in user. Otherwise selection will be disabled.
+				base.RowSelected (tableView, indexPath);
+			}
+		}
+
+		protected override UITableViewCell GetOrCreateCellFor (UITableView tableView, NSIndexPath indexPath, object item)
+		{
+			var cell = base.GetOrCreateCellFor (tableView, indexPath, item);
+			var property = item as Property;
+			if(property.Users.Select(u => u.Id).Contains(_propertyTrackerService.LoggedInUser.Id)) {
+				// Only allow selection, if Property is assigned to logged in user. Otherwise selection will be disabled.
+				//cell.ContentView.BackgroundColor = UIColor.White;
+				cell.ContentView.Alpha = (float)1.0;
+			}
+			else {
+				//cell.ContentView.BackgroundColor = UIColor.Gray;
+				cell.ContentView.Alpha = (float)0.25;
+			}
+			return cell;
+
+		}
 	}
 }
