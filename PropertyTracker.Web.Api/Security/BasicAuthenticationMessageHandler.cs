@@ -84,7 +84,7 @@ namespace PropertyTracker.Web.Api.Security
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
-                user = db.Users.Include(u => u.Company).SingleOrDefault(u => u.Username == username);
+                user = db.Users.Include(u => u.Company).Include(u => u.Properties).SingleOrDefault(u => u.Username == username);                
             }
             return user;
         }

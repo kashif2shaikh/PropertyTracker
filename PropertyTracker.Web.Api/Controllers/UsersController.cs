@@ -251,8 +251,6 @@ namespace PropertyTracker.Web.Api.Controllers
                 
                 userEntity.Properties = newProperties; // for this to work you must force load existing Property collection
             }
-
-
            
             try
             {

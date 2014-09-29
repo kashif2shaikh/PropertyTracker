@@ -30,6 +30,10 @@ namespace PropertyTracker.Dto.Models
         // Sort Parameters
         public string SortColumn { get; set; }
         public bool SortAscending;
+
+        // User filter
+        //public int UserIdFilter { get; set; }
+        public List<int> UserIdListFilter { get; set; } 
                 
         public PropertyListRequest()
         {
@@ -43,6 +47,9 @@ namespace PropertyTracker.Dto.Models
             NameFilter = String.Empty;
             CityFilter = String.Empty;
             StateFilter = String.Empty;
+
+            UserIdListFilter = new List<int> {1, 2};
+            //UserIdFilter = -1;
         }
     }
 }
