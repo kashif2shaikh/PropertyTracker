@@ -53,6 +53,7 @@ namespace PropertyTracker.Core.ViewModels
 
 		private void InitUserFields()
 		{
+			UserId = _user.Id;
 			FullName = _user.Fullname;
 			Username = _user.Username;
 			Password = "";
@@ -91,7 +92,7 @@ namespace PropertyTracker.Core.ViewModels
 	    {
 	        User savedUser = new User()
 	        {
-				Id = _user.Id,
+				Id = UserId,
 	            Fullname = FullName,
                 Username = Username,
 				Password = String.IsNullOrWhiteSpace(Password) ? null : Password,

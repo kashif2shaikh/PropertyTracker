@@ -53,7 +53,8 @@ namespace PropertyTracker.Core.ViewModels
 			_properties = new ObservableCollection<Property> ();
 			_listModel = new PaginatedPropertyListModel(service, dialogService)
 			{
-			    Properties = _properties
+			    Properties = _properties,
+				UserIdListFilter = new List<int>{_propertyTrackerService.LoggedInUser.Id},
 			};
 
             RegisterSubscriptions();        
@@ -108,7 +109,7 @@ namespace PropertyTracker.Core.ViewModels
 		private void Reset()
 		{
 			_listModel.Reset ();
-
+				
 			RaisePropertyChanged(() => Properties);
 			RaisePropertyChanged(() => CurrentPage);
 			RaisePropertyChanged(() => PageSize);

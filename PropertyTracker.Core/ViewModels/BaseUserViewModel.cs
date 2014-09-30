@@ -22,6 +22,7 @@ namespace PropertyTracker.Core.ViewModels
         private string _username;
         private string _password;
         private string _confirmPassword;
+
         protected List<Property> _properties;
         private MvxCommand _takePictureCommand;
         private MvxCommand _choosePictureCommand;
@@ -34,8 +35,11 @@ namespace PropertyTracker.Core.ViewModels
             _pictureChooserTask = pictureChooserTask;
             _messenger = messenger;
             _properties = new List<Property>();
+			UserId = -1;
             RegisterSubscriptions();
         }
+
+		public int UserId {get; set;}
 
         public string CompanyName
         {

@@ -40,6 +40,8 @@ namespace PropertyTracker.Core.ViewModels
 
 		public int TotalPages { get; set; }
 
+		public List<int> UserIdListFilter { get; set; }
+
 		public PaginatedPropertyListModel(IPropertyTrackerService service,  IUserDialogService dialogService)
         {
             _propertyTrackerService = service;
@@ -76,6 +78,7 @@ namespace PropertyTracker.Core.ViewModels
 				StateFilter = StateFilter,
 				SortColumn = SortColumn,
 				SortAscending = SortAscending,
+				UserIdListFilter = UserIdListFilter,
 			};
 			
 			var result = await GetPropertiesAsync(requestParams);

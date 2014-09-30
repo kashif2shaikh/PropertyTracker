@@ -61,16 +61,21 @@ namespace PropertyTracker.Core.ViewModels
             _listModel = new PaginatedPropertyListModel(_propertyTrackerService, _dialogService)
             {
                 Properties = _properties,
+				UserIdListFilter = new List<int>{_propertyTrackerService.LoggedInUser.Id},
                 // Return all properties as picker won't work if selected items cross over multiple batches!
-                PageSize = PropertyListRequest.NoLimitForPageSize
+                PageSize = PropertyListRequest.NoLimitForPageSize				
             };
         }
 
-        public void Init(bool viewOnlyMode, string jsonSelectedPropertyList, Guid requestedViewId)
+		public void Init(bool viewOnlyMode, string jsonSelectedPropertyList, Guid requestedViewId, int userId)
         {		            
 			ViewOnlyMode = viewOnlyMode;
             RequestedByViewInstanceId = requestedViewId;
-            _selectedProperties = JsonConvert.DeserializeObject<List<Property>>(jsonSelectedPropertyList);                     
+            _selectedProperties = JsonConvert.DeserializeObject<List<Property>>(jsonSelectedPropertyList);
+
+			if(userId >= 0){
+				_listModel.UserIdListFilter.Add (userId);
+			}
         }
 
         private void CreateSelectedPropertyIndexList()
