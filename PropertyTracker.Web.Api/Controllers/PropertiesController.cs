@@ -59,17 +59,16 @@ namespace PropertyTracker.Web.Api.Controllers
 
         // #future: If we want to build on this query - make return type IQueryable<>
         private IQueryable<Entity.Models.Property> PropertiesQuery(PropertyListRequest requestParams = null)
-        {
-            // Properties are scoped to loggedin user.
-            var query = loggedInUser.Properties.AsQueryable(); //db.Properties.Where(p => p.CompanyId == loggedInUser.CompanyId); /* loggedInUser.Properties.AsQueryable() */
+        {           
+            var query = db.Properties.Where(p => p.CompanyId == loggedInUser.CompanyId); /* loggedInUser.Properties.AsQueryable() */
 
             if (requestParams != null)
             {
 
-                //if (requestParams.UserIdFilter >= 0)
-                //{
-                //    query = query.Where(p => p.Users.Count(u => u.Id == requestParams.UserIdFilter) > 0);
-                //}
+                if (requestParams.UserIdListFilter.Count > 0)
+                {
+                    query = query.Where(p => p.Users.Count(u => requestParams.UserIdListFilter.Contains(u.Id)) > 0);
+                }
                 // First apply search filter
                 if (!String.IsNullOrEmpty(requestParams.StateFilter))
                 {
@@ -183,9 +182,8 @@ namespace PropertyTracker.Web.Api.Controllers
         public IHttpActionResult GetProperty(int id)
         {
             loggedInUser = GetLoggedInUser();
-
-            // Properties are scoped to loggedin user.
-            Entity.Models.Property propertyEntity = loggedInUser.Properties.FirstOrDefault(p => p.Id == id); //db.Properties.FirstOrDefault(p => p.CompanyId == loggedInUser.CompanyId && p.Id == id); //loggedInUser.Properties.FirstOrDefault(p => p.Id == id);
+            
+            Entity.Models.Property propertyEntity = db.Properties.FirstOrDefault(p => p.CompanyId == loggedInUser.CompanyId && p.Id == id); //loggedInUser.Properties.FirstOrDefault(p => p.Id == id);
             if (propertyEntity == null)
             {
                 return NotFound();
@@ -304,24 +302,14 @@ namespace PropertyTracker.Web.Api.Controllers
             }
 
             var propertyEntity = Mapper.Map<Dto.Models.Property, Entity.Models.Property>(propertyDto);
-            
-            var userIdList = new List<int>();
-
+                        
             if (propertyDto.Users != null)
-            {
-                // Add users to property if specified
-                userIdList.AddRange(propertyDto.Users.Select(u => u.Id));
+            {                            
+                var userIdList = propertyDto.Users.Select(u => u.Id);
+                var newUsers = db.Users.Where(u => userIdList.Contains(u.Id)).ToList();
+                propertyEntity.Users = newUsers; // for this to work, existing Users must have been forced loaded.            
             }
-
-            // By default add the loggedin user to property, if not added already
-            if (!userIdList.Contains(loggedInUser.Id))
-            {
-                userIdList.Add(loggedInUser.Id);
-            }
-
-            var newUsers = db.Users.Where(u => userIdList.Contains(u.Id)).ToList();
-            propertyEntity.Users = newUsers;              
-
+            
             var company = db.Companies.Find(propertyEntity.CompanyId);
             company.Properties.Add(propertyEntity);
           
@@ -346,9 +334,8 @@ namespace PropertyTracker.Web.Api.Controllers
         public IHttpActionResult DeleteProperty(int id)
         {
             loggedInUser = GetLoggedInUser();
-
-            // Properties are scoped to loggedin user.
-            var propertyEntity = loggedInUser.Properties.FirstOrDefault(p => p.Id == id); // db.Properties.FirstOrDefault(p => p.CompanyId == loggedInUser.CompanyId && p.Id == id);
+            
+            var propertyEntity = db.Properties.FirstOrDefault(p => p.CompanyId == loggedInUser.CompanyId && p.Id == id);
             if (propertyEntity == null)
             {
                 return NotFound();
