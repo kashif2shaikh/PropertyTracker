@@ -118,6 +118,7 @@ namespace PropertyTracker.Core.ViewModels
 				StateFilter = StateFilter,
 				SortColumn = SortColumn,
 				SortAscending = SortAscending,
+				UserIdListFilter = UserIdListFilter,
 			};
 				
 			var result = await GetPropertiesAsync(requestParams);
